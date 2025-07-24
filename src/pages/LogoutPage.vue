@@ -1,16 +1,16 @@
 <script setup>
 import { onBeforeMount } from "vue";
-import { useGlobalStore } from "../stores/global";
+import { useUserStore } from "../stores/userStore";
 import { useRouter } from "vue-router";
 
-const { getUserDetails } = useGlobalStore();
+const { clearUser } = useUserStore();
 
 const router = useRouter();
 
 onBeforeMount(() => {
 	localStorage.clear();
 
-	getUserDetails(null);
+	clearUser();
 
 	router.push({ path: "/login" });
 });
