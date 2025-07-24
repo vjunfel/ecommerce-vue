@@ -26,6 +26,8 @@ const handleSubmit = async () => {
 			password: password.value 
 		});
 		
+		await userStore.fetchUserDetails();
+		
     Swal.fire('Welcome!', 'Login successful', 'success');
     router.push('/');
 		
