@@ -20,7 +20,10 @@ export const useUserStore = defineStore("user", {
 					throw new Error(errorData.message || "Login failed");
 				}
 				
-				localStorage.setItem("token", res.data.access);
+				const token = res.data.access;
+				this.token = token;
+				
+				localStorage.setItem("token", token);
 				
 			} catch (error) {
 				console.error("Login failed:", error);
@@ -34,7 +37,7 @@ export const useUserStore = defineStore("user", {
 			this.isLoading = true;
 			try {
 				const res = await api.get("/users/details");
-				console.log("FETCH-USER-DETAILS:", res);
+				// console.log("FETCH-USER-DETAILS:", res);
 
 				this.email = res.data.user.email;
 				this.isAdmin = res.data.user.isAdmin;
