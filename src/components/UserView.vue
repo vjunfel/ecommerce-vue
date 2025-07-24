@@ -1,25 +1,25 @@
 <script setup>
-import CourseComponent from "../components/CourseComponent.vue";
-import CourseSearch from "./CourseSearch.vue";
+import ProductComponent from "../components/ProductComponent.vue";
+import ProductSearch from "./ProductSearch.vue";
 import { defineProps } from "vue";
 
 const props = defineProps({
-	coursesData: Array,
+	productsData: Array,
 });
 </script>
 
 <template>
 	<div class="row">
 		<div class="col my-5">
-			<h1 class="text-center text-primary py-1">Courses Offered</h1>
-			<p class="text-center">Select a course to enroll in!</p>
+			<h1 class="text-center text-primary py-1">Products Offered</h1>
+			<p class="text-center">Select a product to enroll in!</p>
 		</div>
 	</div>
 	<div class="row g-4">
-		<CourseSearch />
-		<CourseComponent
-			v-for="course in coursesData"
-			:courseData="course"
+		<ProductSearch />
+		<ProductComponent
+			v-for="product in productsData"
+			:productData="product"
 		/>
 	</div>
 </template>

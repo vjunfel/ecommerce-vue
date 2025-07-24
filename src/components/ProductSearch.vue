@@ -3,18 +3,18 @@ import { ref } from "vue";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import api from "@/api";
-import CourseComponent from "./CourseComponent.vue";
+import ProductComponent from "./ProductComponent.vue";
 
-const courseName = ref("");
-const courses = ref([]);
+const productName = ref("");
+const products = ref([]);
 const loading = ref(false);
 const hasSearched = ref(false);
 
 const notyf = new Notyf();
 
-const searchCourses = async () => {
-	if (!courseName.value.trim()) {
-		notyf.error("Please enter a course name.");
+const searchProducts = async () => {
+	if (!productName.value.trim()) {
+		notyf.error("Please enter a product name.");
 		return;
 	}
 
@@ -22,15 +22,15 @@ const searchCourses = async () => {
 	hasSearched.value = true;
 
 	try {
-		const response = await api.post("/courses/search", {
-			courseName: courseName.value.trim(),
+		const response = await api.post("/products/search", {
+			productName: productName.value.trim(),
 		});
 
-		courses.value = response.data || [];
-		if (courses.value.length) {
-			notyf.success(`Found ${courses.value.length} course(s).`);
+		products.value = response.data || [];
+		if (products.value.length) {
+			notyf.success(`Found ${products.value.length} product(s).`);
 		} else {
-			notyf.error("No courses found.");
+			notyf.error("No products found.");
 		}
 	} catch (error) {
 		console.error(error);
@@ -43,18 +43,18 @@ const searchCourses = async () => {
 
 <template>
 	<div class="container py-4">
-		<h2 class="mb-4">Search Courses</h2>
+		<h2 class="mb-4">Search Products</h2>
 
 		<form
-			@submit.prevent="searchCourses"
+			@submit.prevent="searchProducts"
 			class="mb-4"
 		>
 			<div class="input-group">
 				<input
 					type="text"
-					v-model="courseName"
+					v-model="productName"
 					class="form-control"
-					placeholder="Enter course name"
+					placeholder="Enter product name"
 					required
 				/>
 				<button
@@ -67,17 +67,17 @@ const searchCourses = async () => {
 			</div>
 		</form>
 
-		<div v-if="courses.length">
+		<div v-if="products.length">
 			<h5>Results:</h5>
-			<CourseComponent
-				v-for="course in courses"
-				:key="course._id"
-				:courseData="course"
+			<ProductComponent
+				v-for="product in products"
+				:key="product._id"
+				:productData="product"
 			/>
 		</div>
 
 		<div v-else-if="!loading && hasSearched">
-			<p class="text-muted">No courses found.</p>
+			<p class="text-muted">No products found.</p>
 		</div>
 	</div>
 </template>

@@ -17,7 +17,7 @@
 	             	<span class="fw-semibold">Price:</span> PHP {{courseData.price}}
 	         	</p>
 	         	<div class="d-grid mt-3">
-	         		<router-link class="btn btn-outline-primary d-block" :to="{path:`/courses/${courseData._id}`}">View Course</router-link>
+	         		<router-link class="btn btn-outline-primary d-block" :to="{path:`/products/${courseData._id}`}">View Course</router-link>
 	         	</div>
 	         	
 	     	</div>

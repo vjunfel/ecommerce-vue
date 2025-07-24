@@ -1,4 +1,4 @@
-const coursesData = [
+const productsData = [
   {
     id: "wdc001",
     name: "PHP - Laravel",
@@ -22,4 +22,4 @@ const coursesData = [
   }
 ]
 
-export default coursesData;
+export default productsData;

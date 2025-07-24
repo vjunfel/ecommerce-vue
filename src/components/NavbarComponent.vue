@@ -20,10 +20,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ms-auto">
-          <router-link :to="{ name: 'Courses' }" class="nav-link" href="#">Courses</router-link>
+          <router-link :to="{ name: 'Products' }" class="nav-link" href="#">Products</router-link>
           <router-link :to="{ name: 'News' }" class="nav-link">News</router-link>
           <router-link :to="{ name: 'Profile' }" class="nav-link" v-if="user.email">Profile</router-link>
-          <router-link :to="{ name: 'AddCourse' }" class="nav-link" v-if="user.email && user.isAdmin">Add Course</router-link>
+          <router-link :to="{ name: 'AddProduct' }" class="nav-link" v-if="user.email && user.isAdmin">Add Product</router-link>
           <router-link :to="{ name: 'Register' }" class="nav-link" href="#" v-if="!user.email">Register</router-link>
           <router-link :to="{ name: 'Login' }" class="nav-link" href="#" v-if="!user.email">Login</router-link>
           <router-link :to="{ name: 'Logout' }" class="nav-link" href="#" v-else>Logout</router-link>

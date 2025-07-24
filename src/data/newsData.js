@@ -14,7 +14,7 @@ const newsData = [
     {
         id: "news003",
         name: "Enrollment Bundle - Get a free class",
-        description: "Enroll to two of our courses and get your next class free worth 30000 PHP and below.",
+        description: "Enroll to two of our products and get your next class free worth 30000 PHP and below.",
         isActive: true
     }
 ]

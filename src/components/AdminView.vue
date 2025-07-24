@@ -5,26 +5,26 @@ import { useRouter } from "vue-router";
 import { Notyf } from "notyf";
 
 const notyf = new Notyf();
-const emit = defineEmits(["refreshCourses"]);
+const emit = defineEmits(["refreshProducts"]);
 
 const props = defineProps({
-    coursesData: Array,
+    productsData: Array,
 });
 
 const router = useRouter();
 
 
 const handleEdit = async (id) => {
-    router.push(`/courses/update/${id}`)
+    router.push(`/products/update/${id}`)
 }
 
 const handleArchive = async (id) => {
 	try {
-		const response = await api.patch(`/courses/${id}/archive`);
+		const response = await api.patch(`/products/${id}/archive`);
 
 		if (response.status === 200 || response.status === 201) {
 			notyf.success(response.data.message);
-			emit("refreshCourses");
+			emit("refreshProducts");
 		} else {
 			notyf.error(response.data.message);
 		}
@@ -33,7 +33,7 @@ const handleArchive = async (id) => {
 			notyf.error(error.response.data.message);
 		} else {
 			console.error(error);
-			notyf.error("Error archiving course. Please contact administrator.");
+			notyf.error("Error archiving product. Please contact administrator.");
 		}
 	}
 };
@@ -53,20 +53,20 @@ const handleArchive = async (id) => {
             </tr>
         </thead>
         <tbody>
-            <tr v-for="course in coursesData" :key="course._id">
-                <td>{{ course._id }}</td>
-                <td>{{ course.name }}</td>
-                <td>{{ course.description }}</td>
-                <td>{{ course.price }}</td>
+            <tr v-for="product in productsData" :key="product._id">
+                <td>{{ product._id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.price }}</td>
                 <td>
-                    <span v-if="course.isActive" class="text-success">Available</span>
+                    <span v-if="product.isActive" class="text-success">Available</span>
                     <span v-else class="text-danger">Unavailable</span>
                 </td>
                 <td>
-                    <button @click="handleEdit(course._id )" class="btn btn-primary">Edit</button>
+                    <button @click="handleEdit(product._id )" class="btn btn-primary">Edit</button>
                 </td>
                 <td>
-                    <button @click="handleArchive(course._id )" class="btn btn-danger">Archive</button>
+                    <button @click="handleArchive(product._id )" class="btn btn-danger">Archive</button>
                 </td>
             </tr>
         </tbody>
