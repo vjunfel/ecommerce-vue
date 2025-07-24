@@ -1,19 +1,18 @@
 import axios from "axios";
-import { useGlobalStore } from "@/stores/global";
 
 const api = axios.create({
     baseURL: import.meta.env.VITE_PRODUCT_BOOKING_API,
 });
 
-
 api.interceptors.request.use((config) => {
-    
-    const global = useGlobalStore();
+  
+  const token = localStorage.getItem("token");
 
-    if (global.user?.token) {
-    config.headers.Authorization = `Bearer ${global.user.token}`;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
-    return config;
+  
+  return config;
 });
 
 export default api;
