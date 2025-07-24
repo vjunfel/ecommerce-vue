@@ -1,7 +1,6 @@
 <script setup>
 import ProductComponent from "../components/ProductComponent.vue";
 import ProductSearch from "./ProductSearch.vue";
-import { defineProps } from "vue";
 
 const props = defineProps({
 	productsData: Array,

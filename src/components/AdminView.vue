@@ -1,6 +1,5 @@
 <script setup>
 import api from "@/api";
-import { defineProps } from "vue";
 import { useRouter } from "vue-router";
 import { Notyf } from "notyf";
 
