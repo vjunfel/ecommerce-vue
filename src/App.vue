@@ -1,21 +1,22 @@
-<script>
-import NavbarComponent from "./components/NavbarComponent.vue";
-import { useGlobalStore } from "./stores/global";
+<script setup>
+import NavbarComponent from "@/components/NavbarComponent.vue";
+import FooterComponent from "@/components/FooterComponent.vue";
+import { useUserStore } from "@/stores/userStore";
 import { onBeforeMount } from "vue";
 
-export default {
-	components: {
-		NavbarComponent,
-	},
-	setup() {
-		const { getUserDetails } = useGlobalStore();
+const userStore = useUserStore();
 
-		onBeforeMount(() => getUserDetails(localStorage.getItem("token")));
-	},
-};
+onBeforeMount(() => {
+	if (userStore.token && userStore.token !== "null") {
+		userStore.fetchUserDetails();
+	}
+});
 </script>
 
 <template>
-	<NavbarComponent />
-	<router-view />
+	<div class="d-flex flex-column min-vh-100">
+		<NavbarComponent />
+		<router-view class="flex-grow-1" />
+		<FooterComponent />
+	</div>
 </template>

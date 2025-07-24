@@ -11,7 +11,7 @@ const props = defineProps({
     <div id="content" class="content col-md-8 p-5 ">
       <h1 class="mb-3" id="banner-title">{{bannerProps.title}}</h1>
       <p class="mb-5" id="motto">{{bannerProps.tagline}}</p>
-      <router-link class="btn btn-primary btn-lg rounded-pill px-3" :to="{ name: bannerProps.destination }">{{bannerProps.buttonLabel}} <i class="bi bi-arrow-right"></i></router-link>
+      <router-link class="btn btn-warning btn-lg rounded-pill px-3" :to="{ name: bannerProps.destination }">{{bannerProps.buttonLabel}} <i class="bi bi-arrow-right"></i></router-link>
     </div>
   </div>
 </template>
@@ -29,7 +29,7 @@ const props = defineProps({
 }
 
 #banner {
-  background: url(../images/bg-cake.jpg),
+  background: url(../assets/images/bg-cake.jpg),
     linear-gradient(to right, rgb(255, 255, 255), 70%, rgba(126, 209, 247, 0.5));
   background-size: cover;
   background-position: center;

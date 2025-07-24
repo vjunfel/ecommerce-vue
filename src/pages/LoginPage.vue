@@ -39,7 +39,7 @@ const handleSubmit = async () => {
 
 <template>
 	<div class="container-fluid">
-		<h1 class="my-5 pt-3 text-primary text-center">Login Page</h1>
+		<h1 class="my-5 pt-3 text-warning text-center">Login Page</h1>
 		<div class="row d-flex justify-content-center">
 			<div class="col-md-5 border border rounded-3 mx-auto p-5">
 				<form @submit.prevent="handleSubmit">
@@ -54,8 +54,15 @@ const handleSubmit = async () => {
 					<div class="d-grid mt-5">
 						<button
   						type="submit"
-  						class="btn btn-primary btn-block"
-  						:disabled="!isEnabled || userStore.isLoading"
+  						class="btn btn-secondary btn-block"
+  						v-if="!isEnabled || userStore.isLoading" disabled
+						>
+  						{{ userStore.isLoading ? "Logging in..." : "Log In" }}
+						</button>
+						<button
+  						type="submit"
+  						class="btn btn-warning btn-block"
+  						v-else="!isEnabled || userStore.isLoading"
 						>
   						{{ userStore.isLoading ? "Logging in..." : "Log In" }}
 						</button>
