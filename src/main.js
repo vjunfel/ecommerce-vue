@@ -9,7 +9,6 @@ import { createPinia } from 'pinia';
 import App from './App.vue'
 import HomePage from './pages/HomePage.vue';
 import ProductsPage from './pages/ProductsPage.vue';
-import NewsPage from './pages/NewsPage.vue';
 import RegisterPage from './pages/RegisterPage.vue';
 import LoginPage from './pages/LoginPage.vue';
 import LogoutPage from './pages/LogoutPage.vue';
@@ -48,11 +47,6 @@ const router = createRouter({
             path: '/logout',
             name: 'Logout',
             component: LogoutPage
-        },
-        {
-          path: '/news',
-          name: 'News',
-          component: NewsPage
         },
         {
           path: '/profile',

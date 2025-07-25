@@ -2,11 +2,11 @@
 import { onBeforeMount, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import api from "../api";
-import { useGlobalStore } from "../stores/global";
+import { useUserStore } from "../stores/userStore";
 import { Notyf } from "notyf";
 
 const notyf = new Notyf();
-const { user } = useGlobalStore();
+const { user } = useUserStore();
 const router = useRouter();
 const product = reactive({ data: null });
 

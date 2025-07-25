@@ -2,12 +2,12 @@
 import { ref, onBeforeMount, watch } from "vue";
 import { Notyf } from "notyf";
 import { useRouter } from "vue-router";
-import { useGlobalStore } from "../stores/global";
+import { useUserStore } from "../stores/userStore";
 import api from "../api";
 
 const notyf = new Notyf();
 const router = useRouter();
-const { user } = useGlobalStore();
+const { user } = useUserStore();
 
 const name = ref("");
 const description = ref("");

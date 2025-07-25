@@ -3,10 +3,13 @@ import { ref, reactive, onBeforeMount, watch } from "vue";
 import api from "../api";
 import UserView from "../components/UserView.vue";
 import AdminView from "../components/AdminView.vue";
+import { useUserStore } from "../stores/userStore.js";
 
-import { useGlobalStore } from "../stores/global.js";
-const { user } = useGlobalStore();
+const userStore = useUserStore();
+const user = userStore.email;
 const products = reactive({ data: [] });
+
+console.log("USER", user)
 
 const fetchProduct = async () => {
 	let { data } = await api.get("/products/all");
@@ -14,10 +17,10 @@ const fetchProduct = async () => {
 }
 
 watch(
-	[user],
+	[userStore],
 	async () => {
-		if (user.isLoading === false) {
-			if (user.isAdmin) {
+		if (userStore.isLoading === false) {
+			if (userStore.isAdmin) {
 				fetchProduct()
 			} else {
 				let { data } = await api.get("/products");
@@ -32,17 +35,16 @@ watch(
 
 <template>
 	<div class="container">
-		<p v-if="user.isLoading">Loading...</p>
+		<p v-if="userStore.isLoading">Loading...</p>
 
 		<AdminView
-			v-if="user.isAdmin && !user.isLoading"
+			v-if="userStore.isAdmin && !userStore.isLoading"
 			:productsData="products.data"
 			@refreshProducts="fetchProduct"
 		/>
 		<UserView
-			v-if="!user.isAdmin && !user.isLoading"
+			v-if="!userStore.isAdmin && !userStore.isLoading"
 			:productsData="products.data"
-			
 		/>
 	</div>
 </template>

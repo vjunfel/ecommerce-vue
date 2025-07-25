@@ -4,8 +4,8 @@ import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 import Swal from 'sweetalert2'
 
-const email = ref("");
-const password = ref("");
+const email = ref("admin@mail.com");
+const password = ref("asdf123");
 const isEnabled = ref(false);
 
 const userStore = useUserStore();
@@ -28,12 +28,12 @@ const handleSubmit = async () => {
 		
 		await userStore.fetchUserDetails();
 		
-    Swal.fire('Welcome!', 'Login successful', 'success');
+    // Swal.fire('Welcome!', 'Login successful', 'success');
     router.push('/');
 		
   } catch (error) {
 		console.log("ERROR", error)
-    Swal.fire('Login Failed', error.response?.data?.message || 'Invalid credentials', 'error');
+    // Swal.fire('Login Failed', error.response?.data?.message || 'Invalid credentials', 'error');
   }
 };
 
@@ -41,7 +41,7 @@ const handleSubmit = async () => {
 
 <template>
 	<div class="container-fluid">
-		<h1 class="my-5 pt-3 text-warning text-center">Login Page</h1>
+		<h1 class="my-5 p-3 text-dark text-center">Login Page</h1>
 		<div class="row d-flex justify-content-center">
 			<div class="col-md-5 border border rounded-3 mx-auto p-5">
 				<form @submit.prevent="handleSubmit">
@@ -56,17 +56,17 @@ const handleSubmit = async () => {
 					<div class="d-grid mt-5">
 						<button
   						type="submit"
-  						class="btn btn-secondary btn-block"
+  						class="btn btn-warning btn-block"
   						v-if="!isEnabled || userStore.isLoading" disabled
 						>
-  						{{ userStore.isLoading ? "Logging in..." : "Log In" }}
+  						Login
 						</button>
 						<button
   						type="submit"
   						class="btn btn-warning btn-block"
   						v-else="!isEnabled || userStore.isLoading"
 						>
-  						{{ userStore.isLoading ? "Logging in..." : "Log In" }}
+  						{{ userStore.isLoading ? "Logging in..." : "Login" }}
 						</button>
 					</div>
 				</form>

@@ -3,9 +3,9 @@ import { ref, onMounted } from "vue";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import api from "@/api";
-import { useGlobalStore } from "@/stores/global";
+import { useUserStore } from "@/stores/userStore";
 
-const global = useGlobalStore();
+const global = useUserStore();
 const loading = ref(false);
 const notyf = new Notyf();
 
