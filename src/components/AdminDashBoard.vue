@@ -1,6 +1,43 @@
+<script setup>
+	import {ref} from 'vue'
+	import { useRouter } from 'vue-router'
+
+	const router = useRouter()
+
+	const products = ref ([
+		{
+			_id: '1',
+			name: 'Fluppy Cake Japanesse',
+			description: 'is a cake with a fluppy feelinng when you bite it everytime',
+			price: '1400',
+			isActive: true
+		},
+		{
+			_id: '1',
+			name: 'Matcha Japanesse Cake',
+			description: 'is a cake with a matcha feelinng when you bite it everytime',
+			price: '900',
+			isActive: false
+		}
+	])
+
+	const goToAddProduct = () => {
+		router.push('/add-product')
+	}
+
+	const toggleAvailability = (product) => {
+		product.isActive = !product.isActive
+	}
+
+	const updateProduct =(id) => {
+		alert(`Update form for product ID: ${ID} (feature no yet implemented)`)
+	}
+</script>
+
 <template>
   <div class="container mt-4">
-    <h1 class="text-center text-primary mb-4">Admin Dashboard</h1>
+    <h1 class="my-5 pt-3 text-primary text-center">Admin Dashboard</h1>
+    
     <section class="mb-3 text-center">
       <button class="btn btn-primary m-3">Add Product</button>
       <button class="btn btn-success m-3">Show User Orders</button>
@@ -45,41 +82,3 @@
     </section>
   </div>
 </template>
-
-
-<script setup>
-	import {ref} from 'vue'
-	import { useRouter } from 'vue-router'
-
-	const router = useRouter()
-
-	const products = ref ([
-		{
-			_id: '1',
-			name: 'Fluppy Cake Japanesse',
-			description: 'is a cake with a fluppy feelinng when you bite it everytime',
-			price: '1400',
-			isActive: true
-		},
-		{
-			_id: '1',
-			name: 'Matcha Japanesse Cake',
-			description: 'is a cake with a matcha feelinng when you bite it everytime',
-			price: '900',
-			isActive: false
-		}
-	])
-
-	const goToAddProduct = () => {
-		router.push('/add-product')
-	}
-
-	const toggleAvailability = (product) => {
-		product.isActive = !product.isActive
-	}
-
-	const updateProduct =(id) => {
-		alert(`Update form for product ID: ${ID} (feature no yet implemented)`)
-	}
-</script>
-s

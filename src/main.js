@@ -3,10 +3,12 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.min.css';
 import 'notyf/notyf.min.css';
+import 'sweetalert2/dist/sweetalert2.min.css';
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router';
 import { createPinia } from 'pinia';
 import App from './App.vue'
+import VueSweetalert2 from 'vue-sweetalert2';
 import HomePage from './pages/HomePage.vue';
 import ProductsPage from './pages/ProductsPage.vue';
 import RegisterPage from './pages/RegisterPage.vue';
@@ -17,8 +19,7 @@ import ProfilePage from './pages/ProfilePage.vue';
 import ViewProduct from './pages/ViewProduct.vue';
 import AddProduct from "./pages/AddProduct.vue";
 import UpdateProduct from './pages/UpdateProduct.vue';
-import VueSweetalert2 from 'vue-sweetalert2';
-import 'sweetalert2/dist/sweetalert2.min.css';
+import DashboardPage from './pages/DashboardPage.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -52,6 +53,11 @@ const router = createRouter({
           path: '/profile',
           name: 'Profile',
           component: ProfilePage
+        },
+        {
+          path: '/dashboard',
+          name: 'Dashboard',
+          component: DashboardPage
         },
         {
           path: "/addProduct",
