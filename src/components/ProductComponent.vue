@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-	<div class="col-12 col-md-6 col-lg-4 my-3">
+	<section class="col-12 col-md-6 col-lg-4 my-3">
 		<div id="CourseCard" class="card cardHighlights shadow-sm" style="min-height: 100%;">
 			<router-link :to="{path:`/products/${productData._id}`}">
 				<img 
@@ -33,7 +33,7 @@ defineProps({
 				<router-link class="btn-custom d-block" :to="{path:`/products/${productData._id}`}">View Product</router-link>
 			</div>
 		</div>
-	</div>
+	</section>
 </template>
 
 <style scoped>
