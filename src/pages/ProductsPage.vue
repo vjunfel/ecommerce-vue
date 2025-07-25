@@ -33,7 +33,7 @@ console.log(userStore.token ? "has token": "no token")
 </script>
 
 <template>	
-	<div class="container">
+	<section class="container">
 		<div class="col my-5">
 			<h1 class="text-center text-warning py-1">Products Offered</h1>
 			<p class="text-center">Select a product to you want and enjoy!</p>
@@ -50,7 +50,6 @@ console.log(userStore.token ? "has token": "no token")
 				v-for="product in products.data"
 				:productData="product"
 			/>
-	</div>
-	
-	</div>
+		</div>
+	</section>
 </template>
