@@ -1,5 +1,6 @@
 <script setup>
 import { useUserStore } from '../stores/userStore'
+import imgSource from "@/assets/images/Image-placeholder-item.jpg"
 
 const userStore = useUserStore();
 
@@ -15,7 +16,7 @@ defineProps({
 			<img 
 				style="height: 280px; object-fit: cover;"
 				class="card-img-top img-fluid"
-				:src="productData.src ? productData.src : `https://placehold.co/600x400/63c3ff/ffffff?font=raleway&text=${encodeURIComponent(productData.name)}`"
+				:src="productData.src ? productData.src : imgSource"
 				:alt="productData.name"
 			>
 			<div class="card-body">
@@ -30,10 +31,27 @@ defineProps({
 					<span class="fw-semibold">Price:</span> PHP {{productData.price}}
 				</p>
 				
-				<div class="d-grid mt-3">
-					<router-link class="btn btn-outline-dark d-block" :to="{path:`/products/${productData._id}`}">View Product</router-link>
-				</div>
+			</div>
+			<div class="d-grid mt-2 m-3 position-sticky">
+				<router-link class="btn-custom d-block" :to="{path:`/products/${productData._id}`}">View Product</router-link>
 			</div>
 		</div>
 	</div>
 </template>
+
+<style scoped>
+	.btn-custom {
+		outline: 1px solid hsl(46, 100%, 48%);
+		color: #333;
+		padding: 8px;
+		text-align: center;
+		border-radius: 5px;
+		text-decoration: none;
+		font-weight: 400;
+	}
+	.btn-custom:hover {
+		background-color: hsl(46, 100%, 55%);
+		text-align: center;
+		border-radius: 5px;
+	}
+</style>

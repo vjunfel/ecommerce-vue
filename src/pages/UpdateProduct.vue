@@ -2,7 +2,7 @@
   import axios from 'axios'
   import {ref, onMounted} from 'vue'
   import { useRoute, useRouter } from 'vue-router'
-
+  import Swal from 'sweetalert2'
 
   const route = useRoute()
   const router = useRouter()
@@ -50,7 +50,7 @@
         }
       );
 
-      alert("Product updated successfully!");
+      Swal.fire('Product', 'Updated successfully', 'success');
       router.push("/dashboard");
     } catch (err) {
       console.error("Update failed:", err.response?.data || err.message);
