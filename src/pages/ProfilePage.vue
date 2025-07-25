@@ -1,16 +1,16 @@
 <script setup>
 import { onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
-import { useGlobalStore } from "../stores/global.js";
+import { useUserStore } from "../stores/userStore.js";
 import ResetPassword from "@/components/ResetPassword.vue";
 import UpdateProfile from "@/components/UpdateProfile.vue";
 
-const { user } = useGlobalStore();
+const userStore = useUserStore();
 
 const router = useRouter();
 
 onBeforeMount(() => {
-	if (!user.email) {
+	if (!userStore.email) {
 		router.push({ path: "/" });
 	}
 });
@@ -19,7 +19,7 @@ onBeforeMount(() => {
 <template>
 	<div
 		class="container-fluid"
-		v-if="user.email"
+		v-if="userStore.email"
 	>
 		<h1 class="my-5 pt-3 text-primary text-center">Profile Page</h1>
 		<div class="row d-flex justify-content-center">

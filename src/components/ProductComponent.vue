@@ -1,3 +1,16 @@
+<script setup>
+import { Notyf } from 'notyf'
+import { useUserStore } from '../stores/userStore'
+
+const { user } = useUserStore()
+const notyf = new Notyf()
+
+defineProps({
+  courseData: Object
+})
+
+</script>
+
 <template>
 	<div class="col-12 col-md-6 col-lg-4 my-3">
 		<div id="CourseCard" class="card p-2 cardHighlights shadow-sm" style="min-height: 100%;">
@@ -25,28 +38,3 @@
 	</div>
 	
 </template>
-
-<script>
-	import { ref, watch, onMounted } from 'vue';
-	import { Notyf } from 'notyf';
-	import { useGlobalStore } from '../stores/global';
-
-    const notyf = new Notyf();
-
-	export default {
-		props: {
-			courseData: Object
-		},
-		//The emit method can be destructured from the second parameter passed to the setup() method.
-    	// The emit method is used to emit custom events from a child component to its parent component. It allows a child component to communicate with its parent component by sending messages, data or values that the parent component can receive and respond to.
-		setup({courseData}){
-			
-			const { user } = useGlobalStore();
-
-
-			return{
-				user
-			}
-		}
-	}
-</script>

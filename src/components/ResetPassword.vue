@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { Notyf } from 'notyf'
 import 'notyf/notyf.min.css'
 import api from '../api' // adjust path to your api instance
-import { useGlobalStore } from '../stores/global';
+import { useUserStore } from '../stores/userStore';
 
 const newPassword = ref('')
 const loading = ref(false)
@@ -14,7 +14,7 @@ const handleReset = async () => {
     loading.value = true
 
     // const token = localStorage.getItem('token') // or from Pinia store, etc.
-    const { user } = useGlobalStore();
+    const { user } = useUserStore();
 
     if (!user.token) {
       notyf.error('You are not authorized')

@@ -2,13 +2,13 @@
 import { watch, ref, onBeforeMount } from "vue";
 import { Notyf } from "notyf";
 import { useRouter } from "vue-router";
-import { useGlobalStore } from "../stores/global.js";
+import { useUserStore } from "../stores/userStore.js";
 import api from "../api";
 
 const notyf = new Notyf();
 const router = useRouter();
 
-const { user } = useGlobalStore();
+const userStore = useUserStore();
 
 const firstName = ref("");
 const lastName = ref("");
@@ -76,7 +76,7 @@ async function handleSubmit() {
 }
 
 onBeforeMount(() => {
-	if (user.token) {
+	if (userStore.token) {
 		router.push({ path: "/products" });
 	}
 });
@@ -84,9 +84,9 @@ onBeforeMount(() => {
 
 <template>
 	<div class="container-fluid">
-		<h1 class="my-5 pt-3 text-primary text-center">Register Page</h1>
+		<h1 class="my-5 pt-3 text-dark text-center">Register Page</h1>
 		<div class="row d-flex justify-content-center">
-			<div class="col-md-5 border border rounded-3 mx-auto p-5">
+			<div class="col-md-5 border border rounded-3 mx-auto p-5 mb-5">
 				<form v-on:submit.prevent="handleSubmit">
 					<div class="mb-3">
 						<label
@@ -169,14 +169,14 @@ onBeforeMount(() => {
 					<div class="d-grid mt-5">
 						<button
 							type="submit"
-							class="btn btn-primary btn-block"
+							class="btn btn-warning btn-block"
 							v-if="isEnabled"
 						>
 							Submit
 						</button>
 						<button
 							type="submit"
-							class="btn btn-danger btn-block"
+							class="btn btn-warning btn-block"
 							v-else
 							disabled
 						>
