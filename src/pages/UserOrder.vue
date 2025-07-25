@@ -1,91 +1,89 @@
-<template>
-  <div class="container mt-5">
-    <h2 class="text-center text-primary mb-4">User Orders</h2>
+<script setup>
+import { onMounted, ref, computed } from 'vue'
+import axios from 'axios'
 
-    <!-- Search by Order ID -->
-    <div class="mb-4">
+const orders = ref([])
+const loading = ref(true)
+const searchOrderId = ref('') // 🔍 Search Order ID
+
+// Fetch orders on mount
+onMounted(async () => {
+  try {
+    const token = localStorage.getItem('token')
+    const res = await axios.get('http://localhost:4000/orders/all-orders', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    orders.value = res.data.orders
+  } catch (error) {
+    console.error('Failed to fetch orders', error)
+  } finally {
+    loading.value = false
+  }
+})
+
+
+const filteredOrders = computed(() => {
+  if (!searchOrderId.value.trim()) return orders.value
+
+  return orders.value.filter(order =>
+    order._id.includes(searchOrderId.value.trim())
+  )
+})
+</script>
+
+<template>
+  <div class="container mt-5 text-primary">
+    <h2 class="text-center mb-4 ">User Orders</h2>
+
+ 
+    <div class="mb-4 text-center">
       <input
-        v-model="searchQuery"
+        v-model="searchOrderId"
         type="text"
-        placeholder="Search by Order ID"
-        class="form-control"
+        class="form-control w-50 d-inline-block"
+        placeholder="Search by Order ID..."
       />
     </div>
 
-    <div v-if="filteredOrders.length === 0" class="alert alert-info text-center">
-      No matching orders found.
-    </div>
 
-    <table v-else class="table table-striped border">
-      <thead class="table-dark text-center">
+    <div v-if="loading">Loading...</div>
+
+
+    <table v-else class="table table-bordered table-striped text-center align-middle">
+      <thead class="table-primary">
         <tr>
           <th>Order ID</th>
-          <th>User</th>
-          <th>Product</th>
-          <th>Quantity</th>
+          <th>User Name</th>
+          <th>Products</th>
+          <th>Quantities</th>
           <th>Total Price</th>
-          <th>Status</th>
+          <th>Order Date</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="order in filteredOrders" :key="order._id">
           <td>{{ order._id }}</td>
-          <td>{{ order.userName }}</td>
-          <td>{{ order.productName }}</td>
-          <td>{{ order.quantity }}</td>
-          <td>₱{{ order.total }}</td>
+          <td>{{ order.userId?.name || 'N/A' }}</td>
           <td>
-            <span :class="order.status === 'Completed' ? 'text-success' : 'text-warning'">
-              {{ order.status }}
-            </span>
+            <ul class="list-unstyled mb-0">
+              <li v-for="item in order.productsOrdered" :key="item.productId?._id">
+                {{ item.productId?.name || 'Unknown Product' }}
+              </li>
+            </ul>
           </td>
+          <td>
+            <ul class="list-unstyled mb-0">
+              <li v-for="item in order.productsOrdered" :key="item.productId?._id">
+                {{ item.quantity }}
+              </li>
+            </ul>
+          </td>
+          <td>₱{{ order.totalPrice.toFixed(2) }}</td>
+          <td>{{ new Date(order.orderedOn).toLocaleString() }}</td>
         </tr>
       </tbody>
     </table>
   </div>
 </template>
-
-<script setup>
-import { ref, computed, onMounted } from 'vue'
-
-const searchQuery = ref('')
-
-const orders = ref([])
-
-// Simulated orders — replace with API later
-onMounted(() => {
-  orders.value = [
-    {
-      _id: 'ORD1001',
-      userName: 'Juan Dela Cruz',
-      productName: 'Matcha Cake',
-      quantity: 2,
-      total: 1800,
-      status: 'Completed'
-    },
-    {
-      _id: 'ORD1002',
-      userName: 'Maria Clara',
-      productName: 'Fluppy Cake',
-      quantity: 1,
-      total: 1400,
-      status: 'Pending'
-    },
-    {
-      _id: 'ORD1003',
-      userName: 'Jose Rizal',
-      productName: 'Ube Cheesecake',
-      quantity: 3,
-      total: 2100,
-      status: 'Completed'
-    }
-  ]
-})
-
-const filteredOrders = computed(() => {
-  const query = searchQuery.value.toLowerCase()
-  return orders.value.filter(order =>
-    order._id.toLowerCase().includes(query)
-  )
-})
-</script>

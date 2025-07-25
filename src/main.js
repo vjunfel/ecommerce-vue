@@ -21,6 +21,7 @@ import UpdateProduct from './pages/UpdateProduct.vue';
 import DashboardPage from './pages/DashboardPage.vue';
 import CartPage from './pages/CartPage.vue';
 import ProductDetailsPage from './pages/ProductDetailsPage.vue';
+import UserOrder from './pages/UserOrder.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -56,24 +57,30 @@ const router = createRouter({
           component: DashboardPage
         },
         {
-          path: "/addProduct",
-          name: "AddProduct",
-          component: AddProduct,
-        },
-        {
             path: '/products',
             name: 'Products',
             component: ProductsPage
         },
         {
+
           path: "/products/:id",
           component: ProductDetailsPage
         },
         {
-          path: "/products/update/:id",
-          name: "Update Product",
-          component: UpdateProduct
+          path: "/add-product",
+          name: "AddProduct",
+          component: AddProduct
         },
+          {
+            path: "/update-product/:id",
+            name: "UpdateProduct",
+            component: UpdateProduct
+          },
+          {
+            path: "/user-orders",
+            name: "UserOrder",
+            component: UserOrder
+          },
         {
           path: "/cart",
           name: "Cart",
