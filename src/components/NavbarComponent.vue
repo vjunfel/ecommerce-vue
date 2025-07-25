@@ -15,8 +15,8 @@
   <nav class="navbar navbar-expand-lg sticky-top bg-light shadow-sm">
     <div class="container">
       <router-link :to="{ name: 'Home' }" class="navbar-brand text-dark fw-bold">
-        <img src="../assets/images/cake-logo.png" alt="CapCakes logo" width="50" loading="lazy">
-        <div class="ms-3 d-inline text-secondary">Cap<span class="text-dark">CAKES</span></div>
+        <img src="../assets/images/cake-logo.png" alt="CapCakes logo" width="40" loading="lazy">
+        <div class="ms-2 d-inline text-secondary">Cap<span class="text-warning">CAKES</span></div>
       </router-link>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>

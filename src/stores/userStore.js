@@ -9,6 +9,7 @@ export const useUserStore = defineStore("user", {
 		email: null,
 		isAdmin: false,
 		isLoading: false,
+		id: null
 	}),
 
 	actions: {
@@ -41,6 +42,7 @@ export const useUserStore = defineStore("user", {
 
 				this.email = res.data.user.email;
 				this.isAdmin = res.data.user.isAdmin;
+				this.id = res.data.user._id;
 			} catch (error) {
 				console.error("User details fetch failed:", error);
 				this.clearUser();
@@ -58,6 +60,7 @@ export const useUserStore = defineStore("user", {
 			this.token = null;
 			this.email = null;
 			this.isAdmin = false;
+			this.id = null
 			localStorage.removeItem("token");
 		},
 	},

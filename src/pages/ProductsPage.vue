@@ -35,7 +35,7 @@ console.log(userStore.token ? "has token": "no token")
 <template>	
 	<div class="container">
 		<div class="col my-5">
-			<h1 class="text-center text-primary py-1">Products Offered</h1>
+			<h1 class="text-center text-warning py-1">Products Offered</h1>
 			<p class="text-center">Select a product to you want and enjoy!</p>
 		</div>
 		
