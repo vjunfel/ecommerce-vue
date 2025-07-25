@@ -16,10 +16,11 @@ import LoginPage from './pages/LoginPage.vue';
 import LogoutPage from './pages/LogoutPage.vue';
 import ErrorPage from './pages/ErrorPage.vue';
 import ProfilePage from './pages/ProfilePage.vue';
-import ViewProduct from './pages/ViewProduct.vue';
-import AddProduct from "./pages/AddProduct.vue";
-import UpdateProduct from './pages/UpdateProduct.vue';
+import ViewProduct from './pages/ViewProduct.vue';;
 import DashboardPage from './pages/DashboardPage.vue';
+import AddProduct from './pages/AddProduct.vue';
+import UpdateProduct from './pages/UpdateProduct.vue';
+import UserOrder from './pages/UserOrder.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -60,19 +61,24 @@ const router = createRouter({
           component: DashboardPage
         },
         {
-          path: "/addProduct",
-          name: "AddProduct",
-          component: AddProduct,
-        },
-        {
           path: "/products/:id",
           component: ViewProduct
         },
         {
-          path: "/products/update/:id",
-          name: "Update Product",
-          component: UpdateProduct
+          path: "/add-product",
+          name: "AddProduct",
+          component: AddProduct
         },
+          {
+            path: "/update-product/:id",
+            name: "UpdateProduct",
+            component: UpdateProduct
+          },
+          {
+            path: "/user-orders",
+            name: "UserOrder",
+            component: UserOrder
+          },
         {
           path: '/:catchAll(.*)',
           component: ErrorPage

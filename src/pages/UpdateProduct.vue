@@ -1,133 +1,95 @@
 <script setup>
-import { ref, onBeforeMount, watch } from "vue";
-import { Notyf } from "notyf";
-import { useRouter, useRoute } from "vue-router";
-import { useUserStore } from "../stores/userStore";
-import api from "../api";
+  import axios from 'axios'
+  import {ref, onMounted} from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
 
-const notyf = new Notyf();
-const router = useRouter();
-const route = useRoute();
-const { user } = useUserStore();
 
-const name = ref("");
-const description = ref("");
-const price = ref(0);
-const isEnabled = ref(false);
+  const route = useRoute()
+  const router = useRouter()
 
-const fetchProduct = async () => {
-	try {
-		const { data } = await api.get(`/products/specific/${route.params.id}`);
-		name.value = data.name;
-		description.value = data.description;
-		price.value = data.price;
-	} catch (err) {
-		notyf.error("Failed to load product");
-		console.error(err);
-	}
-};
+  const productId = route.params.id
 
-async function handleSubmit() {
-	const product = {
-		name: name.value,
-		description: description.value,
-		price: price.value,
-	};
 
-	try {
-		const response = await api.patch(`/products/${route.params.id}`, product);
+  const product = ref({
+    name: '',
+    description: '',
+    price: 0
+  })
 
-		if (response.status === 200 || response.status === 201) {
-			notyf.success(response.data.message);
+  const isLoading = ref(false)
 
-			router.push({ path: "/products" });
-		} else {
-			notyf.error(response.data.message);
-		}
-	} catch (error) {
-		if (error.response.status === 409) {
-			notyf.error(error.response.data.message);
-		} else {
-			console.error(error.response.data.message);
-			notyf.error("Error adding product. Please contact administrator.");
-		}
-	}
-}
+  onMounted(async () => {
+    try {
+      const res = await axios.get(`http://localhost:4000/products/${productId}`)
+      product.value = {
+        name: res.data.name,
+        description: res.data.description,
+        price: res.data.price
+      }
+    } catch (error) {
+      console.error('Error fetching product', error)
+      alert('Product not found')
+      router.push('/')
+    }
+  })
 
-watch([name, description, price], ([n, d, p]) => {
-	isEnabled.value = n.trim() !== "" && d.trim() !== "" && p > 0;
-});
+  const submitProduct = async () => {
+    isLoading.value = true;
+    const token = localStorage.getItem('token');
 
-onBeforeMount(async () => {
-	if (!user.token || !user.isAdmin) {
-		router.push({ path: "/products" });
-	} else {
-		await fetchProduct();
-	}
-});
+    try {
+      console.log("Sending updated data:", product.value);
+
+      await axios.patch(
+        `http://localhost:4000/products/${productId}/update`,
+        product.value,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      alert("Product updated successfully!");
+      router.push("/dashboard");
+    } catch (err) {
+      console.error("Update failed:", err.response?.data || err.message);
+      alert("Update failed. Check the console for details.");
+    } finally {
+      isLoading.value = false;
+    }
+  };
 </script>
 
+
 <template>
-	<div
-		class="container my-5"
-		style="max-width: 500px"
-	>
-		<h1 class="text-center">Update Product</h1>
-		<form v-on:submit.prevent="handleSubmit">
-			<div class="mb-3">
-				<label
-					for="productNameInput"
-					class="form-label"
-					>Name</label
-				>
-				<input
-					type="text"
-					class="form-control"
-					id="productNameInput"
-					v-model="name"
-				/>
-			</div>
-			<div class="mb-3">
-				<label
-					for="productDescription"
-					class="form-label"
-					>Description</label
-				>
-				<textarea
-					class="form-control"
-					id="productDescription"
-					v-model="description"
-					rows="5"
-				></textarea>
-			</div>
-			<div class="mb-3">
-				<label
-					for="productPrice"
-					class="form-label"
-					>Price</label
-				>
-				<input
-					type="number"
-					class="form-control"
-					id="productPrice"
-					v-model="price"
-				/>
-			</div>
-			<button
-				type="submit"
-				class="btn btn-primary"
-				v-if="isEnabled"
-			>
-				Update
-			</button>
-			<button
-				type="submit"
-				class="btn btn-danger"
-				disabled
-				v-else
-			>
-				Update
-			</button>
-		</form>
-	</div>
+  <div class="container mt-5" style="max-width: 600px;">
+    <h2 class="text-center text-primary mb-4">Update Product</h2>
+
+    <form @submit.prevent="submitProduct">
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input v-model="product.name" type="text" id="name" class="form-control" required />
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea v-model="product.description" id="description" class="form-control" required></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <input v-model.number="product.price" type="number" id="price" class="form-control" required />
+      </div>
+
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-success" :disabled="isLoading">
+          {{ isLoading ? 'Updating...' : 'Update Product' }}
+        </button>
+        <button type="button" class="btn btn-secondary" @click="cancelUpdate" :disabled="isLoading">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
 </template>

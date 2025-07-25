@@ -1,122 +1,96 @@
+
 <script setup>
-import { ref, onBeforeMount, watch } from "vue";
-import { Notyf } from "notyf";
-import { useRouter } from "vue-router";
-import { useUserStore } from "../stores/userStore";
-import api from "../api";
+ import { ref } from 'vue'
+ import axios from 'axios'
+ import { useRouter } from 'vue-router'
 
-const notyf = new Notyf();
-const router = useRouter();
-const { user } = useUserStore();
+ const router = useRouter()
 
-const name = ref("");
-const description = ref("");
-const price = ref(0);
-const isEnabled = ref(false);
+ // Gamitin para ma-bind sa form
+ const product = ref({
+   name: '',
+   description: '',
+   price: 0
+ })
 
-async function handleSubmit() {
-	const product = {
-		name: name.value,
-		description: description.value,
-		price: price.value,
-	};
+ const submitProduct = async () => {
+   console.log('Product Submitted', product.value)
 
-	try {
-		const response = await api.post("/products", product);
+   const token = localStorage.getItem('token')
 
-		if (response.status === 201) {
-			notyf.success(response.data.message);
+   try {
+     await axios.post('http://localhost:4000/products', product.value, {
+       headers: {
+         Authorization: `Bearer ${token}`
+       }
+     })
 
-			router.push({ path: "/products" });
-		} else {
-			notyf.error(response.data.message);
-		}
-	} catch (error) {
-		if (error.response.status === 409) {
-			notyf.error(error.response.data.message);
-		} else {
-			console.error(error.response.data.message);
-			notyf.error("Error adding product. Please contact administrator.");
-		}
-	}
-}
+     alert('Product added successfully')
 
-watch([name, description, price], (currentValue, oldValue) => {
-	if (currentValue.every((input) => input !== "")) {
-		isEnabled.value = true;
-	} else {
-		isEnabled.value = false;
-	}
-});
+     product.value = {
+       name: '',
+       description: '',
+       price: 0
+     }
 
-onBeforeMount(() => {
-	if (!user.token || !user.isAdmin) {
-		router.push({ path: "/products" });
-	}
-});
+     router.push('/dashboard') // balik sa dashboard
+
+   } catch (error) {
+     console.error('Error adding product:', error)
+     alert('Failed to add product. Check console.')
+   }
+ }
+
+
+
 </script>
 
 <template>
-	<div
-		class="container my-5"
-		style="max-width: 500px"
-	>
-		<h1 class="text-center">Add New Product</h1>
-		<form v-on:submit.prevent="handleSubmit">
-			<div class="mb-3">
-				<label
-					for="productNameInput"
-					class="form-label"
-					>Product Name</label
-				>
-				<input
-					type="text"
-					class="form-control"
-					id="productNameInput"
-					v-model="name"
-				/>
-			</div>
-			<div class="mb-3">
-				<label
-					for="productDescription"
-					class="form-label"
-					>Description</label
-				>
-				<textarea
-					class="form-control"
-					id="productDescription"
-					v-model="description"
-					rows="5"
-				></textarea>
-			</div>
-			<div class="mb-3">
-				<label
-					for="productPrice"
-					class="form-label"
-					>Price</label
-				>
-				<input
-					type="number"
-					class="form-control"
-					id="productPrice"
-					v-model="price"
-				/>
-			</div>
-			<button
-				type="submit"
-				class="btn btn-primary"
-				v-if="isEnabled"
-			>
-				Add Product
-			</button>
-			<button
-				type="submit"
-				class="btn btn-danger"
-				disabled
-				v-else
-			>
-				Add Product
-			</button>
-		</form>
-	</div>
+  <div class="container my-5 d-flex justify-content-center">
+    <div class="card shadow-lg p-4 w-100" style="max-width: 600px;">
+      <h2 class="text-center text-primary mb-4">🛒 Add New Product</h2>
+
+      <form @submit.prevent="submitProduct">
+        <div class="mb-3">
+          <label for="name" class="form-label fw-bold">Product Name</label>
+          <input
+            v-model="product.name"
+            type="text"
+            id="name"
+            class="form-control"
+            placeholder="Enter product name"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label fw-bold">Description</label>
+          <textarea
+            v-model="product.description"
+            id="description"
+            class="form-control"
+            rows="3"
+            placeholder="Describe the product..."
+            required
+          ></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="price" class="form-label fw-bold">Price (₱)</label>
+          <input
+            v-model.number="product.price"
+            type="number"
+            id="price"
+            class="form-control"
+            placeholder="Enter product price"
+            min="1"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn btn-warning w-100 mt-4"> Add Product</button>
+      </form>
+    </div>
+  </div>
 </template>
+
