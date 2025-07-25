@@ -46,7 +46,7 @@ const submitProduct = async () => {
 			class="card shadow-lg p-4 w-100"
 			style="max-width: 600px"
 		>
-			<h2 class="text-center text-dark mb-4">🛒 Add New Product</h2>
+			<h2 class="text-center text-dark mb-4">Add New Product</h2>
 
 			<form @submit.prevent="submitProduct">
 				<div class="mb-3">
