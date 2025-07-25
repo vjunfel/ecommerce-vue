@@ -12,29 +12,46 @@ const userStore = useUserStore();
 const router = useRouter();
 const product = reactive({ data: null });
 
-async function handleEnroll() {
-	let { data } = await api.post(`/enrollments/enroll`, {
-		enrolledProducts: [
-			{
-				productId: product.data._id,
-			},
-		],
-		totalPrice: product.data.price,
-	});
+async function handleAddToCart() {
+	console.log("PRODUCT ID:", product.data._id);
+	console.log("USER ID:", userStore.id);
+  try {
+    if (!product.data || !product.data._id) {
+      notyf.error("Product is not ready yet.");
+      return;
+    }
 
-	if (data.success === true) {
-		notyf.success("Product Enrolled");
-		router.push({ path: "/products" });
-	} else {
-		notyf.error("Enrollment Failed");
-	}
+    const res = await api.post('/cart/add-to-cart', {
+			userId: userStore.id,
+      productId: product.data._id,
+      quantity: 1,
+    });
+		
+		console.log("CART DATA:", res.data);
+		console.log("DATA:", res);
+
+    if (res.status === 201) {
+      notyf.success("Product added to Cart");
+      // router.push({ path: "/products" });
+    } else {
+      notyf.error("Adding Failed");
+    }
+  } catch (error) {
+    console.error("Add to cart failed:", error);
+    notyf.error("Unable to add to cart. Please try again.");
+  }
 }
 
 onBeforeMount(async () => {
-	const route = useRoute();
-
-	let { data } = await api.get(`/products/${route.params.id}`);
-	product.data = data;
+  try {
+    const route = useRoute();
+    const { data } = await api.get(`/products/${route.params.id}`);
+    product.data = data;
+  } catch (error) {
+    console.error("Failed to load product:", error);
+    notyf.error("Product not found");
+    router.push("/products");
+  }
 });
 </script>
 
@@ -64,7 +81,7 @@ onBeforeMount(async () => {
 				<img 
 					style="height: 300px; object-fit: contain;"
 					class="card-img-top img-fluid"
-					:src="product?.data?.src || imgSource"
+					:src="product.data && product.data.src ? product.data.src : imgSource"
 					:alt="product?.data?.name || 'CapCakes product image'"
 				>
 				
@@ -81,7 +98,7 @@ onBeforeMount(async () => {
 				<p class="my-4 d-flex align-items-center">Price: <span class="fs-3 fw-bold ms-2">{{ product.data.price }} PHP</span></p>
 				<button	class="btn btn-warning"	type="button"
         	v-if="userStore.email && !userStore.isAdmin"
-					@click="handleEnroll"
+					@click="handleAddToCart"
 				>
 					Add to Cart
 				</button>
