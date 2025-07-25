@@ -32,7 +32,7 @@ const submitProduct = async () => {
 			price: 0,
 		};
 
-		router.push("/dashboard"); // balik sa dashboard
+		router.push("/dashboard");
 	} catch (error) {
 		console.error("Error adding product:", error);
 		alert("Failed to add product. Check console.");
@@ -46,7 +46,7 @@ const submitProduct = async () => {
 			class="card shadow-lg p-4 w-100"
 			style="max-width: 600px"
 		>
-			<h2 class="text-center text-dark mb-4">Add New Product</h2>
+			<h2 class="text-center text-warning mb-4">Add New Product</h2>
 
 			<form @submit.prevent="submitProduct">
 				<div class="mb-3">
