@@ -39,9 +39,12 @@ console.log(userStore.token ? "has token": "no token")
 			<p class="text-center">Select a product to you want and enjoy!</p>
 		</div>
 		
-		<p class="text-center p-5 m-5" v-if="userStore.isLoading"> Loading...</p>
+		<div class="text-center p-5 m-5" v-if="userStore.isLoading"> 
+			<div class="spinner-border m-3"></div>
+			<p>Loading...</p>
+		</div>
 		
-		<div class="row g-4 mb-5">
+		<div v-else="!userStore.isLoading" class="row g-4 mb-5">
 			<ProductSearch />
 			<ProductComponent
 				v-for="product in products.data"

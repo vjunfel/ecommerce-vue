@@ -1,9 +1,11 @@
 <script setup>
 import { onBeforeMount, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import api from "../api";
 import { useUserStore } from "../stores/userStore";
 import { Notyf } from "notyf";
+import api from "../api";
+
+import imgSource from "@/assets/images/Image-placeholder.jpg"
 
 const notyf = new Notyf();
 const userStore = useUserStore();
@@ -62,8 +64,8 @@ onBeforeMount(async () => {
 				<img 
 					style="height: 300px; object-fit: contain;"
 					class="card-img-top img-fluid"
-					:src="product.data.src ? product.data.src : `https://placehold.co/600x400/63c3ff/ffffff?font=raleway&text=${encodeURIComponent(productData.name)}`"
-					:alt="product.data.name"
+					:src="product?.data?.src || imgSource"
+					:alt="product?.data?.name || 'CapCakes product image'"
 				>
 				
 			</div>
@@ -103,7 +105,8 @@ onBeforeMount(async () => {
 			class="text-center my-5"
 			v-if="!product.data"
 		>
-			<div class="spinner-grow"></div>
+			<div class="spinner-border m-3"></div>
+			<p>Loading...</p>
 		</div>
 	</div>
 </template>
