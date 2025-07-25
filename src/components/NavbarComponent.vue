@@ -6,10 +6,10 @@
   const isAdmin = computed(() => userStore.isAdmin);
   
   onBeforeMount( async () => {
-	if (userStore.token && userStore.token !== "null") {
-    await userStore.fetchUserDetails();
-	}
-});
+    if (userStore.token && userStore.token !== "null") {
+      await userStore.fetchUserDetails();
+    }
+  });
 </script>
 
 <template>
@@ -30,7 +30,10 @@
           <router-link :to="{ name: 'Profile' }" class="nav-link" v-if="userStore.email">
             Profile
           </router-link>
-          <router-link :to="{ name: 'AddProduct' }" class="nav-link" v-if="userStore.email && isAdmin">
+          <router-link :to="{ name: 'Dashboard' }" class="nav-link" v-if="userStore.email">
+            Dashboard
+          </router-link>
+          <router-link :to="{ name: 'AddProduct' }" class="nav-link" v-if="isAdmin">
             Add Product
           </router-link>
           <router-link :to="{ name: 'Register' }" class="nav-link" v-if="!userStore.email">
