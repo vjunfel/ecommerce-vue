@@ -4,8 +4,8 @@ import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 import Swal from 'sweetalert2'
 
-const email = ref("admin@mail.com");
-const password = ref("asdf123");
+const email = ref("");
+const password = ref("");
 const isEnabled = ref(false);
 
 const userStore = useUserStore();
@@ -28,12 +28,11 @@ const handleSubmit = async () => {
 		
 		await userStore.fetchUserDetails();
 		
-    // Swal.fire('Welcome!', 'Login successful', 'success');
     router.push('/');
 		
   } catch (error) {
 		console.log("ERROR", error)
-    // Swal.fire('Login Failed', error.response?.data?.message || 'Invalid credentials', 'error');
+    Swal.fire('Login Failed', error.response?.data?.message || 'Invalid credentials', 'error');
   }
 };
 

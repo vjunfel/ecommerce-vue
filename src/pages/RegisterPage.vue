@@ -34,10 +34,6 @@ watch(
 
 async function handleSubmit() {
 	try {
-		await api.post("/users/checkEmail", {
-			email: email.value,
-		});
-
 		let response = await api.post("/users/register", {
 			firstName: firstName.value,
 			lastName: lastName.value,
