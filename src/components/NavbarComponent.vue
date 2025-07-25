@@ -1,9 +1,8 @@
 <script setup>
-  import {onBeforeMount, computed} from 'vue';
+  import { onBeforeMount } from 'vue';
   import { useUserStore } from '@/stores/userStore';
 
   const userStore = useUserStore();
-  const isAdmin = computed(() => userStore.isAdmin);
   
   onBeforeMount( async () => {
     if (userStore.token && userStore.token !== "null") {
@@ -32,9 +31,6 @@
           </router-link>
           <router-link :to="{ name: 'Dashboard' }" class="nav-link" v-if="userStore.email">
             Dashboard
-          </router-link>
-          <router-link :to="{ name: 'AddProduct' }" class="nav-link" v-if="isAdmin">
-            Add Product
           </router-link>
           <router-link :to="{ name: 'Register' }" class="nav-link" v-if="!userStore.email">
             Register
