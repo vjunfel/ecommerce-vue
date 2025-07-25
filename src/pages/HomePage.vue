@@ -1,29 +1,20 @@
-<script>
-  import BannerComponent from '../components/BannerComponent.vue';
-  import HighlightsComponent from '../components/HighlightsComponent.vue';
+<script setup>
+import BestSeller from '@/components/BestSeller.vue';
+import BannerComponent from '../components/BannerComponent.vue'
+import HighlightsComponent from '../components/HighlightsComponent.vue'
 
-  export default {
-    components: {
-      BannerComponent,
-      HighlightsComponent
-    },
-
-    data(){
-      return {
-        bannerProps: {
-          title: "Zuitt Product Booking System",
-          tagline: "Opportunities for Everyone, Everywhere.",
-          destination: "Products",
-          buttonLabel: "View Our Products"
-        }
-      }
-    }
-  }
+const bannerProps = {
+  title: 'CapCAKES',
+  tagline: 'Is a cozy neighborhood spot where artistry meets indulgence. From elegantly crafted birthday cakes to whimsical custom designs, each creation is baked fresh using premium ingredients and a whole lot of love.',
+  destination: 'Products',
+  buttonLabel: 'View Our Products'
+}
 </script>
 
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid text-white pb-5">
     <BannerComponent :bannerProps=bannerProps />
+    <BestSeller />
     <HighlightsComponent />
   </div>
 </template>

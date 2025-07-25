@@ -2,6 +2,7 @@
 
 - This project created with Vue 3 in Vite.
 - b560-csp3-untalan-velasco
+- This is an Ecommerce App for Cakes.
 
 ### Team Members:
 - Junfel Velasco

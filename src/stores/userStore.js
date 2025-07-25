@@ -15,30 +15,32 @@ export const useUserStore = defineStore("user", {
 		async loginUser({ email, password }) {
 			try {
 				const res = await api.post("/users/login", {  email, password });
-
 				if (res.status !== 200) {
 					const errorData = await res.json();
 					throw new Error(errorData.message || "Login failed");
 				}
-
-				localStorage.setItem("token", res.access);
+				
+				const token = res.data.access;
+				this.token = token;
+				
+				localStorage.setItem("token", token);
 				
 			} catch (error) {
 				console.error("Login failed:", error);
 				throw error;
 			}
 		},
-
+		
 		async fetchUserDetails() {
 			if (!this.token || this.token === "null") return;
 
 			this.isLoading = true;
 			try {
 				const res = await api.get("/users/details");
-				console.log("RES DATA:", res);
+				// console.log("FETCH-USER-DETAILS:", res);
 
-				this.email = res.data.email;
-				this.isAdmin = res.data.isAdmin;
+				this.email = res.data.user.email;
+				this.isAdmin = res.data.user.isAdmin;
 			} catch (error) {
 				console.error("User details fetch failed:", error);
 				this.clearUser();
