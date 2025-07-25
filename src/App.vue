@@ -16,7 +16,7 @@ onBeforeMount(() => {
 <template>
 	<div class="d-flex flex-column min-vh-100">
 		<NavbarComponent />
-		<router-view class="flex-grow-1" />
+		<router-view />
 		<FooterComponent />
 	</div>
 </template>

@@ -26,10 +26,14 @@
           <router-link :to="{ name: 'Products' }" class="nav-link">
             Products
           </router-link>
-          <router-link :to="{ name: 'Profile' }" class="nav-link" v-if="userStore.email">
-            Profile
+          <router-link :to="{ name: 'Cart' }" class="nav-link" 
+            v-if="!userStore.isAdmin && userStore.email">
+            Cart
           </router-link>
-          <router-link :to="{ name: 'Dashboard' }" class="nav-link" v-if="userStore.email">
+          <!-- <router-link :to="{ name: 'Profile' }" class="nav-link" v-if="userStore.email">
+            Profile
+          </router-link> -->
+          <router-link :to="{ name: 'Dashboard' }" class="nav-link" v-if="userStore.isAdmin">
             Dashboard
           </router-link>
           <router-link :to="{ name: 'Register' }" class="nav-link" v-if="!userStore.email">

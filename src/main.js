@@ -16,10 +16,11 @@ import LoginPage from './pages/LoginPage.vue';
 import LogoutPage from './pages/LogoutPage.vue';
 import ErrorPage from './pages/ErrorPage.vue';
 import ProfilePage from './pages/ProfilePage.vue';
-import ViewProduct from './pages/ViewProduct.vue';
 import AddProduct from "./pages/AddProduct.vue";
 import UpdateProduct from './pages/UpdateProduct.vue';
 import DashboardPage from './pages/DashboardPage.vue';
+import CartPage from './pages/CartPage.vue';
+import ProductDetailsPage from './pages/ProductDetailsPage.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -28,11 +29,6 @@ const router = createRouter({
             path: '/',
             name: 'Home',
             component: HomePage 
-        },
-        {
-            path: '/products',
-            name: 'Products',
-            component: ProductsPage
         },
         {
             path: '/register',
@@ -65,13 +61,23 @@ const router = createRouter({
           component: AddProduct,
         },
         {
+            path: '/products',
+            name: 'Products',
+            component: ProductsPage
+        },
+        {
           path: "/products/:id",
-          component: ViewProduct
+          component: ProductDetailsPage
         },
         {
           path: "/products/update/:id",
           name: "Update Product",
           component: UpdateProduct
+        },
+        {
+          path: "/cart",
+          name: "Cart",
+          component: CartPage,
         },
         {
           path: '/:catchAll(.*)',
