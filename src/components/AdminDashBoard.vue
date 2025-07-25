@@ -1,37 +1,62 @@
 <script setup>
-	import {ref} from 'vue'
-	import { useRouter } from 'vue-router'
+	import {ref, onMounted} from 'vue'
+  import axios from 'axios'
+  import { useRouter } from 'vue-router'
 
-	const router = useRouter()
+  const router = useRouter()
 
-	const products = ref ([
-		{
-			_id: '1',
-			name: 'Fluppy Cake Japanesse',
-			description: 'is a cake with a fluppy feelinng when you bite it everytime',
-			price: '1400',
-			isActive: true
-		},
-		{
-			_id: '1',
-			name: 'Matcha Japanesse Cake',
-			description: 'is a cake with a matcha feelinng when you bite it everytime',
-			price: '900',
-			isActive: false
-		}
-	])
+  const products = ref([])
 
-	const goToAddProduct = () => {
-		router.push('/add-product')
-	}
+  const fetchProducts = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      const res = await axios.get ('http://localhost:4000/products/all',{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      products.value = res.data
+    } catch (error) {
+      console.error ('Error getting the product!', error)
+    }
+  }
+  onMounted(fetchProducts)
 
-	const toggleAvailability = (product) => {
-		product.isActive = !product.isActive
-	}
+  const goToAddProduct = () => {
+    router.push('/add-product')
+  }
 
-	const updateProduct =(id) => {
-		alert(`Update form for product ID: ${ID} (feature no yet implemented)`)
-	}
+  const updateProduct = (id) => {
+    router.push({ name: 'UpdateProduct', params: { id } })
+  }
+
+  const toggleAvailability = async (product) => {
+    const token = localStorage.getItem('token')
+    const action = product.isActive ? 'archive' : 'activate'
+
+    try {
+      await axios.patch ( `http://localhost:4000/products/${product._id}/${action}`, {},
+      {
+
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+
+      }
+
+      )
+       alert(`Product ${product.isActive ? 'disabled' : 'enabled'} successfully!`)
+    await fetchProducts()
+    } catch (error) {
+      console.error(`Failed to ${action} product`, error)
+      alert(`Failed to ${action} product.`)
+    }
+  }
+
+  const goToUserOrders = () => {
+    router.push('/user-orders')
+  }
+
 </script>
 
 <template>
@@ -39,8 +64,8 @@
     <h1 class="my-5 pt-3 text-primary text-center">Admin Dashboard</h1>
     
     <section class="mb-3 text-center">
-      <button class="btn btn-primary m-3">Add Product</button>
-      <button class="btn btn-success m-3">Show User Orders</button>
+      <button class="btn btn-primary m-3" @click="goToAddProduct">Add Product</button>
+      <button class="btn btn-success m-3" @click="goToUserOrders">Show User Orders</button>
     </section>
 
     <section class="container">
@@ -75,10 +100,10 @@
               >
                 {{ product.isActive ? 'Disable' : 'Enable' }}
               </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-  </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>
 </template>
