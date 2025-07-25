@@ -19,14 +19,17 @@ defineProps({
 				:alt="productData.name"
 			>
 			<div class="card-body">
-			<h4 class="card-title fw-bold mb-2">{{productData.name}}</h4>
+				<h4 class="card-title fw-bold mb-2">{{productData.name}}</h4>
 				<p class="card-text text-muted mb-2">
 					{{productData.description.slice(0, 100) + (productData.description.length > 100 ? '...' : '')}}
 				</p>
-				<p class="mb-1">
-				<span class="fw-semibold">Price:</span> PHP {{productData.price}}</p>
 				
-				{{ userStore.status ? productData.status : null }}
+				<!-- <p>{{ userStore.isAdmin ? (`Status: ${productData.status}`) : null }}</p> -->
+				
+				<p class="mb-1">
+					<span class="fw-semibold">Price:</span> PHP {{productData.price}}
+				</p>
+				
 				<div class="d-grid mt-3">
 					<router-link class="btn btn-outline-dark d-block" :to="{path:`/products/${productData._id}`}">View Product</router-link>
 				</div>
