@@ -12,6 +12,7 @@ const hasSearched = ref(false);
 
 const notyf = new Notyf();
 
+
 const searchProducts = async () => {
 	if (!productName.value.trim()) {
 		notyf.error("Please enter a product name.");
@@ -22,7 +23,7 @@ const searchProducts = async () => {
 	hasSearched.value = true;
 
 	try {
-		const response = await api.post("/products/search", {
+		const response = await api.post("/products/search-by-name", {
 			productName: productName.value.trim(),
 		});
 
@@ -58,7 +59,7 @@ const searchProducts = async () => {
 					required
 				/>
 				<button
-					class="btn btn-primary"
+					class="btn btn-warning"
 					type="submit"
 					:disabled="loading"
 				>

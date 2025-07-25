@@ -15,3 +15,7 @@ onBeforeMount(() => {
 	router.push({ path: "/login" });
 });
 </script>
+
+<template>
+	
+</template>
