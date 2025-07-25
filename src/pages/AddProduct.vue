@@ -46,51 +46,60 @@
 </script>
 
 <template>
-  <div class="container my-5 d-flex justify-content-center">
-    <div class="card shadow-lg p-4 w-100" style="max-width: 600px;">
-      <h2 class="text-center text-primary mb-4">🛒 Add New Product</h2>
+  <div class="container my-5 d-flex justify-content-center text-primary">
+    <div class="card shadow-lg rounded-4 p-4 w-100" style="max-width: 640px;">
+      <!-- Header -->
+      <h2 class="text-center mb-4 fw-bold bg-primary text-white py-3 rounded-4 shadow-sm">
+        🛒 Add New Product
+      </h2>
 
+      <!-- Form -->
       <form @submit.prevent="submitProduct">
+        <!-- Product Name -->
         <div class="mb-3">
-          <label for="name" class="form-label fw-bold">Product Name</label>
+          <label for="name" class="form-label fw-semibold">Product Name</label>
           <input
             v-model="product.name"
             type="text"
             id="name"
-            class="form-control"
+            class="form-control rounded-pill px-3 py-2 shadow-sm"
             placeholder="Enter product name"
             required
           />
         </div>
 
+        <!-- Description -->
         <div class="mb-3">
-          <label for="description" class="form-label fw-bold">Description</label>
+          <label for="description" class="form-label fw-semibold">Description</label>
           <textarea
             v-model="product.description"
             id="description"
-            class="form-control"
+            class="form-control rounded-3 px-3 py-2 shadow-sm"
             rows="3"
             placeholder="Describe the product..."
             required
           ></textarea>
         </div>
 
+        <!-- Price -->
         <div class="mb-3">
-          <label for="price" class="form-label fw-bold">Price (₱)</label>
+          <label for="price" class="form-label fw-semibold">Price (₱)</label>
           <input
             v-model.number="product.price"
             type="number"
             id="price"
-            class="form-control"
-            placeholder="Enter product price"
+            class="form-control rounded-pill px-3 py-2 shadow-sm"
             min="1"
+            placeholder="Enter product price"
             required
           />
         </div>
 
-        <button type="submit" class="btn btn-warning w-100 mt-4"> Add Product</button>
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-warning w-100 py-2 fw-bold rounded-pill shadow-sm mt-4">
+          Add Product
+        </button>
       </form>
     </div>
   </div>
 </template>
-

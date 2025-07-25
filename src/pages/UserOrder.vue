@@ -35,24 +35,32 @@ const filteredOrders = computed(() => {
 
 <template>
   <div class="container mt-5 text-primary">
-    <h2 class="text-center mb-4 ">User Orders</h2>
+    <!-- Page Title -->
+    <h2 class="text-center mb-4 fw-semibold bg-primary text-white py-3 rounded shadow-sm">
+      User Orders
+    </h2>
 
- 
+    <!-- Search Input + Button -->
     <div class="mb-4 text-center">
-      <input
-        v-model="searchOrderId"
-        type="text"
-        class="form-control w-50 d-inline-block"
-        placeholder="Search by Order ID..."
-      />
+      <div class="input-group w-50 d-inline-flex justify-content-center">
+        <input
+          v-model="searchOrderId"
+          type="text"
+          class="form-control rounded-start-pill px-4 py-2 border-warning shadow-sm"
+          placeholder="Search by Order ID..."
+        />
+        <button class="btn btn-warning rounded-end-pill px-4" @click="triggerSearch">
+          Search
+        </button>
+      </div>
     </div>
 
+    <!-- Loading Indicator -->
+    <div v-if="loading" class="text-center text-muted fs-5">Loading...</div>
 
-    <div v-if="loading">Loading...</div>
-
-
-    <table v-else class="table table-bordered table-striped text-center align-middle">
-      <thead class="table-primary">
+    <!-- Orders Table -->
+    <table v-else class="table table-bordered border-primary table-striped text-center align-middle shadow-sm">
+      <thead class="table-primary text-white">
         <tr>
           <th>Order ID</th>
           <th>User Name</th>
@@ -69,7 +77,7 @@ const filteredOrders = computed(() => {
           <td>
             <ul class="list-unstyled mb-0">
               <li v-for="item in order.productsOrdered" :key="item.productId?._id">
-                {{ item.productId?.name || 'Unknown Product' }}
+                🍰 {{ item.productId?.name || 'Unknown Product' }}
               </li>
             </ul>
           </td>
@@ -80,10 +88,36 @@ const filteredOrders = computed(() => {
               </li>
             </ul>
           </td>
-          <td>₱{{ order.totalPrice.toFixed(2) }}</td>
+          <td class="fw-bold">₱{{ order.totalPrice.toFixed(2) }}</td>
           <td>{{ new Date(order.orderedOn).toLocaleString() }}</td>
         </tr>
       </tbody>
     </table>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      searchOrderId: '',
+      loading: false,
+      orders: [], // original orders array
+    };
+  },
+  computed: {
+    filteredOrders() {
+      if (!this.searchOrderId) return this.orders;
+      return this.orders.filter(order =>
+        order._id.toLowerCase().includes(this.searchOrderId.toLowerCase())
+      );
+    },
+  },
+  methods: {
+    triggerSearch() {
+      // You can add custom logic here if needed
+      console.log("Searching for:", this.searchOrderId);
+    },
+  },
+};
+</script>
