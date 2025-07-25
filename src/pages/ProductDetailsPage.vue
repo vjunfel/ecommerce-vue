@@ -83,11 +83,11 @@ onBeforeMount(async () => {
 				>
 					Add to Cart
 				</button>
-
+				
 				<button	class="btn btn-warning"	type="button"
 					v-if="userStore.email && userStore.isAdmin" disabled
 				>
-					Admin are not allowed to buy
+					Admin not allowed
 				</button>
 
 				<router-link to="/login" class="btn btn-outline-danger"	type="button"
