@@ -1,150 +1,178 @@
 <script setup>
-	import {ref, onMounted} from 'vue'
-  import axios from 'axios'
-  import { useRouter } from 'vue-router'
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import Swal from "sweetalert2";
+import api from "@/api";
 
-  const router = useRouter()
+const router = useRouter();
+const products = ref([]);
 
-  const products = ref([])
+const fetchProducts = async () => {
+	try {
+		const res = await api.get("/products/all");
+		products.value = res.data;
+	} catch (error) {
+		console.error("Error getting the product!", error);
+	}
+};
 
-  const fetchProducts = async () => {
-    try {
-      const token = localStorage.getItem('token')
-      const res = await axios.get ('http://localhost:4000/products/all',{
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      products.value = res.data
-    } catch (error) {
-      console.error ('Error getting the product!', error)
-    }
-  }
-  onMounted(fetchProducts)
+onMounted(fetchProducts);
 
-  const goToAddProduct = () => {
-    router.push('/add-product')
-  }
+const goToAddProduct = () => {
+	router.push("/add-product");
+};
 
-  const updateProduct = (id) => {
-    router.push({ name: 'UpdateProduct', params: { id } })
-  }
+const updateProduct = (id) => {
+	router.push({ name: "UpdateProduct", params: { id } });
+};
 
-  const toggleAvailability = async (product) => {
-    const token = localStorage.getItem('token')
-    const action = product.isActive ? 'archive' : 'activate'
+const toggleAvailability = async (product) => {
+	const action = product.isActive ? "archive" : "activate";
 
-    try {
-      await axios.patch ( `http://localhost:4000/products/${product._id}/${action}`, {},
-      {
+	try {   
+		await api.patch(`/products/${product._id}/${action}`);
+    
+    Swal.fire("", `Product ${product.isActive ? "disabled" : "enabled"} successfully!`, "success");
+		await fetchProducts();
+    
+	} catch (error) {
+		console.error(`Failed to ${action} product`, error);
+		alert(`Failed to ${action} product.`);
+	}
+};
 
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-
-      }
-
-      )
-       alert(`Product ${product.isActive ? 'disabled' : 'enabled'} successfully!`)
-    await fetchProducts()
-    } catch (error) {
-      console.error(`Failed to ${action} product`, error)
-      alert(`Failed to ${action} product.`)
-    }
-  }
-
-  const goToUserOrders = () => {
-    router.push('/user-orders')
-  }
-
+const goToUserOrders = () => {
+	router.push("/user-orders");
+};
 </script>
 
 <template>
-  <div class="container mt-4">
-    <!-- Dashboard Header -->
-    <h1 class="my-5 pt-3 text-center text-white fw-bold bg-primary p-3 rounded shadow-sm">
-      Admin Dashboard
-    </h1>
+	<div class="container mt-4 p-1">
+		<div class="mb-4 p-2 text-center">
+			<button @click="goToAddProduct" class="btn btn-custom-outline mx-2">
+        <i class="bi bi-cake2"></i>
+				<span class="ms-2">Add Product</span>
+			</button>
+			<button @click="goToUserOrders" class="btn btn-custom-dark mx-2">
+        <i class="bi bi-cart-check"></i>
+        <span class="ms-2">Show User Orders</span>
+			</button>
+		</div>
 
-    <!-- Top Action Buttons -->
-    <section class="mb-3 text-center">
-      <button class="btn btn-primary m-3 px-4 py-2 shadow-sm" @click="goToAddProduct">
-        Add Product
-      </button>
-      <button class="btn btn-primary m-3 px-4 py-2 shadow-sm" @click="goToUserOrders">
-        Show User Orders
-      </button>
-    </section>
-
-    <!-- Products Table -->
-    <section class="container">
-      <table class="table table-bordered border-primary mt-3 shadow-sm">
-        <thead class="table-primary text-white text-center">
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Availability</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="product in products" :key="product._id">
-            <td>{{ product.name }}</td>
-            <td>{{ product.description }}</td>
-            <td>₱{{ product.price.toFixed(2) }}</td>
-            <td>
-              <span :class="product.isActive ? 'text-white fw-bold bg-primary px-2 py-1 rounded' : 'text-primary fw-bold bg-light px-2 py-1 rounded'">
-                {{ product.isActive ? 'Active' : 'Not Available' }}
-              </span>
-            </td>
-            <td>
-              <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-2">
-                <button class="btn btn-warning btn-sm shadow-sm px-3" @click="updateProduct(product._id)">
-                  Update
-                </button>
-                <button
-                  class="btn btn-sm shadow-sm px-3"
-                  :class="product.isActive ? 'btn-danger' : 'btn-success'"
-                  @click="toggleAvailability(product)"
-                >
-                  {{ product.isActive ? 'Disable' : 'Enable' }}
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-  </div>
+		<!-- Products Table -->
+		<section class="container">
+			<table class="table table-bordered border-secondary mt-3 shadow-sm">
+				<thead class="table-primary text-white text-center">
+					<tr>
+						<th>Name</th>
+						<th>Description</th>
+						<th>Price</th>
+						<th>Availability</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr
+						v-for="product in products"
+						:key="product._id"
+					>
+						<td>{{ product.name }}</td>
+						<td>{{ product.description }}</td>
+						<td class="text-end">₱{{ product.price.toFixed(2) }}</td>
+						<td class="text-center">
+							<span
+								:class="
+									product.isActive
+										? 'text-success'
+										: 'text-danger'
+								"
+							>
+								{{ product.isActive ? "Active" : "Not Available" }}
+							</span>
+						</td>
+						<td>
+							<div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3">
+								<button
+									class="btn-custom-outline-sm btn"
+									@click="updateProduct(product._id)"
+								>
+									Update
+								</button>
+								<button
+                  style="width: 70px;"
+									class="btn btn-sm shadow-sm"
+									:class="
+										product.isActive ? 'btn-secondary' : 'btn-success'
+									"
+									@click="toggleAvailability(product)"
+								>
+									{{ product.isActive ? "Disable" : "Enable" }}
+								</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+	</div>
 </template>
 
 <style scoped>
-.bg-primary {
-  background-color: #0d6efd;
+.btn-custom-dark {
+  background-color: #333;
+  color: white;
+  padding: 8px 1.2rem;
+  text-align: center;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 400;
+  outline: 1px solid;
+  transition: background-color 0.2s ease;
+}
+.btn-custom-dark:hover {
+  background-color: hsl(46, 100%, 55%);
+  color: #333;
+  outline: 1px solid hsl(46, 100%, 55%);;
+  text-align: center;
+  border-radius: 5px;
 }
 
-.border-primary {
-  border-color: #0d6efd !important;
+.btn-custom-outline {
+  background-color: #fff;
+  color: #333;
+  outline: 1px solid;
+  padding: 8px 1.2rem;
+  text-align: center;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 400;
+  
+  transition: background-color 0.2s ease;
+}
+.btn-custom-outline:hover {
+  background-color: hsl(46, 100%, 55%);
+  color: #333;
+  outline: 1px solid hsl(46, 100%, 55%);;
+  text-align: center;
+  border-radius: 5px;
 }
 
-.table-primary {
-  background-color: #0d6efd;
+.btn-custom-outline-sm {
+  background-color: #fff;
+  color: #333;
+  padding: 2px 8px;
+  text-align: center;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 400;
+  box-shadow: 0 0 4px rgba(0, 0, 0, .3);
+  transition: background-color 0.1s ease;
 }
-
-.btn-primary {
-  background-color: #0d6efd;
-  border: none;
-  color: #fff;
-}
-
-.text-primary {
-  color: #0d6efd !important;
-}
-
-.btn-warning {
-  background-color: #ffc107;
-  border: none;
-  color: #212529;
+.btn-custom-outline-sm:hover {
+  background-color: hsl(46, 100%, 55%);
+  color: #333;
+  outline: 1px solid hsl(46, 100%, 55%);;
+  text-align: center;
+  border-radius: 5px;
 }
 </style>
