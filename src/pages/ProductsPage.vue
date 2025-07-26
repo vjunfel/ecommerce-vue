@@ -28,8 +28,6 @@ watch(
 	{ immediate: true }
 );
 
-console.log(userStore.isAdmin ? "admin-user": "not admin")
-console.log(userStore.token ? "has token": "no token")
 </script>
 
 <template>	
@@ -40,7 +38,7 @@ console.log(userStore.token ? "has token": "no token")
 		</div>
 		
 		<div class="text-center p-5 m-5" v-if="userStore.isLoading"> 
-			<div class="spinner-border m-3"></div>
+			<div class="spinner-border m-3 text-warning"></div>
 			<p>Loading...</p>
 		</div>
 		

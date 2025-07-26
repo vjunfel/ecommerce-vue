@@ -40,7 +40,7 @@ const handleSubmit = async () => {
 
 <template>
 	<div class="container-fluid">
-		<h1 class="my-5 text-warning text-center">Login Page</h1>
+		<h1 class="my-5 text-warning text-center">Login</h1>
 		<div class="row d-flex justify-content-center ">
 			<div class="col-md-5 border border rounded-3 mx-auto p-5 shadow-lg">
 				<form @submit.prevent="handleSubmit">
