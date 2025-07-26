@@ -1,52 +1,31 @@
+<script setup lang="ts">
+import highligthProps from '@/data/capCakes';
+
+</script>
+
  <template>
- 	<div class="row my-5">
- 		<h1 class="text-center text-dark mb-5">Why choose CapCAKES?</h1>
-				
-		<div id="highlight2" class="col-md-4">
-				<div class="card p-2 min-height-100">
-						<div class="card-body">
-								<h1 class="text-center display-1 text-warning">
-									<i class="bi bi-gem"></i>
-								</h1>
-								<h4 class="card-title text-center">
-										Premium Quality
-								</h4>
-								<p class="card-text mt-3">
-										Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat eum molestiae nisi mollitia minima quidem? Veniam consequatur enim cumque odio dolorem, ullam adipisci nobis deserunt repudiandae excepturi harum at debitis.
-							</p>
-						</div>
+	<section class="container pt-5">
+		<h1 class="text-center text-dark mb-5">Why choose CapCAKES?</h1>
+
+		<div class="row">
+			<div
+				class="col-12 col-md-6 col-lg-4 my-3"
+				v-for="item in highligthProps"
+				:key="item.title"
+			>
+				<div class="card cardHighlights shadow-sm h-100 py-3">
+					<h1 class="text-center display-1 text-warning">
+						<i :class="item.icon"></i>
+					</h1>
+
+					<div class="card-body text-center">
+						<h4 class="card-title fw-bold mb-2">{{ item.title }}</h4>
+						<p class="card-text text-muted mb-2">
+							{{ item.description.slice(0, 100) + (item.description.length > 100 ? '...' : '') }}
+						</p>
+					</div>
 				</div>
+			</div>
 		</div>
-		
-		<div id="highlight1" class="col-md-4">
-				<div id="highlight1" class="card p-2 min-height-100">
-						<div class="card-body">
-								<h1 class="text-center display-1 text-warning"><i class="bi bi-cake"></i></h1>
-								<h4 class="card-title text-center">
-									Ultra Delecios
-								</h4>
-								<p class="card-text mt-3">
-									Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat eum molestiae nisi mollitia minima quidem? Veniam consequatur enim cumque odio dolorem, ullam adipisci nobis deserunt repudiandae excepturi harum at debitis.
-							</p>
-						</div>
-				</div>
-		</div>
-	    	         
-		<div id="highlight3" class="col-md-4">
-				<div class="card p-2 min-height-100">
-						<div class="card-body">
-								<h1 class="text-center display-1 text-warning">
-									<i class="bi bi-cash-coin"></i>
-								</h1>
-								<h4 class="card-title text-center">
-										Affordable
-								</h4>
-								<p class="card-text mt-3">
-										Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat eum molestiae nisi mollitia minima quidem? Veniam consequatur enim cumque odio dolorem, ullam adipisci nobis deserunt repudiandae excepturi harum at debitis.
-								</p>
-						</div>
-				</div>
-		</div>
-			
-	</div>
+	</section>
 </template>
