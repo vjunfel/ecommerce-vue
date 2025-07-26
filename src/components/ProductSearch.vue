@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from "vue";
 import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
 import api from "@/api";
 import ProductSearchResult from "./ProductSearchResult.vue";
 
@@ -28,11 +27,6 @@ const searchProducts = async () => {
 
 		products.value = response.data || [];
 
-		if (products.value.length) {
-			// notyf.success(`Found ${products.value.length} product(s).`);
-		} else {
-			notyf.error("No product found.");
-		}
 	} catch (error) {
 		console.error(error);
 		notyf.error("Something went wrong while searching.");
@@ -40,13 +34,10 @@ const searchProducts = async () => {
 		loading.value = false;
 	}
 };
-
-
-	
 </script>
 
 <template>
-	<div class="container">
+	<section class="container mb-4">
 		<h2 class="m-3 text-center">Search Products</h2>
 		
 		<div class="row text-center custom-search">
@@ -72,7 +63,7 @@ const searchProducts = async () => {
 		</div>
 		
 		<div class="text-center p-5" v-if="loading"> 
-			<div class="spinner-border m-3"></div>
+			<div class="spinner-border m-3 text-warning"></div>
 			<p>Searching...</p>
 		</div>
 
@@ -94,9 +85,9 @@ const searchProducts = async () => {
 
 		<!-- No results -->
 		<div v-else-if="!loading && hasSearched" class="text-center pt-5 pb-4 mb-4 text-muted  rounded shadow-sm">
-			<p>No products found. Try a different name.</p>
+			<p class="text-danger">No products found. Try a different name.</p>
 		</div>
-	</div>
+	</section>
 </template>
 
 <style scoped>
