@@ -22,6 +22,8 @@ import DashboardPage from './pages/DashboardPage.vue';
 import CartPage from './pages/CartPage.vue';
 import ProductDetailsPage from './pages/ProductDetailsPage.vue';
 import UserOrder from './pages/UserOrder.vue';
+import ResetPassword from './components/ResetPassword.vue';
+import UpdateProfile from './components/UpdateProfile.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -85,6 +87,16 @@ const router = createRouter({
           path: "/cart",
           name: "Cart",
           component: CartPage,
+        },
+        {
+          path: "/reset-password",
+          name: "ResetPassword",
+          component: ResetPassword,
+        },
+        {
+          path: "/update-profile",
+          name: "UpdateProfile",
+          component: UpdateProfile, 
         },
         {
           path: '/:catchAll(.*)',

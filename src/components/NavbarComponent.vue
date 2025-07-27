@@ -30,9 +30,9 @@
             v-if="!userStore.isAdmin && userStore.email">
             Cart
           </router-link>
-          <!-- <router-link :to="{ name: 'Profile' }" class="nav-link" v-if="userStore.email">
+         <router-link :to="{ name: 'Profile' }" class="nav-link" v-if="userStore.email">
             Profile
-          </router-link> -->
+          </router-link> 
           <router-link :to="{ name: 'Dashboard' }" class="nav-link" v-if="userStore.isAdmin">
             Dashboard
           </router-link>

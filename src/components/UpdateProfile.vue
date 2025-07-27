@@ -1,98 +1,106 @@
-<script setup>
-import { ref, onMounted } from "vue";
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
-import api from "@/api";
-import { useUserStore } from "@/stores/userStore";
+	<script setup>
+	import { ref, onMounted } from "vue";
+	import { Notyf } from "notyf";
+	import "notyf/notyf.min.css";
+	import api from "@/api";
+	import { useUserStore } from "@/stores/userStore";
 
-const global = useUserStore();
-const loading = ref(false);
-const notyf = new Notyf();
+	const user = useUserStore();
+	const loading = ref(false);
+	const notyf = new Notyf();
 
-const profile = ref({
-	firstName: "",
-	lastName: "",
-	mobileNo: "",
-});
+	const profile = ref({
+	  firstName: "",
+	  lastName: "",
+	  mobileNo: "",
+	});
 
-// Prefill user info on mount
-onMounted(() => {
-	if (global.user) {
-		profile.value.firstName = global.user.firstName || "";
-		profile.value.lastName = global.user.lastName || "";
-		profile.value.mobileNo = global.user.mobileNo || "";
-	}
-});
+	onMounted(() => {
+	  profile.value.firstName = user.firstName || "";
+	  profile.value.lastName = user.lastName || "";
+	  profile.value.mobileNo = user.mobileNo || "";
+	});
 
-const updateProfile = async () => {
-	try {
-		loading.value = true;
+	const updateProfile = async () => {
+	  try {
+	    loading.value = true;
+	    const token = user.token || localStorage.getItem("token");
 
-		await api.put("/users/profile",{
-				firstName: profile.value.firstName,
-				lastName: profile.value.lastName,
-				mobileNo: profile.value.mobileNo,
-			}
-		);
+	    if (!token) {
+	      notyf.error("You are not authorized");
+	      loading.value = false;
+	      return;
+	    }
 
-		notyf.success("Profile updated successfully");
-	} catch (err) {
-		const msg = err.response?.data?.message || "Update failed";
-		notyf.error(msg);
-	} finally {
-		loading.value = false;
-	}
-};
-</script>
+	    const res = await api.patch(
+	      "/users/update-profile",
+	      { ...profile.value },
+	      {
+	        headers: {
+	          Authorization: `Bearer ${token}`,
+	        },
+	      }
+	    );
 
-<template>
-	<div class="container mt-5">
-		<div class="row justify-content-center">
-			<div class="col-md-6">
-				<div class="card shadow-sm">
-					<div class="card-body">
-						<h3 class="card-title mb-4">Update Profile</h3>
-						<form @submit.prevent="updateProfile">
-							<div class="mb-3">
-								<label class="form-label">First Name</label>
-								<input
-									type="text"
-									v-model="profile.firstName"
-									class="form-control"
-									required
-								/>
-							</div>
-							<div class="mb-3">
-								<label class="form-label">Last Name</label>
-								<input
-									type="text"
-									v-model="profile.lastName"
-									class="form-control"
-									required
-								/>
-							</div>
-							<div class="mb-3">
-								<label class="form-label">Mobile Number</label>
-								<input
-									type="tel"
-                  pattern="[0-9]{11}"
-                  title="Enter a valid 11-digit mobile number"
-									v-model="profile.mobileNo"
-									class="form-control"
-									required
-								/>
-							</div>
-							<button
-								type="submit"
-								class="btn btn-primary w-100"
-								:disabled="loading"
-							>
-								{{ loading ? "Updating..." : "Update Profile" }}
-							</button>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</template>
+	    user.updateProfileLocally(res.data.user);
+	    notyf.success("Profile updated successfully");
+	  } catch (err) {
+	    const msg = err.response?.data?.message || "Update failed";
+	    notyf.error(msg);
+	    console.error("Update failed:", err.response?.data || err.message);
+	  } finally {
+	    loading.value = false;
+	  }
+	};
+	</script>
+
+	<template>
+	  <div class="container mt-5">
+	    <div class="row justify-content-center">
+	      <div class="col-md-6">
+	        <div class="card shadow-sm">
+	          <div class="card-body">
+	            <h3 class="card-title mb-4 text-center">Update Profile</h3>
+	            <form @submit.prevent="updateProfile">
+	              <div class="mb-3">
+	                <label class="form-label">First Name</label>
+	                <input
+	                  type="text"
+	                  v-model="profile.firstName"
+	                  class="form-control"
+	                  required
+	                  placeholder="Enter your first name"
+	                />
+	              </div>
+	              <div class="mb-3">
+	                <label class="form-label">Last Name</label>
+	                <input
+	                  type="text"
+	                  v-model="profile.lastName"
+	                  class="form-control"
+	                  required
+	                  placeholder="Enter your last name"
+	                />
+	              </div>
+	              <div class="mb-3">
+	                <label class="form-label">Mobile Number</label>
+	                <input
+	                  type="tel"
+	                  v-model="profile.mobileNo"
+	                  class="form-control"
+	                  required
+	                  pattern="[0-9]{11}"
+	                  title="Enter a valid 11-digit mobile number"
+	                  placeholder="09XXXXXXXXX"
+	                />
+	              </div>
+	              <button type="submit" class="btn btn-outline-warning	 w-100" :disabled="loading">
+	                {{ loading ? "Updating..." : "Update Profile" }}
+	              </button>
+	            </form>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</template>
