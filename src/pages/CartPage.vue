@@ -1,14 +1,28 @@
+<script setup>
+import { computed, onMounted, ref } from "vue";
+import { useCartStore } from "@/stores/cartStore";
+import { useProductStore } from "@/stores/productStore";
+import CartItemComponent from "@/components/CartItemComponent.vue";
+import CartCheckOut from "@/components/CartCheckOut.vue";
+
+const cart = useCartStore();
+const productStore = useProductStore();
+
+onMounted(() => {
+	cart.getUserCart();
+	productStore.fetchProducts()
+});
+
+const totalPrice = computed(() => cart.cart?.totalPrice || 0);
+</script>
+
 <template>
-	<div class="container-fluid row">
-		<div class="col my-5 text-center">
-			<h1 class="text-center text-primary py-1">CART</h1>
-			<!-- <p class="text-center">Select a product to enroll in!</p> -->
-       <div class="text-center py-5">
-        <div class="my-5">
-          <h2>Cart Items</h2>
-        </div>
-        <button class="btn btn-warning px-4 py-2">Check out</button>
-       </div>
+	<section class="container my-5 p-4 bg-light rounded">
+		<h1 class="text-center text-warning pb-4">Cart Details</h1>
+
+		<div class="row my-2">
+			<CartItemComponent />
+			<!-- <CartCheckOut /> -->
 		</div>
-	</div>
+	</section>
 </template>

@@ -79,7 +79,7 @@ onBeforeMount(async () => {
 		>
 			<div class="col-12 col-md-6">
 				<img 
-					style="height: 300px; object-fit: contain;"
+					style="height: 500px; object-fit: contain;"
 					class="card-img-top img-fluid"
 					:src="product.data && product.data.src ? product.data.src : imgSource"
 					:alt="product?.data?.name || 'CapCakes product image'"
