@@ -3,6 +3,7 @@ import imgSource from "@/assets/images/Image-placeholder.jpg";
 import { useCartStore } from "@/stores/cartStore";
 import { useProductStore } from "@/stores/productStore";
 import { computed, onMounted, toRef, watch } from "vue";
+import Swal from 'sweetalert2'
 
 onMounted(() => {
 	cartStore.getUserCart();
@@ -66,6 +67,10 @@ const handleClear = async () => {
 		productStore.loading = false
 	}
 }
+
+const addToFavorites = (productName) => {
+	Swal.fire(`${productName}`, `Added to favorites`, 'success');
+}
 </script>
 
 <template>
@@ -121,7 +126,7 @@ const handleClear = async () => {
 							:to="{ path: `/products/${item.productId}` }"
 							class="text-decoration-none text-dark"
 						>
-							<h5 class="fw-bold">{{ item.product.name }}</h5>
+							<h5 class="fw-semibold">{{ item.product.name }}</h5>
 						</router-link>
 		
 						<div class="flex-grow-1">
@@ -145,10 +150,10 @@ const handleClear = async () => {
 
 					<!-- Price -->
 					<div id="product-price" class="text-end ms-4">
-						<p class="fs-5 fw-bold">₱{{ item.product.price }}</p>
+						<p class="fs-5 fw-semibold">₱{{ item.product.price }}</p>
 						<div class="d-flex gap-1 justify-content-end">
 							
-							<button class="custom-btn-icon"><i class="bi bi-heart"></i></button>
+							<button @click="addToFavorites(item.product.name)" class="custom-btn-icon"><i class="bi bi-heart"></i></button>
 							<button 
 								@click="handleRemove(item.productId, item.product.name)" 
 								class="custom-btn-icon">
