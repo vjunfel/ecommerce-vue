@@ -1,6 +1,6 @@
 {
-    "urlFrontend": "",
-    "urlBackend": "https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production",
+    "urlFrontend": "http://zuitt-bootcamp-prod-560-8930-velasco.s3-website.us-east-1.amazonaws.com/",
+    "urlBackend": "https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/",
     "routesPrefix": {
 
         "users": "/users",
