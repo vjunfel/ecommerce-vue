@@ -32,7 +32,7 @@ async function handleAddToCart() {
 
     if (res.status === 201) {
       notyf.success("Product added to Cart");
-      // router.push({ path: "/products" });
+      router.push({ path: "/products" });
     } else {
       notyf.error("Adding Failed");
     }
@@ -79,7 +79,7 @@ onBeforeMount(async () => {
 		>
 			<div class="col-12 col-md-6">
 				<img 
-					style="height: 300px; object-fit: contain;"
+					style="height: 500px; object-fit: contain;"
 					class="card-img-top img-fluid"
 					:src="product.data && product.data.src ? product.data.src : imgSource"
 					:alt="product?.data?.name || 'CapCakes product image'"
