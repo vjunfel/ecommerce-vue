@@ -1,39 +1,54 @@
 <script setup>
-import { ref } from 'vue'
-import { Notyf } from 'notyf'
-import 'notyf/notyf.min.css'
-import api from '../api' // adjust path to your api instance
-import { useUserStore } from '../stores/userStore';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+import api from '../api';
 
-const newPassword = ref('')
-const loading = ref(false)
-const notyf = new Notyf()
+const newPassword = ref('');
+const loading = ref(false);
+const router = useRouter();
+const notyf = new Notyf();
 
 const handleReset = async () => {
   try {
-    loading.value = true
+    loading.value = true;
 
-    // const token = localStorage.getItem('token') // or from Pinia store, etc.
-    const { user } = useUserStore();
+    // ✔️ Get token stored directly from localStorage
+    const token = localStorage.getItem("token");
 
-    if (!user.token) {
-      notyf.error('You are not authorized')
-      loading.value = false
-      return
+    if (!token) {
+      notyf.error("You are not authorized");
+      loading.value = false;
+      return;
     }
 
-    await api.put('/users/reset-password', { newPassword: newPassword.value })
+  
+    await api.patch(
+      '/users/update-password',
+      { newPassword: newPassword.value },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
 
-    notyf.success('Password reset successfully')
-    newPassword.value = ''
+    notyf.success("Password reset successfully");
+    newPassword.value = '';
+
+    router.push('/dashboard'); // Or any route you prefer
+
   } catch (err) {
-    const msg = err.response?.data?.message || 'Password reset failed'
-    notyf.error(msg)
+    const msg = err.response?.data?.message || "Password reset failed";
+    notyf.error(msg);
+    console.error("Reset failed:", err.response?.data || err.message);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 </script>
+
 
 <template>
   <div class="container mt-5">
@@ -41,7 +56,7 @@ const handleReset = async () => {
       <div class="col-md-6">
         <div class="card shadow-sm">
           <div class="card-body">
-            <h3 class="card-title mb-4">Reset Password</h3>
+            <h3 class="card-title mb-4 text-center">Reset Password</h3>
             <form @submit.prevent="handleReset">
               <div class="mb-3">
                 <label for="newPassword" class="form-label">New Password</label>
@@ -51,9 +66,14 @@ const handleReset = async () => {
                   v-model="newPassword"
                   class="form-control"
                   required
+                  placeholder="Enter your new password"
                 />
               </div>
-              <button type="submit" class="btn btn-primary w-100" :disabled="loading">
+              <button
+                type="submit"
+                class="btn btn-outline-warning w-100"
+                :disabled="loading"
+              >
                 {{ loading ? 'Resetting...' : 'Reset Password' }}
               </button>
             </form>
