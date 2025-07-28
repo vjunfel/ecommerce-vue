@@ -32,7 +32,7 @@ async function handleAddToCart() {
 
     if (res.status === 201) {
       notyf.success("Product added to Cart");
-      // router.push({ path: "/products" });
+      router.push({ path: "/products" });
     } else {
       notyf.error("Adding Failed");
     }

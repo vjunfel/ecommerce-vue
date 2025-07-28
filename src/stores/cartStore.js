@@ -1,6 +1,7 @@
 import api from "@/api";
 import { defineStore } from "pinia";
 
+
 export const useCartStore = defineStore("cart", {
 	state: () => ({
 		cartItems: [],
@@ -8,6 +9,7 @@ export const useCartStore = defineStore("cart", {
 		userId: null,
 		cartId: null,
 		cart: null,
+		quantity: null,
 	}),
 
 	getters: {
@@ -20,6 +22,25 @@ export const useCartStore = defineStore("cart", {
 	actions: {
 		setUser(userId) {
 			this.userId = userId;
+		},
+		
+		async updateQuantity( productId, newQuantity) {
+			try {
+				const res = await api.patch("/cart/update-cart-quantity", {
+					productId, newQuantity
+				});
+				
+				// console.log("RESPONSE ======>>>", res.data);
+				
+				const prod = res.data.updatedCart.cartItems.filter(p => p.productId === productId)
+				this.quantity = prod[0].quantity
+				this.cartItems = res.data.updatedCart.cartItems;
+				
+				// console.log("******** QUANTITY **********", prod[0].quantity);
+				
+			} catch (err) {
+				console.error("Failed to fetch cart:", err);
+			}
 		},
 
 		async getUserCart() {
@@ -36,6 +57,7 @@ export const useCartStore = defineStore("cart", {
 				this.cartItems = res.data.cart.cartItems;
 				this.userId = res.data.cart.userId;
 				this.cartId = res.data.cart._id;
+				this.quantity = res.data.cart.cartItems.quantity
 				
 			} catch (error) {
 				console.error("Failed to fetch cart:", error);
@@ -43,20 +65,39 @@ export const useCartStore = defineStore("cart", {
 		},
 
 		addToCart(item) {
-			const existing = this.items.find((i) => i._id === item._id);
+			const existing = this.cartItems.find((i) => i._id === item._id);
 			if (existing) {
 				existing.quantity += item.quantity;
 			} else {
-				this.items.push({ ...item });
+				this.cartItems.push({ ...item });
 			}
 		},
 
-		removeFromCart(id) {
-			this.items = this.items.filter((item) => item._id !== id);
+		async removeFromCart(selectedId) {
+			const res = await api.patch(`/cart/${selectedId}/remove-from-cart`);
+			
+			if (res.status !== 200) {
+					throw new Error("No data found!");
+			}
+			
+			this.cartItems = [...this.cartItems.filter(item => item.productId !== selectedId)];
 		},
 
-		clearCart() {
-			this.items = [];
+		async clearCart() {
+			try {
+				const res = await api.put("/cart/clear-cart");
+				
+				// console.log("CART CLEARED", res.data.cart);
+
+				if (res.status !== 200) {
+					throw new Error("No data found!");
+				}
+				
+				this.cartItems = [];
+				
+			} catch (error) {
+				console.error("Failed to fetch cart:", error);
+			}
 		},
 	},
 });
