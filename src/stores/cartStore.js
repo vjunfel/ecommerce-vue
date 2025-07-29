@@ -10,6 +10,7 @@ export const useCartStore = defineStore("cart", {
 		cartId: null,
 		cart: null,
 		quantity: null,
+		shippingFee: 50,
 	}),
 
 	getters: {
@@ -47,7 +48,9 @@ export const useCartStore = defineStore("cart", {
 			try {
 				const res = await api.get("/cart/get-cart");
 				
+				// console.log("RESPONSE data", res.data);
 				// console.log("RESPONSE CART", res.data.cart);
+				// console.log("RESPONSE CART-ITEMS", res.data.cart.cartItems);
 
 				if (res.status !== 200) {
 					throw new Error("No data found!");
@@ -58,13 +61,14 @@ export const useCartStore = defineStore("cart", {
 				this.userId = res.data.cart.userId;
 				this.cartId = res.data.cart._id;
 				this.quantity = res.data.cart.cartItems.quantity
+				this.orderedOn = res.data.cart.orderedOn
 				
 			} catch (error) {
 				console.error("Failed to fetch cart:", error);
 			}
 		},
 
-		addToCart(item) {
+		async addToCart(item) {
 			const existing = this.cartItems.find((i) => i._id === item._id);
 			if (existing) {
 				existing.quantity += item.quantity;
@@ -99,5 +103,23 @@ export const useCartStore = defineStore("cart", {
 				console.error("Failed to fetch cart:", error);
 			}
 		},
+		
+		async chekoutCartItems(orderPayload) {
+			try {
+				const res = await api.post("/orders/checkout", { orderPayload });
+				
+				console.log("CHECKOUT", res);
+				console.log("CHECKOUT data", res.data);
+
+				if (res.status !== 201) {
+					throw new Error("No data found!");
+				}
+				
+				// this.cartItems = [];
+				
+			} catch (error) {
+				console.error("Failed to fetch cart:", error);
+			}
+		}
 	},
 });

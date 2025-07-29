@@ -10,19 +10,19 @@ const productStore = useProductStore();
 
 onMounted(() => {
 	cart.getUserCart();
-	productStore.fetchProducts()
+	productStore.fetchActiveProducts()
 });
 
 const totalPrice = computed(() => cart.cart?.totalPrice || 0);
 </script>
 
 <template>
-	<section class="container my-5 p-4 bg-light rounded">
+	<section class="container my-5 p-4 rounded">
 		<h1 class="text-center text-warning pb-4">Cart Details</h1>
 
 		<div class="row my-2">
 			<CartItemComponent />
-			<!-- <CartCheckOut /> -->
+			<CartCheckOut />
 		</div>
 	</section>
 </template>

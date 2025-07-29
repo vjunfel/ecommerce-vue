@@ -1,9 +1,27 @@
+<script setup>
+import { useUserStore } from "../stores/userStore";
+import { useRouter } from "vue-router";
+
+const userStore = useUserStore();
+const router = useRouter();
+
+const goToUpdateProfile = () => {
+  router.push("/update-profile");
+};
+
+const goToResetPassword = () => {
+  router.push("/reset-password");
+};
+
+const viewOrders = () => {
+  router.push("/orders")
+}
+</script>
+
 <template>
-  <div class="container-fluid mt-5 text-warning" v-if="userStore.email">
+  <div class="container-fluid text-warning" v-if="userStore.email">
     <!-- Header -->
-    <h1 class="text-center fw-bold text-warning">
-      User Profile
-    </h1>
+    <h1 class="my-5 text-warning text-center">User Profile</h1>
 
     <!-- Profile Info Card -->
     <div class="row justify-content-center mt-4">
@@ -20,12 +38,10 @@
             />
 
             <!-- Full Name & Role -->
-            <h2 class="fw-bold mb-1 text-dark">
+            <h2 class="fw-bold mb-2 text-dark">
               {{ userStore.firstName }} {{ userStore.lastName }}
             </h2>
-            <span
-              class="badge"
-              :class="userStore.isAdmin ? 'bg-danger' : 'bg-warning text-dark'"
+            <span :class="userStore.isAdmin ? 'badge bg-secondary text-light' : 'badge bg-secondary text-light'"
             >
               {{ userStore.isAdmin ? 'Admin' : 'Customer' }}
             </span>
@@ -44,19 +60,27 @@
             <!-- Outline Buttons -->
             <div class="d-grid gap-3 mt-4">
               <button
-                class="btn btn-outline-warning w-100 py-2 px-3 fw-semibold shadow-sm d-flex justify-content-center align-items-center"
+                class="btn btn-warning w-100 py-2 px-3 fw-semibold shadow-sm d-flex justify-content-center align-items-center"
+                @click="viewOrders"
+              >
+                <i class="bi bi-cart2 me-2 fs-5 px-2"></i>
+                <span class="d-none d-sm-inline">View Orders</span>
+                <span class="d-sm-none">Orders</span>
+              </button>
+              <button
+                class="btn btn-success w-100 py-2 px-3 fw-semibold shadow-sm d-flex justify-content-center align-items-center"
                 @click="goToUpdateProfile"
               >
-                <i class="bi bi-pencil-square me-2 fs-5"></i>
+                <i class="bi bi-pencil-square me-2 fs-5 px-2"></i>
                 <span class="d-none d-sm-inline">Update Profile</span>
                 <span class="d-sm-none">Update</span>
               </button>
 
               <button
-                class="btn btn-outline-secondary w-100 py-2 px-3 fw-semibold shadow-sm d-flex justify-content-center align-items-center"
+                class="btn btn-danger w-100 py-2 px-3 fw-semibold shadow-sm d-flex justify-content-center align-items-center"
                 @click="goToResetPassword"
               >
-                <i class="bi bi-key me-2 fs-5"></i>
+                <i class="bi bi-key me-2 fs-5 px-2"></i>
                 <span class="d-none d-sm-inline">Reset Password</span>
                 <span class="d-sm-none">Reset</span>
               </button>
@@ -67,22 +91,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { useUserStore } from "../stores/userStore";
-import { useRouter } from "vue-router";
-
-const userStore = useUserStore();
-const router = useRouter();
-
-const goToUpdateProfile = () => {
-  router.push("/update-profile");
-};
-
-const goToResetPassword = () => {
-  router.push("/reset-password");
-};
-</script>
 
 <style scoped>
 .badge {
