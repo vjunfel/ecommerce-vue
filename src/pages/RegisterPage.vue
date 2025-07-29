@@ -34,16 +34,16 @@ watch(
 
 async function handleSubmit() {
 	try {
-		let response = await api.post("/users/register", {
+		const res = await api.post("/users/register", {
 			firstName: firstName.value,
 			lastName: lastName.value,
 			email: email.value,
 			mobileNo: mobileNum.value,
 			password: password.value,
 		});
-
-		if (response.status === 201) {
-			notyf.success(response.data.message);
+		
+		if (res.status === 201) {
+			notyf.success(res.data.message);
 
 			firstName.value = "";
 			lastName.value = "";
@@ -58,12 +58,12 @@ async function handleSubmit() {
 		}
 	} catch (e) {
 		if (
-			e.response.status === 404 ||
-			e.response.status === 401 ||
-			e.response.status === 400 ||
-			e.response.status === 409
+			e.res.status === 404 ||
+			e.res.status === 401 ||
+			e.res.status === 400 ||
+			e.res.status === 409
 		) {
-			notyf.error(e.response.data.message);
+			notyf.error(e.res.data.message);
 		} else {
 			console.error(e);
 			notyf.error("Registration failed. Please contact administrator.");
@@ -82,7 +82,7 @@ onBeforeMount(() => {
 	<div class="container-fluid">
 		<h1 class="my-5 text-warning text-center">Register</h1>
 		<div class="row d-flex justify-content-center">
-			<div class="col-md-5 border border rounded-3 mx-auto p-5 mb-5 shadow-lg">
+			<div class="col-md-5 border border-warning rounded-3 mx-auto p-5 mb-5">
 				<form v-on:submit.prevent="handleSubmit">
 					<div class="mb-3">
 						<label

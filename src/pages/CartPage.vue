@@ -10,7 +10,7 @@ const productStore = useProductStore();
 
 onMounted(() => {
 	cart.getUserCart();
-	productStore.fetchProducts()
+	productStore.fetchActiveProducts()
 });
 
 const totalPrice = computed(() => cart.cart?.totalPrice || 0);

@@ -7,7 +7,7 @@ import { useRouter } from 'vue-router';
 
 onMounted(() => {
 	cartStore.getUserCart();
-	productStore.fetchProducts();
+	productStore.fetchActiveProducts();
 });
 
 const router = useRouter();
@@ -34,16 +34,15 @@ const handleCheckout = async (items) => {
 			Swal.fire(`Order`, 'Submitted successfully!', 'success');
 
 		// Optionally clear the cart
-		// cartStore.clearCart();
+		cartStore.clearCart();
 		
-		// router.push("/user-orders");
+		router.push("/orders");
 
 	} catch (error) {
 		console.error('Checkout failed:', error);
 		alert('Checkout failed. Please try again.');
 	}
 };
-
 
 </script>
 

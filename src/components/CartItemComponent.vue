@@ -7,7 +7,7 @@ import Swal from 'sweetalert2'
 
 onMounted(() => {
 	cartStore.getUserCart();
-	productStore.fetchProducts();
+	productStore.fetchActiveProducts();
 });
 
 const cartStore = useCartStore();
@@ -82,13 +82,13 @@ const addToFavorites = (productName) => {
 		</div>
 		
 		<!-- Loading -->
-		<div
-			class="text-center my-5"
+		<!-- <div
+			class="text-center my-5 z-2"
 			v-if="productStore.loading"
 		>
 			<div class="spinner-border m-3 text-warning"></div>
 			<p>Loading...</p>
-		</div>
+		</div> -->
 
 		<!-- "CART-LIST" {{ cartItems }}  -->
 		<!-- <br />---------------------------- <br /> -->

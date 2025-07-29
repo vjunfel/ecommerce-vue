@@ -7,7 +7,7 @@ import api from "@/api";
 const router = useRouter();
 const products = ref([]);
 
-const fetchProducts = async () => {
+const fetchAllProducts = async () => {
 	try {
 		const res = await api.get("/products/all");
 		products.value = res.data;
@@ -16,7 +16,9 @@ const fetchProducts = async () => {
 	}
 };
 
-onMounted(fetchProducts);
+onMounted(
+		fetchAllProducts
+);
 
 const goToAddProduct = () => {
 	router.push("/add-product");
@@ -33,7 +35,7 @@ const toggleAvailability = async (product) => {
 		await api.patch(`/products/${product._id}/${action}`);
     
     Swal.fire("", `Product ${product.isActive ? "disabled" : "enabled"} successfully!`, "success");
-		await fetchProducts();
+		await fetchAllProducts();
     
 	} catch (error) {
 		console.error(`Failed to ${action} product`, error);
@@ -42,7 +44,7 @@ const toggleAvailability = async (product) => {
 };
 
 const goToUserOrders = () => {
-	router.push("/user-orders");
+	router.push("/orders");
 };
 </script>
 
@@ -60,7 +62,7 @@ const goToUserOrders = () => {
 		</div>
 
 		<!-- Products Table -->
-		<section class="container">
+		<section>
 			<table class="table table-bordered border-secondary mt-3 shadow-sm">
 				<thead class="table-primary text-white text-center">
 					<tr>
@@ -76,7 +78,7 @@ const goToUserOrders = () => {
 						v-for="product in products"
 						:key="product._id"
 					>
-						<td>{{ product.name }}</td>
+						<td class="text-nowrap">{{ product.name }}</td>
 						<td>{{ product.description }}</td>
 						<td class="text-end">₱{{ product.price.toFixed(2) }}</td>
 						<td class="text-center">
@@ -84,7 +86,7 @@ const goToUserOrders = () => {
 								:class="
 									product.isActive
 										? 'text-success'
-										: 'text-danger'
+										: 'text-danger text-nowrap px-1'
 								"
 							>
 								{{ product.isActive ? "Active" : "Not Available" }}

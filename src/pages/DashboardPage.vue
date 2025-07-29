@@ -1,15 +1,16 @@
 <script setup>
-import { onBeforeMount, reactive } from "vue";
-import { useRoute } from "vue-router";
-import api from "../api";
+import { onBeforeMount } from "vue";
+import { useRouter } from "vue-router";
 import AdminDashBoard from "@/components/AdminDashBoard.vue";
+import { useUserStore } from "@/stores/userStore";
 
-const product = reactive({ data: null });
-const route = useRoute();
+const router = useRouter();
+const userStore = useUserStore();
 
 onBeforeMount(async () => {
-	let { data } = await api.get(`/products/specific/${route.params.id}`);
-	product.data = data;
+	if (!userStore.email || !userStore.isAdmin) {
+		return router.push('/')
+	}
 });
 
 </script>
@@ -21,6 +22,6 @@ onBeforeMount(async () => {
       	Admin Dashboard
     	</h1>
 		</div>
-		<AdminDashBoard />
+		<AdminDashBoard v-if="userStore.isAdmin" />
 	</div>
 </template>

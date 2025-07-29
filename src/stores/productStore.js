@@ -15,11 +15,11 @@ export const useProductStore = defineStore("product", {
 	}),
 
 	actions: {
-		async fetchProducts() {
+		async fetchActiveProducts() {
 			try {
 				const res = await api.get("/products/active");
 
-				// console.log("RES PRODUCTS", res.data);
+				// console.log("ACTIVE PRODUCTS", res.data);
 
 				if (res.status !== 200) {
 					throw new Error("No data found!");

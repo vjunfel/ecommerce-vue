@@ -28,7 +28,8 @@ const handleSubmit = async () => {
 		
 		await userStore.fetchUserDetails();
 		
-    router.push('/');
+		userStore.isAdmin ? router.push('/dashboard') : router.push('/');
+    // router.push('/');
 		
   } catch (error) {
 		console.log("ERROR", error)
@@ -41,8 +42,8 @@ const handleSubmit = async () => {
 <template>
 	<div class="container-fluid">
 		<h1 class="my-5 text-warning text-center">Login</h1>
-		<div class="row d-flex justify-content-center ">
-			<div class="col-md-5 border border rounded-3 mx-auto p-5 shadow-lg">
+		<div class="row d-flex justify-content-center">
+			<div class="col-md-5 border border-warning rounded-3 mx-auto p-5">
 				<form @submit.prevent="handleSubmit">
 					<div class="mb-3">
 						<label for="emailInput"	class="form-label">Email Address</label>
