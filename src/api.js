@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_PRODUCT_BOOKING_API,
+    baseURL: import.meta.env.VITE_ECOMMERCE_API,
 });
 
 api.interceptors.request.use((config) => {

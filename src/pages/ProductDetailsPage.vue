@@ -97,14 +97,19 @@ onBeforeMount(async () => {
 				</p>
 				<p class="my-4 d-flex align-items-center">Price: <span class="fs-3 fw-bold ms-2">{{ product.data.price }} PHP</span></p>
 				<button	class="btn btn-warning"	type="button"
-        	v-if="userStore.email && !userStore.isAdmin"
+        	v-if="userStore.email && !userStore.isAdmin && product.data.isActive"
 					@click="handleAddToCart"
 				>
 					Add to Cart
 				</button>
+				<button	class="btn btn-warning"	type="button"
+        	v-else-if="userStore.email && !userStore.isAdmin " disabled
+				>
+					Not Available
+				</button>
 				
 				<button	class="btn btn-warning"	type="button"
-					v-if="userStore.email && userStore.isAdmin" disabled
+					v-else-if="userStore.email && userStore.isAdmin" disabled
 				>
 					Admin not allowed
 				</button>

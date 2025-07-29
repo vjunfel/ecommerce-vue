@@ -21,9 +21,9 @@ import UpdateProduct from './pages/UpdateProduct.vue';
 import DashboardPage from './pages/DashboardPage.vue';
 import CartPage from './pages/CartPage.vue';
 import ProductDetailsPage from './pages/ProductDetailsPage.vue';
-import UserOrder from './pages/UserOrder.vue';
 import ResetPassword from './components/ResetPassword.vue';
 import UpdateProfile from './components/UpdateProfile.vue';
+import OrdersPage from './pages/OrdersPage.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -73,16 +73,16 @@ const router = createRouter({
           name: "AddProduct",
           component: AddProduct
         },
-          {
-            path: "/update-product/:id",
-            name: "UpdateProduct",
-            component: UpdateProduct
-          },
-          {
-            path: "/user-orders",
-            name: "UserOrder",
-            component: UserOrder
-          },
+        {
+          path: "/update-product/:id",
+          name: "UpdateProduct",
+          component: UpdateProduct
+        },
+        {
+          path: "/orders",
+          name: "Orders",
+          component: OrdersPage
+        },
         {
           path: "/cart",
           name: "Cart",

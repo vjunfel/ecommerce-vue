@@ -48,9 +48,9 @@ export const useCartStore = defineStore("cart", {
 			try {
 				const res = await api.get("/cart/get-cart");
 				
-				console.log("RESPONSE data", res.data);
-				console.log("RESPONSE CART", res.data.cart);
-				console.log("RESPONSE CART-ITEMS", res.data.cart.cartItems);
+				// console.log("RESPONSE data", res.data);
+				// console.log("RESPONSE CART", res.data.cart);
+				// console.log("RESPONSE CART-ITEMS", res.data.cart.cartItems);
 
 				if (res.status !== 200) {
 					throw new Error("No data found!");
