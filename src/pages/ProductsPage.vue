@@ -34,7 +34,7 @@ watch(
 	<section class="container">
 		<div class="col my-5">
 			<h1 class="text-center text-warning py-1">Products Offered</h1>
-			<p class="text-center">Select a product to you want and enjoy!</p>
+			<p class="text-center">Select a product you want and enjoy!</p>
 		</div>
 		
 		<div class="text-center p-5 m-5" v-if="userStore.isLoading"> 
