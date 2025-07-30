@@ -113,7 +113,7 @@ const filteredOrders = computed(() => {
 						</li>
 					</ul>
 				</td>
-				<td class="text-start fw-bold">₱{{ order.totalPrice.toFixed(2) }}</td>
+				<td class="text-end pe-3">₱{{ order.totalPrice.toFixed(2) }}</td>
 				<td class="text-start">{{ new Date(order.orderedOn).toLocaleString() }}</td>
         
         <td

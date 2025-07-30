@@ -22,22 +22,13 @@ const handleReset = async () => {
       loading.value = false;
       return;
     }
-
   
-    await api.patch(
-      '/users/update-password',
-      { newPassword: newPassword.value },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    );
+    await api.patch('/users/update-password', { newPassword: newPassword.value }    );
 
     notyf.success("Password reset successfully");
     newPassword.value = '';
 
-    router.push('/dashboard'); // Or any route you prefer
+    router.push('/profile');
 
   } catch (err) {
     const msg = err.response?.data?.message || "Password reset failed";
@@ -51,12 +42,12 @@ const handleReset = async () => {
 
 
 <template>
-  <div class="container mt-5">
-    <div class="row justify-content-center">
+  <section class="container">
+    <div class="row justify-content-center my-5">
       <div class="col-md-6">
-        <div class="card shadow-sm">
+        <div class="card shadow-sm p-5">
           <div class="card-body">
-            <h3 class="card-title mb-4 text-center">Reset Password</h3>
+            <h3 class="mb-5 text-warning text-center">Reset Password</h3>
             <form @submit.prevent="handleReset">
               <div class="mb-3">
                 <label for="newPassword" class="form-label">New Password</label>
@@ -64,14 +55,14 @@ const handleReset = async () => {
                   type="password"
                   id="newPassword"
                   v-model="newPassword"
-                  class="form-control"
+                  class="form-control border-dark"
                   required
                   placeholder="Enter your new password"
                 />
               </div>
               <button
                 type="submit"
-                class="btn btn-outline-warning w-100"
+                class="btn btn-warning w-100 my-4"
                 :disabled="loading"
               >
                 {{ loading ? 'Resetting...' : 'Reset Password' }}
@@ -81,5 +72,5 @@ const handleReset = async () => {
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>

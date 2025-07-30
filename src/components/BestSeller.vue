@@ -29,9 +29,9 @@ onMounted( bestSellerItem );
 </script>
 
 <template>
-	<section class="container">
-    <div class="col my-5">
-      <h1 class="text-center text-dark pt-5 pb-3">Best Sellers</h1>
+	<section class="container" v-if="products">
+    <div class="col mb-5">
+      <h1 class="text-center text-dark pt-1 pb-3">Best Sellers</h1>
 		</div>
 		
 		<div class="text-center p-5 text-dark" v-if="loading"> 
