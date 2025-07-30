@@ -10,8 +10,7 @@ const props = defineProps({
   <div id="banner" class="row mb-5 py-5   row d-flex justify-content-center text-center" >
     <div id="content" class="content col-md-8 p-5 ">
       <h1 class="mb-3" id="banner-title">
-        {{bannerProps.title.slice(0,3)}}
-        <span class="text-warning">{{bannerProps.title.slice(3)}}</span>
+        {{bannerProps.title.slice(0,3)}}<span class="text-warning">{{bannerProps.title.slice(3)}}</span>
       </h1>
       <p class="mb-5" id="motto">{{bannerProps.tagline}}</p>
       <router-link class="btn btn-warning btn-lg rounded-pill px-4" :to="{ name: bannerProps.destination }">{{bannerProps.buttonLabel}} <i class="bi bi-arrow-right"></i></router-link>

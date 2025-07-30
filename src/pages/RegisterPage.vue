@@ -79,10 +79,10 @@ onBeforeMount(() => {
 </script>
 
 <template>
-	<div class="container-fluid">
+	<div class="container">
 		<h1 class="my-5 text-warning text-center">Register</h1>
 		<div class="row d-flex justify-content-center">
-			<div class="col-md-5 border border-warning rounded-3 mx-auto p-5 mb-5">
+			<div class="col-md-5 border shadow-sm rounded-3 mx-auto p-5 mb-5 bg-light">
 				<form v-on:submit.prevent="handleSubmit">
 					<div class="mb-3">
 						<label
@@ -92,7 +92,7 @@ onBeforeMount(() => {
 						>
 						<input
 							type="text"
-							class="form-control"
+							class="form-control border-dark"
 							id="fName"
 							v-model="firstName"
 						/>
@@ -105,7 +105,7 @@ onBeforeMount(() => {
 						>
 						<input
 							type="text"
-							class="form-control"
+							class="form-control border-dark"
 							id="lName"
 							v-model="lastName"
 						/>
@@ -118,7 +118,7 @@ onBeforeMount(() => {
 						>
 						<input
 							type="text"
-							class="form-control"
+							class="form-control border-dark"
 							id="mobile"
 							v-model="mobileNum"
 						/>
@@ -131,7 +131,7 @@ onBeforeMount(() => {
 						>
 						<input
 							type="email"
-							class="form-control"
+							class="form-control border-dark"
 							id="emailInput"
 							v-model="email"
 						/>
@@ -144,7 +144,7 @@ onBeforeMount(() => {
 						>
 						<input
 							type="password"
-							class="form-control"
+							class="form-control border-dark"
 							id="passwordInput"
 							v-model="password"
 						/>
@@ -157,12 +157,12 @@ onBeforeMount(() => {
 						>
 						<input
 							type="password"
-							class="form-control"
+							class="form-control border-dark"
 							id="cpasswordInput"
 							v-model="confirmPass"
 						/>
 					</div>
-					<div class="d-grid mt-5">
+					<div class="d-grid mt-4">
 						<button
 							type="submit"
 							class="btn btn-warning btn-block"

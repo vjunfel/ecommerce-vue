@@ -41,6 +41,7 @@
 	        },
 	      }
 	    );
+			console.log("UPDATE PROFILE", res);
 
 	    user.updateProfileLocally(res.data.user);
 	    notyf.success("Profile updated successfully");
@@ -55,19 +56,19 @@
 	</script>
 
 	<template>
-	  <div class="container mt-5">
-	    <div class="row justify-content-center">
+	  <section class="container">
+	    <div class="row justify-content-center my-5">
 	      <div class="col-md-6">
-	        <div class="card shadow-sm">
+	        <div class="card shadow-sm p-5">
 	          <div class="card-body">
-	            <h3 class="card-title mb-4 text-center">Update Profile</h3>
+	            <h3 class="mb-5 text-warning  text-center">Update Profile</h3>
 	            <form @submit.prevent="updateProfile">
 	              <div class="mb-3">
 	                <label class="form-label">First Name</label>
 	                <input
 	                  type="text"
 	                  v-model="profile.firstName"
-	                  class="form-control"
+	                  class="form-control border-dark"
 	                  required
 	                  placeholder="Enter your first name"
 	                />
@@ -77,7 +78,7 @@
 	                <input
 	                  type="text"
 	                  v-model="profile.lastName"
-	                  class="form-control"
+	                  class="form-control border-dark"
 	                  required
 	                  placeholder="Enter your last name"
 	                />
@@ -87,14 +88,14 @@
 	                <input
 	                  type="tel"
 	                  v-model="profile.mobileNo"
-	                  class="form-control"
+	                  class="form-control border-dark"
 	                  required
 	                  pattern="[0-9]{11}"
 	                  title="Enter a valid 11-digit mobile number"
 	                  placeholder="09XXXXXXXXX"
 	                />
 	              </div>
-	              <button type="submit" class="btn btn-outline-warning	 w-100" :disabled="loading">
+	              <button type="submit" class="btn btn-warning my-4 w-100" :disabled="loading">
 	                {{ loading ? "Updating..." : "Update Profile" }}
 	              </button>
 	            </form>
@@ -102,5 +103,5 @@
 	        </div>
 	      </div>
 	    </div>
-	  </div>
+	  </section>
 	</template>

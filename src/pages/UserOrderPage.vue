@@ -70,7 +70,7 @@ const filteredOrders = computed(() => {
 		<thead class="table-primary text-white">
 			<tr>
 				<th>Order ID</th>
-				<th>User ID</th>
+				<th>Product ID</th>
 				<th>Products</th>
 				<th>Quantities</th>
 				<th>Total Price</th>
@@ -84,7 +84,17 @@ const filteredOrders = computed(() => {
 				:key="order._id"
 			>
 				<td class="text-start">{{ order._id }}</td>
-				<td class="text-start">{{ order?.userId || "N/A" }}</td>
+				<td class="text-start">
+					<ul class="list-unstyled mb-0">
+						<li
+								v-for="item in order.productsOrdered"
+								:key="item.productId"
+								class="p-1 text-start"
+							>
+								{{ item.productId._id || "Unknown Product" }}
+							</li>
+						</ul>
+				</td>
 
 				<!-- Product Names -->
 				<td>
@@ -114,7 +124,7 @@ const filteredOrders = computed(() => {
 					</ul>
 				</td>
         
-				<td class="text-start fw-bold">₱{{ order.totalPrice.toFixed(2) }}</td>
+				<td class="text-end pe-3">₱{{ order.totalPrice.toFixed(2) }}</td>
 				<td class="text-start">{{ new Date(order.orderedOn).toLocaleString() }}</td>
         <td
           class="fw-semibold"

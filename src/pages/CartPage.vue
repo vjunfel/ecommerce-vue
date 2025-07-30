@@ -17,7 +17,7 @@ const totalPrice = computed(() => cart.cart?.totalPrice || 0);
 </script>
 
 <template>
-	<section class="container my-5 p-4 rounded">
+	<section class="container p-5 rounded">
 		<h1 class="text-center text-warning pb-4">Cart Details</h1>
 
 		<div class="row my-2">

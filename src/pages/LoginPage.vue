@@ -40,20 +40,20 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-	<div class="container-fluid">
+	<div class="container">
 		<h1 class="my-5 text-warning text-center">Login</h1>
 		<div class="row d-flex justify-content-center">
-			<div class="col-md-5 border border-warning rounded-3 mx-auto p-5">
+			<div class="col-md-5 border shadow-sm rounded-3 mx-auto p-5 bg-light">
 				<form @submit.prevent="handleSubmit">
 					<div class="mb-3">
 						<label for="emailInput"	class="form-label">Email Address</label>
-						<input type="email"	class="form-control" id="emailInput" v-model="email"/>
+						<input type="email"	class="form-control border-dark" id="emailInput" v-model="email"/>
 					</div>
 					<div class="mb-3">
 						<label for="passwordInput" class="form-label"	>Password</label>
-						<input type="password" class="form-control" id="passwordInput" v-model="password"/>
+						<input type="password" class="form-control border-dark" id="passwordInput" v-model="password"/>
 					</div>
-					<div class="d-grid mt-5">
+					<div class="d-grid mt-4">
 						<button
   						type="submit"
   						class="btn btn-warning btn-block"
