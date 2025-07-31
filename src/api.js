@@ -1,6 +1,12 @@
 import axios from "axios";
 
-const api = axios.create({ baseURL: "https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/" });
+const api = axios.create({
+  baseURL: "https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true // optional, if using cookies
+});
 
 api.interceptors.request.use((config) => {
   
