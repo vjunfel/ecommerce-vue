@@ -3,6 +3,7 @@ import { watch, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 import Swal from 'sweetalert2'
+import api from "@/api";
 
 const email = ref("");
 const password = ref("");
@@ -21,10 +22,16 @@ watch([email, password], (currentValue, oldValue) => {
 
 const handleSubmit = async () => {
   try {
-    await userStore.loginUser({ 
+    // await userStore.loginUser({ 
+		// 	email: email.value, 
+		// 	password: password.value 
+		// });
+		
+		await api.post("/users/login", { 
 			email: email.value, 
-			password: password.value 
+			password: password.value
 		});
+		
 		
 		await userStore.fetchUserDetails();
 		
