@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 import "notyf/notyf.min.css";
 import api from "@/api";
 import BestSellerProduct from "./BestSellerProduct.vue";
+import axios from "axios";
 
 const products = ref([]);
 const loading = ref(false);
@@ -10,14 +11,29 @@ const loading = ref(false);
 const bestSellerItem = async () => {
   loading.value = true;
 	try {
-		const res = await api.get("/products/active");
+		// const res = await api.get("/products/active");
+		// const res = await axios.get("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/active");
     
-    if(res.status === 200) {
-      const bestSeller = res.data.filter((item) => {
-        return (item.bestseller)
-      })
-      products.value = bestSeller || [];
+    // if(res.status === 200) {
+    //   const bestSeller = res.data.filter((item) => {
+    //     return (item.bestseller)
+    //   })
+    //   products.value = bestSeller || [];
+    // }
+		
+		//  ****************************
+		const response = await fetch("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/active");
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+
+    const data = await response.json();
+    console.log("ACTIVE PRODUCTS ========>> ", data);
+
+    const bestSeller = data.filter((item) => item.bestseller);
+    products.value = bestSeller || [];
+		
 	} catch (error) {
 		console.error(error);
 	} finally {
