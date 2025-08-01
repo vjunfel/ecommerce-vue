@@ -11,28 +11,30 @@ const loading = ref(false);
 const bestSellerItem = async () => {
   loading.value = true;
 	try {
-		// const res = await api.get("/products/active");
-		// const res = await axios.get("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/active");
+		const res = await api.get("/products/active");
+		
+		console.log("ACTIVE PRODUCTS: BestSeller ========>> ", res.data);
     
-    // if(res.status === 200) {
-    //   const bestSeller = res.data.filter((item) => {
-    //     return (item.bestseller)
-    //   })
-    //   products.value = bestSeller || [];
-    // }
+    if(res.status === 200) {
+      const bestSeller = res.data.filter((item) => {
+        return (item.bestseller)
+      })
+      products.value = bestSeller || [];
+    }
 		
 		//  ****************************
-		const response = await fetch("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/active");
+		// const response = await fetch("http://localhost:4000/products/active");
+		// // const response = await fetch("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/active");
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    // if (!response.ok) {
+    //   throw new Error(`HTTP error! status: ${response.status}`);
+    // }
 
-    const data = await response.json();
-    console.log("ACTIVE PRODUCTS ========>> ", data);
+    // const data = await response.json();
+    // console.log("ACTIVE PRODUCTS ========>> ", data);
 
-    const bestSeller = data.filter((item) => item.bestseller);
-    products.value = bestSeller || [];
+    // const bestSeller = data.filter((item) => item.bestseller);
+    // products.value = bestSeller || [];
 		
 	} catch (error) {
 		console.error(error);

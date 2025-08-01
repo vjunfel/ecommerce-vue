@@ -8,19 +8,15 @@ import ProductSearch from "@/components/ProductSearch.vue";
 const userStore = useUserStore();
 const products = reactive({ data: [] });
 
-const fetchProduct = async () => {
-	let { data } = await api.get("/products/all");
-	products.data = data;
-}
-
 watch(
 	[userStore],
 	async () => {
 		if (userStore.isLoading === false) {
 			if (userStore.isAdmin) {
-				fetchProduct()
+				const { data } = await api.get("/products/all");
+				products.data = data;
 			} else {
-				let { data } = await api.get("products/active");
+				const { data } = await api.get("products/active");
 				products.data = data;
 			}
 		}
