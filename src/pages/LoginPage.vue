@@ -27,7 +27,7 @@ const handleSubmit = async () => {
 			password: password.value
 		});
 		
-		console.log("RES", res);
+		console.log("LOGIN RES =======> ", res);
 		
 		if (!res.status === 200) {
 			throw new Error("Failed to login")
@@ -40,7 +40,7 @@ const handleSubmit = async () => {
 		
 		await userStore.fetchUserDetails();
 		
-		userStore.isAdmin ? router.push('/dashboard') : router.push('/');
+		// userStore.isAdmin ? router.push('/dashboard') : router.push('/');
 		
   } catch (error) {
 		console.log("ERROR", error)
