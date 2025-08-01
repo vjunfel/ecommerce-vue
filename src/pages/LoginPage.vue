@@ -29,12 +29,14 @@ const handleSubmit = async () => {
 		
 		console.log("RES", res);
 		
-		if (res.data.status === 200) {
-			await userStore.loginUser({ 
-				email: email.value, 
-				password: password.value 
-			});
+		if (!res.status === 200) {
+			throw new Error("Failed to login")
 		}
+		
+		await userStore.loginUser({ 
+			email: email.value, 
+			password: password.value 
+		});
 		
 		await userStore.fetchUserDetails();
 		

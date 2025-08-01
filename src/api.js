@@ -5,12 +5,13 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true // optional, if using cookies
+  withCredentials: true,
 });
 
 api.interceptors.request.use((config) => {
   
   const token = localStorage.getItem("token");
+  console.log("TOKEN ===========>>> ", token);
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
