@@ -1,11 +1,9 @@
 import { defineStore } from "pinia";
 import api from "../api";
 
-const savedToken = localStorage.getItem("token");
-
 export const useUserStore = defineStore("user", {
   state: () => ({
-    token: savedToken || null,
+    token: null,
     email: null,
     isAdmin: false,
     id: null,
@@ -14,6 +12,8 @@ export const useUserStore = defineStore("user", {
     mobileNo: null,
     isLoading: false
   }),
+  
+  persist: true,
 
   actions: {
     async loginUser({ email, password }) {
@@ -21,13 +21,10 @@ export const useUserStore = defineStore("user", {
         const res = await api.post("/users/login", { email, password });
 
         if (res.status !== 200) {
-          const errorData = await res.json();
-          throw new Error(errorData.message || "Login failed");
+          throw new Error(res.data.message || "Login failed");
         }
 
-        const token = res.data.access;
-        this.token = token;
-        localStorage.setItem("token", token);
+        this.token = res.data.access;
       } catch (error) {
         console.error("Login failed:", error);
         throw error;
@@ -58,7 +55,6 @@ export const useUserStore = defineStore("user", {
 
     setToken(token) {
       this.token = token;
-      localStorage.setItem("token", token);
     },
 
     clearUser() {
@@ -69,7 +65,6 @@ export const useUserStore = defineStore("user", {
       this.firstName = null;
       this.lastName = null;
       this.mobileNo = null;
-      localStorage.removeItem("token");
     },
 
     updateProfileLocally(updatedUser) {
