@@ -1,14 +1,9 @@
 <script setup>
 import { useUserStore } from '@/stores/userStore';
-import { onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 
 const userStore = useUserStore();
-
-onMounted(() => {
-  if (userStore.token) {
-    userStore.fetchUserDetails();  // ← this restores email/isAdmin!
-  }
-});
+const { isLoggedIn, isAdmin } = storeToRefs(userStore); // <- reactive references
 </script>
 
 <template>
@@ -24,12 +19,12 @@ onMounted(() => {
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ms-auto gap-4">
           <router-link :to="{ name: 'Products' }" class="nav-link"> Products </router-link>
-          <router-link :to="{ name: 'Cart' }" class="nav-link" v-if="userStore.email && !userStore.isAdmin"> Cart </router-link>
-          <router-link :to="{ name: 'Profile' }" class="nav-link" v-if="userStore.email"> Profile </router-link> 
-          <router-link :to="{ name: 'Dashboard' }" class="nav-link" v-if="userStore.isAdmin"> Dashboard </router-link>
-          <router-link :to="{ name: 'Register' }" class="nav-link" v-if="!userStore.email"> Register </router-link>
-          <router-link :to="{ name: 'Login' }" class="nav-link" v-if="!userStore.email"> Login </router-link>
-          <router-link :to="{ name: 'Logout' }" class="nav-link" v-else> Logout </router-link>
+          <router-link :to="{ name: 'Cart' }" class="nav-link" v-if="isLoggedIn && !isAdmin"> Cart </router-link>
+          <router-link :to="{ name: 'Profile' }" class="nav-link" v-if="isLoggedIn"> Profile </router-link> 
+          <router-link :to="{ name: 'Dashboard' }" class="nav-link" v-if="isLoggedIn && isAdmin"> Dashboard </router-link>
+          <router-link :to="{ name: 'Register' }" class="nav-link" v-if="!isLoggedIn"> Register </router-link>
+          <router-link :to="{ name: 'Login' }" class="nav-link" v-if="!isLoggedIn"> Login </router-link>
+          <router-link :to="{ name: 'Logout' }" class="nav-link" v-if="isLoggedIn"> Logout </router-link>
         </div>
       </div>
   	</div>

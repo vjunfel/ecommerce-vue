@@ -16,6 +16,7 @@ watch(
 			try {
 				const { data } = userStore.isAdmin
 					? await api.get("/products/all")
+					// : await api.get("/products/active");
 					: await publicApi.get("/products/active");
 
 				products.data = data;

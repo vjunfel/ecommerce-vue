@@ -1,133 +1,60 @@
 <script setup>
-import { watch, ref } from "vue";
-import { useRouter } from "vue-router";
-import { useUserStore } from "@/stores/userStore";
-import Swal from 'sweetalert2'
-import api from "@/api/privateApi";
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/userStore';
 
-const email = ref("test@mail.com");
-const password = ref("asdf123");
-const isEnabled = ref(false);
+const email = ref('test@mail.com');
+const password = ref('asdf123 ');
+const errorMsg = ref('');
+const isSubmitting = ref(false);
 
 const userStore = useUserStore();
 const router = useRouter();
 
-watch([email, password], (currentValue, oldValue) => {
-	if (currentValue.every((input) => input !== "")) {
-		isEnabled.value = true;
-	} else {
-		isEnabled.value = false;
-	}
-});
+const handleLogin = async () => {
+  isSubmitting.value = true;
+  errorMsg.value = '';
+  
+  try {
+    const res = await userStore.loginUser({ email: email.value, password: password.value });
 
-const handleLogin = async () => {	
-	userStore.isLoading = true;
-	try {
-		// const response = await fetch("http://localhost:4000/users/login", {
-		const response = await fetch("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/users/login", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				email: email.value,
-				password: password.value
-			})
-		})
-		
-		console.log("LOGIN FETCH RES =======> ", response);
-		console.log("OK:", response.ok);
-		
-		if (!response.ok) {
-			throw new Error(`HTTP error! status: ${response.status}`)
-		}
-		
-		const data = await response.json();
-		const token = data.access
-		console.log("RESPONSE TOKEN =======> ", token);
-		
-		if (!token) {
-			throw new Error("No token received");
-		}
-		
-		localStorage.setItem("token", token);
-		userStore.token = token;
-		userStore.email = email.value;
-		
-		await userStore.fetchUserDetails();
-		
-		userStore.isAdmin ? router.push('/dashboard') : router.push('/');
-		
-	} catch (error) {
-		console.log("ERROR", error)
-    Swal.fire('Login Failed', 'Invalid credentials', 'error');
+    // Optional: Fetch user details after login
+    await userStore.fetchUserDetails();
+
+    if (userStore.isAdmin) {
+      router.push({ name: 'Dashboard' });
+    } else {
+      router.push({ name: 'Home' });
+    }
+
+  } catch (err) {
+    errorMsg.value = 'Invalid credentials';
   } finally {
-		userStore.isLoading = true;
-	}
-}
-
-// const handleSubmit = async () => {
-//   try {	
-// 		const res = await api.post("/users/login", { 
-// 			email: email.value, 
-// 			password: password.value
-// 		});
-		
-// 		console.log("LOGIN RES =======> ", res);
-		
-// 		if (!res.status === 200) {
-// 			throw new Error("Failed to login")
-// 		}
-		
-// 		await userStore.loginUser({ 
-// 			email: email.value, 
-// 			password: password.value 
-// 		});
-		
-// 		await userStore.fetchUserDetails();
-		
-// 		userStore.isAdmin ? router.push('/dashboard') : router.push('/');
-		
-//   } catch (error) {
-// 		console.log("ERROR", error)
-//     Swal.fire('Login Failed', error.response?.data?.message || 'Invalid credentials', 'error');
-//   }
-// };
-
+    isSubmitting.value = false;
+  }
+};
 </script>
 
 <template>
-	<div class="container">
-		<h1 class="my-5 text-warning text-center">Login</h1>
-		<div class="row d-flex justify-content-center">
-			<div class="col-md-5 border shadow-sm rounded-3 mx-auto p-5 bg-light">
-				<form @submit.prevent="handleLogin">
-					<div class="mb-3">
-						<label for="emailInput"	class="form-label">Email Address</label>
-						<input type="email"	class="form-control border-dark" id="emailInput" v-model="email"/>
-					</div>
-					<div class="mb-3">
-						<label for="passwordInput" class="form-label"	>Password</label>
-						<input type="password" class="form-control border-dark" id="passwordInput" v-model="password"/>
-					</div>
-					<div class="d-grid mt-4">
-						<button
-  						type="submit"
-  						class="btn btn-warning btn-block"
-  						v-if="!isEnabled || userStore.isLoading" disabled
-						>
-  						Login
-						</button>
-						<button
-  						type="submit"
-  						class="btn btn-warning btn-block"
-  						v-else="!isEnabled || userStore.isLoading"
-						>
-  						{{ userStore.isLoading ? "Logging in..." : "Login" }}
-						</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+  <div class="container mt-5" style="max-width: 400px;">
+    <h2 class="mb-3">Login</h2>
+    
+    <div v-if="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+
+    <form @submit.prevent="handleLogin">
+      <div class="mb-3">
+        <label>Email</label>
+        <input type="email" v-model="email" class="form-control" required />
+      </div>
+
+      <div class="mb-3">
+        <label>Password</label>
+        <input type="password" v-model="password" class="form-control" required />
+      </div>
+
+      <button type="submit" class="btn btn-warning btn-block w-100" :disabled="isSubmitting">
+        {{ isSubmitting ? 'Logging in...' : 'Login' }}
+      </button>
+    </form>
+  </div>
 </template>

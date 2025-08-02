@@ -1,4 +1,4 @@
-import api from "@/api/privateApi";
+import publicApi from "@/api/publicAPI";
 import { defineStore } from "pinia";
 
 export const useProductStore = defineStore("product", {
@@ -17,7 +17,7 @@ export const useProductStore = defineStore("product", {
 	actions: {
 		async fetchActiveProducts() {
 			try {
-				const res = await api.get("/products/active");
+				const res = await publicApi.get("/products/active");
 
 				// console.log("ACTIVE PRODUCTS", res.data);
 
