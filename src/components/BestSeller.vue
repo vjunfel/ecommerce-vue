@@ -2,7 +2,7 @@
 import { ref, onMounted } from "vue";
 import "notyf/notyf.min.css";
 import BestSellerProduct from "./BestSellerProduct.vue";
-import publicApi from "@/api/publicAPI";
+import axios from "axios";
 
 const products = ref([]);
 const loading = ref(false);
@@ -10,7 +10,7 @@ const loading = ref(false);
 const bestSellerItem = async () => {
   loading.value = true;
 	try {
-		const res = await publicApi.get("/products/active");
+		const res = await axios.get("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/active");
     
     if(res.status === 200) {
 			const bestSeller = res.data.filter((item) => {
