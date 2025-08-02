@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { Notyf } from "notyf";
-import api from "@/api";
+import publicApi from "@/api/publicAPI";
 import ProductSearchResult from "./ProductSearchResult.vue";
 
 const productName = ref("");
@@ -21,7 +21,7 @@ const searchProducts = async () => {
 	hasSearched.value = true;
 
 	try {
-		const response = await api.post("/products/search-by-name", {
+		const response = await publicApi.post("/products/search-by-name", {
 			name: productName.value.trim()
 		});
 

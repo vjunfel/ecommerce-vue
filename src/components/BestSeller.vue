@@ -1,9 +1,8 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import "notyf/notyf.min.css";
-import api from "@/api";
 import BestSellerProduct from "./BestSellerProduct.vue";
-import axios from "axios";
+import publicApi from "@/api/publicAPI";
 
 const products = ref([]);
 const loading = ref(false);
@@ -11,30 +10,17 @@ const loading = ref(false);
 const bestSellerItem = async () => {
   loading.value = true;
 	try {
-		const res = await api.get("/products/active");
-		
-		console.log("ACTIVE PRODUCTS: BestSeller ========>> ", res.data);
+		const res = await publicApi.get("/products/active");
     
     if(res.status === 200) {
-      const bestSeller = res.data.filter((item) => {
-        return (item.bestseller)
+			const bestSeller = res.data.filter((item) => {
+				return (item.bestseller)
       })
       products.value = bestSeller || [];
     }
 		
-		//  ****************************
-		// const response = await fetch("http://localhost:4000/products/active");
-		// // const response = await fetch("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/active");
-
-    // if (!response.ok) {
-    //   throw new Error(`HTTP error! status: ${response.status}`);
-    // }
-
-    // const data = await response.json();
-    // console.log("ACTIVE PRODUCTS ========>> ", data);
-
-    // const bestSeller = data.filter((item) => item.bestseller);
-    // products.value = bestSeller || [];
+		console.log("ACTIVE PRODUCTS ========>> ", res.data);
+		console.log("BestSeller ========>> ", products);
 		
 	} catch (error) {
 		console.error(error);
@@ -66,29 +52,3 @@ onMounted( bestSellerItem );
     </div>
 	</section>
 </template>
-
-<style scoped>
-.custom-search {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.custom-form {
-	max-width: 800px;
-	margin-bottom: 1rem;
-	margin-bottom: 2rem;
-}
-
-.list-group-item + .list-group-item {
-	margin-top: 0.5rem;
-}
-
-.search-results {
-	margin-top: 2rem;
-	border-left: 5px solid #ffc107; 
-	background-color: #fef9e7;
-}
-</style>
-
-

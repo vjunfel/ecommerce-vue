@@ -3,7 +3,7 @@ import { watch, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 import Swal from 'sweetalert2'
-import api from "@/api";
+import api from "@/api/privateApi";
 
 const email = ref("test@mail.com");
 const password = ref("asdf123");
@@ -20,7 +20,8 @@ watch([email, password], (currentValue, oldValue) => {
 	}
 });
 
-const loginWithFetch = async () => {	
+const handleLogin = async () => {	
+	userStore.isLoading = true;
 	try {
 		// const response = await fetch("http://localhost:4000/users/login", {
 		const response = await fetch("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/users/login", {
@@ -53,12 +54,16 @@ const loginWithFetch = async () => {
 		userStore.token = token;
 		userStore.email = email.value;
 		
+		await userStore.fetchUserDetails();
+		
 		userStore.isAdmin ? router.push('/dashboard') : router.push('/');
 		
 	} catch (error) {
 		console.log("ERROR", error)
     Swal.fire('Login Failed', 'Invalid credentials', 'error');
-  }
+  } finally {
+		userStore.isLoading = true;
+	}
 }
 
 // const handleSubmit = async () => {
@@ -96,7 +101,7 @@ const loginWithFetch = async () => {
 		<h1 class="my-5 text-warning text-center">Login</h1>
 		<div class="row d-flex justify-content-center">
 			<div class="col-md-5 border shadow-sm rounded-3 mx-auto p-5 bg-light">
-				<form @submit.prevent="loginWithFetch">
+				<form @submit.prevent="handleLogin">
 					<div class="mb-3">
 						<label for="emailInput"	class="form-label">Email Address</label>
 						<input type="email"	class="form-control border-dark" id="emailInput" v-model="email"/>

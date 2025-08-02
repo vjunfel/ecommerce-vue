@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
-import api from "../api";
+import api from "@/api/privateApi";
+import axios from "axios";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
@@ -17,17 +18,24 @@ export const useUserStore = defineStore("user", {
 
   actions: {
     async loginUser({ email, password }) {
+      this.isLoading = true;
       try {
-        const res = await api.post("/users/login", { email, password });
+        const res = await axios.post("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/users/login", { 
+          email, password 
+        });
 
         if (res.status !== 200) {
           throw new Error(res.data.message || "Login failed");
         }
 
         this.token = res.data.access;
+        await fetchUserDetails();
+        
       } catch (error) {
         console.error("Login failed:", error);
         throw error;
+      } finally {
+        this.isLoading = false;
       }
     },
 

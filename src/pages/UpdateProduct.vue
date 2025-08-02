@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Swal from 'sweetalert2'
-import api from '@/api'
+import api from '@/api/privateApi'
 
   const route = useRoute()
   const router = useRouter()

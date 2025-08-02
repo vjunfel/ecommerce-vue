@@ -2,7 +2,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
-import api from "@/api";
+import api from "@/api/privateApi";
 
 const router = useRouter();
 const products = ref([]);

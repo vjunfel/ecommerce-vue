@@ -1,5 +1,5 @@
 <script setup>
-import api from "@/api";
+import api from "@/api/privateApi";
 import { onMounted, ref, computed, reactive } from "vue";
 
 const orders = ref([]);

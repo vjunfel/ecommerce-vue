@@ -2,7 +2,7 @@
 	import { ref, onMounted } from "vue";
 	import { Notyf } from "notyf";
 	import "notyf/notyf.min.css";
-	import api from "@/api";
+	import api from "@/api/privateApi";
 	import { useUserStore } from "@/stores/userStore";
 
 	const user = useUserStore();

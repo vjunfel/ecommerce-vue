@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
-import api from '../api';
+import api from '../api/privateApi';
 
 const newPassword = ref('');
 const loading = ref(false);

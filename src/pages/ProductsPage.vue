@@ -1,7 +1,8 @@
 <script setup>
 import { reactive, watch } from "vue";
 import { useUserStore } from "@/stores/userStore.js";
-import api from "../api";
+import api from "@/api/privateApi";
+import publicApi from "@/api/publicAPI";
 import ProductComponent from "@/components/ProductComponent.vue";
 import ProductSearch from "@/components/ProductSearch.vue";
 
@@ -9,15 +10,17 @@ const userStore = useUserStore();
 const products = reactive({ data: [] });
 
 watch(
-	[userStore],
-	async () => {
-		if (userStore.isLoading === false) {
-			if (userStore.isAdmin) {
-				const { data } = await api.get("/products/all");
+	() => userStore.isLoading,
+	async (isLoading) => {
+		if (isLoading === false) {
+			try {
+				const { data } = userStore.isAdmin
+					? await api.get("/products/all")
+					: await publicApi.get("/products/active");
+
 				products.data = data;
-			} else {
-				const { data } = await api.get("products/active");
-				products.data = data;
+			} catch (err) {
+				console.error("Failed to fetch products:", err);
 			}
 		}
 	},
