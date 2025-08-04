@@ -14,19 +14,21 @@ const privateApi = axios.create({
 
 privateApi.interceptors.request.use((config) => {
   
-  // const token = localStorage.getItem("token");
-  // console.log("API RESPONSE TOKEN ===========>>> ", token);
+  const token = localStorage.getItem("token");
+  console.log("API RESPONSE TOKEN ===========>>> ", token);
 
-  // if (token) {
-  //   config.headers.Authorization = `Bearer ${token}`;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  
+  // const userStore = useUserStore()
+  // const token = userStore.token;
+  
+  // if (token && token !== "null") {
+  //    config.headers.Authorization = `Bearer ${token}`;
   // }
   
-  const userStore = useUserStore()
-  const token = userStore.token;
-  
-  if (token && token !== "null") {
-     config.headers.Authorization = `Bearer ${token}`;
-  }
+  console.log("API RESPONSE TOKEN ===========>>> ", token);
   
   return config;
 }, (error) => {
