@@ -8,7 +8,7 @@ const userStore = useUserStore();
 
 
 onMounted(async() => {
-  await userStore.fetchUserDetails()
+  // await userStore.fetchUserDetails()
 })
 </script>
 
