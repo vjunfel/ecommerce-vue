@@ -5,6 +5,7 @@ import api from "@/api/privateApi";
 import publicApi from "@/api/pubApi";
 import ProductComponent from "@/components/ProductComponent.vue";
 import ProductSearch from "@/components/ProductSearch.vue";
+import axios from "axios";
 
 const userStore = useUserStore();
 const products = reactive({ data: [] });
@@ -15,22 +16,29 @@ watch(
 		if (isLoading === false) {
 			try {
 				const token = localStorage.getItem("token");
-				const { data } = userStore.isAdmin
-					? await api.get("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/all", 
+				const admin = userStore.isAdmin
+				
+				if (admin) {
+					const res = await axios.get("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/all", 
 						{
 							headers: {
 								Authorization: `Bearer ${token}`,
 							},
 						}
 					)
-					// : await api.get("/products/active");
-					: await publicApi.get("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/active", 
+					console.log("ADMIN RES", res);
+					products.data = res.data;
+				} else {
+					const res = await axios.get("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/active", 
 						{
 							headers: {
 								Authorization: `Bearer ${token}`,
 							},
 						}
 					);
+					console.log("NOT-ADMIN RES", res);
+					products.data = res.data;
+				}
 
 				products.data = data;
 			} catch (err) {
