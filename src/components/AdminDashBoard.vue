@@ -3,13 +3,21 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
 import api from "@/api/privateApi";
+import axios from "axios";
 
 const router = useRouter();
 const products = ref([]);
 
 const fetchAllProducts = async () => {
 	try {
-		const res = await api.get("/products/all");
+		const token = localStorage.getItem("token");
+		const res = await axios.get("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/all",
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
 		products.value = res.data;
 	} catch (error) {
 		console.error("Error getting the product!", error);
@@ -32,7 +40,14 @@ const toggleAvailability = async (product) => {
 	const action = product.isActive ? "archive" : "activate";
 
 	try {   
-		await api.patch(`/products/${product._id}/${action}`);
+		const token = localStorage.getItem("token");
+		await axios.patch(`https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/${product._id}/${action}`, 
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
     
     Swal.fire("", `Product ${product.isActive ? "disabled" : "enabled"} successfully!`, "success");
 		await fetchAllProducts();
