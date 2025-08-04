@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/userStore';
+import axios from 'axios';
 
 const email = ref('test@mail.com');
 const password = ref('asdf123 ');
@@ -14,15 +15,47 @@ const router = useRouter();
 const handleLogin = async () => {
   isSubmitting.value = true;
   errorMsg.value = '';
-  
-  try {
-    await userStore.loginUser({ email: email.value, password: password.value });
+  console.log({email: email.value});
+  console.log({password: password.value});
 
-    if (userStore.isAdmin) {
-      router.push({ name: 'Dashboard' });
-    } else {
-      router.push({ name: 'Home' });
+  try {
+    const response = await axios.post("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/users/login", {
+    // const response = await axios.post("http://localhost:4000/users/login", {
+      email: email.value,
+      password: password.value
+    });
+
+    console.log("RESPONSE:", response);
+
+    if (response.status !== 200) {
+      throw new Error("Login Failed")
     }
+    console.log("========================================");
+    console.log("Token before setting:", userStore.token);
+
+    userStore.token = response.data.access;
+
+    if (userStore.token && userStore.token !== "null") {
+      await userStore.fetchUserDetails();
+      console.log("Token after setting:", userStore.token);
+    }
+    
+    // if (userStore.isAdmin) {
+    //   router.push({ name: 'Dashboard' });
+    // } else {
+    //   router.push({ name: 'Home' });
+    // }
+
+
+  // ******************************************************
+  // try {
+  //   await userStore.loginUser({ email: email.value, password: password.value });
+
+  //   if (userStore.isAdmin) {
+  //     router.push({ name: 'Dashboard' });
+  //   } else {
+  //     router.push({ name: 'Home' });
+  //   }
 
   } catch (err) {
     errorMsg.value = 'Invalid credentials';
@@ -33,25 +66,47 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <div class="container mt-5" style="max-width: 400px;">
-    <h2 class="mb-3">Login</h2>
-    
-    <div v-if="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+	<div
+		class="container mt-5"
+		style="max-width: 400px"
+	>
+		<h2 class="mb-3">Login</h2>
 
-    <form @submit.prevent="handleLogin">
-      <div class="mb-3">
-        <label>Email</label>
-        <input type="email" v-model="email" class="form-control" required />
-      </div>
+		<div
+			v-if="errorMsg"
+			class="alert alert-danger"
+		>
+			{{ errorMsg }}
+		</div>
 
-      <div class="mb-3">
-        <label>Password</label>
-        <input type="password" v-model="password" class="form-control" required />
-      </div>
+		<form @submit.prevent="handleLogin">
+			<div class="mb-3">
+				<label>Email</label>
+				<input
+					type="email"
+					v-model="email"
+					class="form-control"
+					required
+				/>
+			</div>
 
-      <button type="submit" class="btn btn-warning btn-block w-100" :disabled="isSubmitting">
-        {{ isSubmitting ? 'Logging in...' : 'Login' }}
-      </button>
-    </form>
-  </div>
+			<div class="mb-3">
+				<label>Password</label>
+				<input
+					type="password"
+					v-model="password"
+					class="form-control"
+					required
+				/>
+			</div>
+
+			<button
+				type="submit"
+				class="btn btn-warning btn-block w-100"
+				:disabled="isSubmitting"
+			>
+				{{ isSubmitting ? "Logging in..." : "Login" }}
+			</button>
+		</form>
+	</div>
 </template>
