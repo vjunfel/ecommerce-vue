@@ -1,5 +1,5 @@
 import privateApi from "@/api/privateApi";
-import publicApi from "@/api/publicAPI";
+import publicApi from "@/api/pubApi";
 import { defineStore } from "pinia";
 import { ref, computed, watch } from "vue";
 

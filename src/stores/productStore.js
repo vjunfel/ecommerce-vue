@@ -1,4 +1,4 @@
-import publicApi from "@/api/publicAPI";
+import publicApi from "@/api/pubApi";
 import { defineStore } from "pinia";
 
 export const useProductStore = defineStore("product", {

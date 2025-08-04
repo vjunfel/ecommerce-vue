@@ -2,7 +2,7 @@
 import { reactive, watch } from "vue";
 import { useUserStore } from "@/stores/userStore.js";
 import api from "@/api/privateApi";
-import publicApi from "@/api/publicAPI";
+import publicApi from "@/api/pubApi";
 import ProductComponent from "@/components/ProductComponent.vue";
 import ProductSearch from "@/components/ProductSearch.vue";
 
