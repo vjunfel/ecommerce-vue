@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Swal from 'sweetalert2'
 import api from '@/api/privateApi'
+import axios from 'axios'
 
   const route = useRoute()
   const router = useRouter()
@@ -19,12 +20,25 @@ import api from '@/api/privateApi'
 
   onMounted(async () => {
     try {
-      const res = await api.get(`/products/${productId}`)
+      const token = localStorage.getItem("token");
+      const res = await axios.get(`https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/${productId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      
+      if (res.status !== 200) {
+        throw new Error("Product not found")
+      }
+      
       product.value = {
         name: res.data.name,
         description: res.data.description,
         price: res.data.price
       }
+      
     } catch (error) {
       console.error('Error fetching product', error)
       Swal.fire('', 'Product not found', 'danger');
@@ -34,18 +48,29 @@ import api from '@/api/privateApi'
 
   const handleUpdateProduct = async () => {
     isLoading.value = true;
-
     try {
+      const token = localStorage.getItem("token");
       console.log("Sending updated data:", product.value);
 
-      await api.patch(`/products/${productId}/update`, product.value);
+      const res = await axios.patch(`https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/${productId}/update`, 
+        product.value,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      
+      if (res.status !== 200) {
+        throw new Error("Failed to update")
+      }
 
       Swal.fire('Product', 'Updated successfully', 'success');
       router.push("/dashboard");
     } catch (err) {
       // console.error("Update failed:", err.response?.data || err.message);
       // alert("Update failed. Check the console for details.");
-      Swal.fire('Product', 'Failed to update', 'error');
+      Swal.fire('Product', err || 'Failed to update', 'error');
     } finally {
       isLoading.value = false;
     }

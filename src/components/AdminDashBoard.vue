@@ -2,7 +2,6 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
-import api from "@/api/privateApi";
 import axios from "axios";
 
 const router = useRouter();
@@ -28,11 +27,16 @@ onMounted(
 		fetchAllProducts
 );
 
+const goToUserOrders = () => {
+  router.push("/orders");
+};
+
 const goToAddProduct = () => {
 	router.push("/add-product");
 };
 
 const updateProduct = (id) => {
+	console.log("PRODUCT ID: ", id);
 	router.push({ name: "UpdateProduct", params: { id } });
 };
 
@@ -41,25 +45,30 @@ const toggleAvailability = async (product) => {
 
 	try {   
 		const token = localStorage.getItem("token");
-		await axios.patch(`https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/${product._id}/${action}`, 
+		const res = await axios.patch(`https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/${product._id}/${action}`, 
+			{},
 			{
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
 			}
 		);
+		console.log(res);
+		if (res.status !== 200) {
+			
+			Swal.fire("", `Product ${product.isActive ? "disabled" : "enabled"} successfully!`, "success");
+			return;
+		} 
     
-    Swal.fire("", `Product ${product.isActive ? "disabled" : "enabled"} successfully!`, "success");
+		Swal.fire("", `Product ${product.isActive ? "disabled" : "enabled"} successfully!`, "success");
 		await fetchAllProducts();
+		
+		router.push("/dashboard");
     
 	} catch (error) {
 		console.error(`Failed to ${action} product`, error);
 		alert(`Failed to ${action} product.`);
 	}
-};
-
-const goToUserOrders = () => {
-	router.push("/orders");
 };
 </script>
 
