@@ -18,7 +18,7 @@ const submitProduct = async () => {
 	const token = localStorage.getItem("token");
 
 	try {
-		await axios.post("http://localhost:4000/products", product.value, {
+		await axios.post("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products", product.value, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
