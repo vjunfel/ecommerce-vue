@@ -20,8 +20,8 @@ const handleLogin = async () => {
   console.log({password: password.value});
 
   try {
-    const response = await axios.post("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/users/login", {
     // const response = await axios.post("http://localhost:4000/users/login", {
+    const response = await axios.post("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/users/login", {
       email: email.value,
       password: password.value
     }); 
@@ -42,13 +42,10 @@ const handleLogin = async () => {
     
     console.log("Token after setting:", token);
 
-    if (token && token !== "null") {
-      
-      // await userStore.fetchUserDetails();
+    if (response.status === 200) {
       const res = await privateApi.get("users/details");
-      // const res = await privateApi.get("users/details");
       
-      console.log(res);
+      console.log("USER DETAILS", res);
       console.log("Token after fetchUserDetails:", localStorage.getItem("token"));
       
       console.log("USER", res.data.user);
@@ -58,23 +55,13 @@ const handleLogin = async () => {
       userStore.firstName = res.data.user.firstName;
       userStore.lastName = res.data.user.lastName;
       userStore.mobileNo = res.data.user.mobileNo;
+      
+      if (res.data.user.isAdmin) {
+        router.push({ name: 'Dashboard' });
+      } else {
+        router.push({ name: 'Home' });
+      }
     }
-    
-    if (userStore.isAdmin) {
-      router.push({ name: 'Dashboard' });
-    } else {
-      router.push({ name: 'Home' });
-    }
-
-  // ******************************************************
-  // try {
-  //   await userStore.loginUser({ email: email.value, password: password.value });
-
-  //   if (userStore.isAdmin) {
-  //     router.push({ name: 'Dashboard' });
-  //   } else {
-  //     router.push({ name: 'Home' });
-  //   }
 
   } catch (err) {
     errorMsg.value = 'Invalid credentials';
