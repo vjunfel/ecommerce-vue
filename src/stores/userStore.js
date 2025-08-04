@@ -1,7 +1,7 @@
 import privateApi from "@/api/privateApi";
 import publicApi from "@/api/pubApi";
 import { defineStore } from "pinia";
-import { ref, computed, watch } from "vue";
+import { ref, computed } from "vue";
 
 export const useUserStore = defineStore("user", () => {
   const token = ref(null);
@@ -30,7 +30,11 @@ export const useUserStore = defineStore("user", () => {
       }
       
       token.value = response.data.access;
-      await fetchUserDetails()
+      
+      if (token.value && token.value !== "null") {
+        await fetchUserDetails();
+        console.log("Token before setting:", token.value);
+      }
       
       return response.data; // useful if you want to access it in the component
     } catch (error) {
@@ -47,6 +51,8 @@ export const useUserStore = defineStore("user", () => {
     try {
       const res = await privateApi.get("/users/details"); // use privateApi if token is needed
       const user = res.data.user;
+      
+      console.log("USER", user);
 
       email.value = user.email;
       isAdmin.value = user.isAdmin;
@@ -107,8 +113,8 @@ export const useUserStore = defineStore("user", () => {
     updateProfileLocally
   };
 }, {
-  persist: true
-  // persist: {
-  //   paths: ['token'] // only persist the token
-  // }
+  // persist: true
+  persist: {
+    paths: ['token'] // only persist the token
+  }
 });
