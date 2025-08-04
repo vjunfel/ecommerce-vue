@@ -39,8 +39,6 @@ watch(
 					console.log("NOT-ADMIN RES", res);
 					products.data = res.data;
 				}
-
-				products.data = data;
 			} catch (err) {
 				console.error("Failed to fetch products:", err);
 			}
