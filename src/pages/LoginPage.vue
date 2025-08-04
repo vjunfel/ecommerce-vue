@@ -32,12 +32,13 @@ const handleLogin = async () => {
     }
     console.log("========================================");
     console.log("Token before setting:", userStore.token);
-
+    
     userStore.token = response.data.access;
+    console.log("Token after setting:", userStore.token);
 
     if (userStore.token && userStore.token !== "null") {
       await userStore.fetchUserDetails();
-      console.log("Token after setting:", userStore.token);
+      console.log("Token after fetchUserDetails:", userStore.token);
     }
     
     // if (userStore.isAdmin) {
