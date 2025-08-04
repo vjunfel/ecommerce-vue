@@ -11,8 +11,8 @@ defineProps({
 })
 
 const handleAddToCart = async (productId) => {
-	await cartStore.addToCart(productId)
 	notyf.success("Product added successfully");
+	await cartStore.addToCart(productId)
 }
 
 </script>

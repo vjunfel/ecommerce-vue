@@ -43,13 +43,13 @@ export const useCartStore = defineStore("cart", {
 					}
 				);
 				
-				// console.log("RESPONSE ======>>>", res.data);
+				console.log("RESPONSE ======>>>", res.data);
 				
 				const prod = res.data.updatedCart.cartItems.filter(p => p.productId === productId)
 				this.quantity = prod.length ? prod[0].quantity : 0;
 				this.cartItems = res.data.updatedCart.cartItems;
 				
-				// console.log("******** QUANTITY **********", prod[0].quantity);
+				console.log("******** QUANTITY **********", prod[0].quantity);
 				
 			} catch (err) {
 				console.error("Failed to fetch cart:", err);
@@ -120,7 +120,7 @@ export const useCartStore = defineStore("cart", {
 					throw new Error("Failed to add product")
 				}
 				
-				this.cartItems = res.data.updatedCart.cartItems;
+				this.cartItems = res.data.cart.cartItems;
 			} catch (error) {
 				console.error("Failed to add to cart:", error);
 				this.error = "Could not add to cart.";
