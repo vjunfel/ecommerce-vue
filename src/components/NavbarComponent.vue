@@ -3,7 +3,7 @@ import { useUserStore } from '@/stores/userStore';
 import { storeToRefs } from 'pinia';
 
 const userStore = useUserStore();
-const { isLoggedIn, isAdmin } = storeToRefs(userStore); // <- reactive references
+const { email, isAdmin } = storeToRefs(userStore); // <- reactive references
 </script>
 
 <template>
@@ -19,12 +19,12 @@ const { isLoggedIn, isAdmin } = storeToRefs(userStore); // <- reactive reference
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ms-auto gap-4">
           <router-link :to="{ name: 'Products' }" class="nav-link"> Products </router-link>
-          <router-link :to="{ name: 'Cart' }" class="nav-link" v-if="isLoggedIn && !isAdmin"> Cart </router-link>
-          <router-link :to="{ name: 'Profile' }" class="nav-link" v-if="isLoggedIn"> Profile </router-link> 
-          <router-link :to="{ name: 'Dashboard' }" class="nav-link" v-if="isLoggedIn && isAdmin"> Dashboard </router-link>
-          <router-link :to="{ name: 'Register' }" class="nav-link" v-if="!isLoggedIn"> Register </router-link>
-          <router-link :to="{ name: 'Login' }" class="nav-link" v-if="!isLoggedIn"> Login </router-link>
-          <router-link :to="{ name: 'Logout' }" class="nav-link" v-if="isLoggedIn"> Logout </router-link>
+          <router-link :to="{ name: 'Cart' }" class="nav-link" v-if="email && !isAdmin"> Cart </router-link>
+          <router-link :to="{ name: 'Profile' }" class="nav-link" v-if="email"> Profile </router-link> 
+          <router-link :to="{ name: 'Dashboard' }" class="nav-link" v-if="email && isAdmin"> Dashboard </router-link>
+          <router-link :to="{ name: 'Register' }" class="nav-link" v-if="!email"> Register </router-link>
+          <router-link :to="{ name: 'Login' }" class="nav-link" v-if="!email"> Login </router-link>
+          <router-link :to="{ name: 'Logout' }" class="nav-link" v-if="email"> Logout </router-link>
         </div>
       </div>
   	</div>
