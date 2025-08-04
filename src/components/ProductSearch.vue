@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from "vue";
 import { Notyf } from "notyf";
-import publicApi from "@/api/publicAPI";
 import ProductSearchResult from "./ProductSearchResult.vue";
+import publicApi from "@/api/pubApi";
 
 const productName = ref("");
 const products = ref([]);

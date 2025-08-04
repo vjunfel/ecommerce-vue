@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { Notyf } from 'notyf';
 import { useRouter } from 'vue-router';
-import publicApi from '@/api/publicAPI';
+import publicApi from '@/api/pubApi';
 
 const notyf = new Notyf();
 const router = useRouter();
