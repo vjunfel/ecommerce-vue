@@ -4,8 +4,8 @@ import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/userStore';
 import axios from 'axios';
 
-const email = ref('test@mail.com');
-const password = ref('asdf123 ');
+const email = ref('');
+const password = ref('');
 const errorMsg = ref('');
 const isSubmitting = ref(false);
 

@@ -14,25 +14,36 @@ const product = ref({
 
 const submitProduct = async () => {
 	console.log("Product Submitted", product.value);
-
-	const token = localStorage.getItem("token");
-
+	
+	
 	try {
-		await axios.post("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products", product.value, {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
+		const token = localStorage.getItem("token");
+		const response = await axios.post("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/", 
+			product.value, 
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+		console.log(response);
+		
+		if (response.status !== 201) {
+			Swal.fire("Product", "Failed to Add ", "error");
+		}
+		
+		if (response.status === 201) {
+			Swal.fire("Product", "Added successfully", "success");
 
-		Swal.fire("Product", "Added successfully", "success");
+			product.value = {
+				name: "",
+				description: "",
+				price: 0,
+			};
 
-		product.value = {
-			name: "",
-			description: "",
-			price: 0,
-		};
-
-		router.push("/dashboard");
+			router.push("/dashboard");
+		}
+		
 	} catch (error) {
 		console.error("Error adding product:", error);
 		alert("Failed to add product. Check console.");
