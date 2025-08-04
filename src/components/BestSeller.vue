@@ -13,19 +13,17 @@ const productStore = useProductStore();
 const bestSellerItem = async () => {
   loading.value = true;
 	try {
-		// const res = await axios.get("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/active");
+		const res = await axios.get("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/active");
     
-    // if(res.status === 200) {
-		// 	const bestSeller = res.data.filter((item) => {
-		// 		return (item.bestseller)
-    //   })
-    //   products.value = bestSeller || [];
-    // }
+    if(res.status === 200) {
+			const bestSeller = res.data.filter((item) => {
+				return (item.bestseller)
+      })
+      products.value = bestSeller || [];
+    }
 		
 		// console.log("ACTIVE PRODUCTS ========>> ", res.data);
 		// console.log("BestSeller ========>> ", products);
-		
-		productStore.fetchActiveProducts()
 		
 	} catch (error) {
 		console.error(error);
