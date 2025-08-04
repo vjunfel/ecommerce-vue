@@ -47,20 +47,20 @@ const filteredOrders = computed(() => {
 </script>
 
 <template>
-	<div class="d-flex justify-content-between align-items-center">
+	<div class="d-flex flex-column flex-md-row justify-content-between align-items-center my-4 px-2">
 		<!-- Page Title -->
-		<h1 class="text-center text-warning text-nowrap mt-2 p-4">Orders List</h1>
+		<h1 class="text-center text-md-start text-warning text-nowrap mt-2 p-2 w-100">Orders List</h1>
 
 		<!-- Search Input + Button -->
-		<div class="text-end w-100 me-5">
-			<div class="input-group w-50 d-inline-flex justify-content-center">
+		<div class="text-end w-100 w-md-100 ">
+			<div class="input-group d-inline-flex justify-content-center">
 				<input
 					v-model="searchOrderId"
 					type="text"
-					class="form-control rounded-start-pill px-4 py-2 border-warning shadow-sm"
+					class="form-control rounded-start-pill py-2 border-warning shadow-sm"
 					placeholder="Search by Order ID..."
 				/>
-				<button class="btn btn-warning rounded-end-pill px-4">
+				<button class="btn btn-warning d-inline-flex rounded-end-pill">
 					Search
 				</button>
 			</div>
