@@ -22,9 +22,16 @@ export const useUserStore = defineStore("user", () => {
         email: userEmail,
         password
       });
-
+      
+      console.log("RESPONSE:", response);
+      
+      if (response.status !== 200) {
+        throw new Error("Login Failed")
+      }
+      
       token.value = response.data.access;
-
+      await fetchUserDetails()
+      
       return response.data; // useful if you want to access it in the component
     } catch (error) {
       throw error;
