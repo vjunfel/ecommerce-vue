@@ -16,10 +16,7 @@ const handleLogin = async () => {
   errorMsg.value = '';
   
   try {
-    const res = await userStore.loginUser({ email: email.value, password: password.value });
-
-    // Optional: Fetch user details after login
-    await userStore.fetchUserDetails();
+    await userStore.loginUser({ email: email.value, password: password.value });
 
     if (userStore.isAdmin) {
       router.push({ name: 'Dashboard' });
