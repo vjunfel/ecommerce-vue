@@ -7,9 +7,9 @@ import { onBeforeMount } from "vue";
 const userStore = useUserStore();
 
 onBeforeMount(() => {
-	if (userStore.token && userStore.token !== "null") {
-		userStore.fetchUserDetails();
-	}
+	// if (userStore.token && userStore.token !== "null") {
+	// 	userStore.fetchUserDetails();
+	// }
 });
 </script>
 
