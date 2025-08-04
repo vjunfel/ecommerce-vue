@@ -43,15 +43,18 @@ const handleLogin = async () => {
     console.log("Token after setting:", token);
     console.log("EMAIL: ", userStore.email);
     console.log("ROLE: ", userStore.isAdmin);
-    
 
     if (response.status === 200) {
-      const res = await privateApi.get("users/details");
+      const res = await axios.get("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/users/details", {
+        headers: {
+          Authorization: `Bearer ${response.data.access}`,
+        },
+      });
       
       console.log("USER DETAILS", res);
       console.log("Token after fetchUserDetails:", localStorage.getItem("token"));
       
-      console.log("USER", res.data.user);
+      console.log("USER: ", res.data.user);
       userStore.email = res.data.user.email;
       userStore.isAdmin = res.data.user.isAdmin;
       userStore.id = res.data.user._id;
