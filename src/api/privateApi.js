@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useUserStore } from "@/stores/userStore";
 
-// const VITE_API_BASE_URL = "https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/";
-const VITE_API_BASE_URL = "http://localhost:4000/";
+const VITE_API_BASE_URL = "https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/";
+// const VITE_API_BASE_URL = "http://localhost:4000/";
 
 const privateApi = axios.create({
   baseURL: VITE_API_BASE_URL,
