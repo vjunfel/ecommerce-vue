@@ -32,19 +32,24 @@ const handleLogin = async () => {
       throw new Error("Login Failed")
     }
     console.log("========================================");
-    console.log("Token before setting:", userStore.token);
     
-    userStore.token = response.data.access;
-    console.log("Token after setting:", userStore.token);
+    console.log("Token before setting:", localStorage.getItem("token"));
+    
+    // SET TOKEN
+    localStorage.setItem("token", response.data.access)
+    
+    const token = localStorage.getItem("token");
+    
+    console.log("Token after setting:", token);
 
-    if (userStore.token && userStore.token !== "null") {
+    if (token && token !== "null") {
       
       // await userStore.fetchUserDetails();
       const res = await privateApi.get("users/details");
       // const res = await privateApi.get("users/details");
       
       console.log(res);
-      console.log("Token after fetchUserDetails:", userStore.token);
+      console.log("Token after fetchUserDetails:", localStorage.getItem("token"));
       
       console.log("USER", res.data.user);
       userStore.email = res.data.user.email;
