@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/userStore';
 import axios from 'axios';
+import privateApi from '@/api/privateApi';
 
 const email = ref('test@mail.com');
 const password = ref('asdf123 ');
@@ -19,8 +20,8 @@ const handleLogin = async () => {
   console.log({password: password.value});
 
   try {
-    const response = await axios.post("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/users/login", {
-    // const response = await axios.post("http://localhost:4000/users/login", {
+    // const response = await axios.post("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/users/login", {
+    const response = await axios.post("http://localhost:4000/users/login", {
       email: email.value,
       password: password.value
     });
@@ -37,16 +38,28 @@ const handleLogin = async () => {
     console.log("Token after setting:", userStore.token);
 
     if (userStore.token && userStore.token !== "null") {
-      await userStore.fetchUserDetails();
+      
+      // await userStore.fetchUserDetails();
+      const res = await privateApi.get("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/users/details");
+      // const res = await privateApi.get("http://localhost:4000/users/details");
+      
+      console.log(res);
       console.log("Token after fetchUserDetails:", userStore.token);
+      
+      console.log("USER", res.data.user);
+      userStore.email = res.data.user.email;
+      userStore.isAdmin = res.data.user.isAdmin;
+      userStore.id = res.data.user._id;
+      userStore.firstName = res.data.user.firstName;
+      userStore.lastName = res.data.user.lastName;
+      userStore.mobileNo = res.data.user.mobileNo;
     }
     
-    // if (userStore.isAdmin) {
-    //   router.push({ name: 'Dashboard' });
-    // } else {
-    //   router.push({ name: 'Home' });
-    // }
-
+    if (userStore.isAdmin) {
+      router.push({ name: 'Dashboard' });
+    } else {
+      router.push({ name: 'Home' });
+    }
 
   // ******************************************************
   // try {
