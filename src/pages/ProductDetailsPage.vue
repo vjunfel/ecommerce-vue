@@ -45,7 +45,13 @@ async function handleAddToCart() {
 onBeforeMount(async () => {
   try {
     const route = useRoute();
-    const { data } = await api.get(`/products/${route.params.id}`);
+		const token = localStorage.getItem("token");
+		
+    const { data } = await axios.get(`https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/${route.params.id}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
     product.data = data;
   } catch (error) {
     console.error("Failed to load product:", error);
