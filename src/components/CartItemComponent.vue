@@ -17,7 +17,6 @@ const cartItems = toRef(cartStore, "cartItems");
 const productList = computed(() => productStore.products);
 
 watch(() => cartStore.cartItems, (newVal) => {
-	// console.log("Item quantity", newVal[0].quantity);
 }, { deep: true });
 
 const cartWithProducts = computed(() => {
@@ -98,8 +97,7 @@ const addToFavorites = (productName) => {
 
 		<!-- ************************************************* -->
 		<div
-			v-else="cartItems.length"
-			class="card p-3 mb-3"
+			v-else class="card p-3 mb-3"
 			v-for="item in cartWithProducts"
 			:key="item.productId"
 		>
@@ -111,7 +109,7 @@ const addToFavorites = (productName) => {
 						class="text-decoration-none text-dark"
 					>
 						<img
-							:src="item.product.src || imgSource"
+							:src="item.product?.src || imgSource"
 							:alt="item.product.name"
 							class="img-fluid"
 							style="width: 120px; height: 100px; object-fit: cover"

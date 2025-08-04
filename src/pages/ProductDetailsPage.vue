@@ -27,13 +27,13 @@ async function handleAddToCart() {
 			userId: userStore.id,
 			productId: product.data._id,
 			quantity: 1,
-		},
-		{
-			headers: {
-				Authorization: `Bearer ${token}`,
 			},
-		}
-	);
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
 
 		console.log("CART DATA:", res.data);
 		console.log("DATA:", res);

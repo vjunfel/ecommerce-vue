@@ -1,16 +1,7 @@
 <script setup>
 import NavbarComponent from "@/components/NavbarComponent.vue";
 import FooterComponent from "@/components/FooterComponent.vue";
-import { useUserStore } from "@/stores/userStore";
-import { onBeforeMount } from "vue";
 
-const userStore = useUserStore();
-
-onBeforeMount(() => {
-	// if (userStore.token && userStore.token !== "null") {
-	// 	userStore.fetchUserDetails();
-	// }
-});
 </script>
 
 <template>

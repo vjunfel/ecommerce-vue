@@ -28,7 +28,7 @@ const handleCheckout = async (items) => {
 			// Optional: add user info or address if available
 		};
 		
-		await cartStore.chekoutCartItems(orderPayload)
+		await cartStore.checkoutCartItems(orderPayload)
 
 			// alert('Checkout successful!');
 			Swal.fire(`Order`, 'Submitted successfully!', 'success');

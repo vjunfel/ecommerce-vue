@@ -1,9 +1,19 @@
 <script setup>
 import imgSource from "@/assets/images/Image-placeholder-item.jpg"
+import { useCartStore } from "@/stores/cartStore";
+import { Notyf } from "notyf";
+
+const cartStore = useCartStore();
+const notyf = new Notyf();
 
 defineProps({
   productData: Object
 })
+
+const handleAddToCart = async (productId) => {
+	await cartStore.addToCart(productId)
+	notyf.success("Product added successfully");
+}
 
 </script>
 
@@ -24,8 +34,9 @@ defineProps({
 					{{productData.description.slice(0, 100) + (productData.description.length > 100 ? '...' : '')}}
 				</p>
 				
-				<p class="mb-1">
-					<span class="fw-semibold">Price:</span> PHP {{productData.price}}
+				<p class="mb-1 d-flex justify-content-between">
+					<div><span class="fw-semibold">Price:</span> PHP {{productData.price}}</div>
+					<div @click="handleAddToCart(productData._id)" class="btn-cart text-dark bg-white"><i class="bi bi-cart-plus"></i></div>
 				</p>
 				
 			</div>
@@ -50,5 +61,16 @@ defineProps({
 		background-color: hsl(46, 100%, 55%);
 		text-align: center;
 		border-radius: 5px;
+	}
+	
+	.btn-cart {
+		background-color: rgb(240, 238, 234) !important;
+		border-radius: 4px;
+		padding: 4px 8px;
+		cursor: pointer;
+	}
+	
+	.btn-cart:hover {
+		background: hsl(46, 100%, 55%) !important;
 	}
 </style>
