@@ -3,7 +3,6 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
-import api from '../api/privateApi';
 
 const newPassword = ref('');
 const loading = ref(false);
@@ -23,7 +22,13 @@ const handleReset = async () => {
       return;
     }
   
-    await api.patch('/users/update-password', { newPassword: newPassword.value }    );
+    await axios.patch('https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/users/update-password', { newPassword: newPassword.value }, 
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     notyf.success("Password reset successfully");
     newPassword.value = '';
