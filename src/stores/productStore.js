@@ -1,4 +1,4 @@
-import publicApi from "@/api/pubApi";
+import axios from "axios";
 import { defineStore } from "pinia";
 
 export const useProductStore = defineStore("product", {
@@ -17,7 +17,14 @@ export const useProductStore = defineStore("product", {
 	actions: {
 		async fetchActiveProducts() {
 			try {
-				const res = await publicApi.get("/products/active");
+				const res = await axios.get(
+					"https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/active",
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
+				);
 
 				// console.log("ACTIVE PRODUCTS", res.data);
 
@@ -34,7 +41,6 @@ export const useProductStore = defineStore("product", {
 				this.src = res.data.src;
 				this.bestseller = res.data.bestseller;
 				this.loading = false;
-        
 			} catch (err) {
 				console.log("Error", err);
 			}

@@ -5,7 +5,8 @@ import { useUserStore } from "../stores/userStore";
 import { Notyf } from "notyf";
 import api from "../api/privateApi";
 
-import imgSource from "@/assets/images/Image-placeholder.jpg"
+import imgSource from "@/assets/images/Image-placeholder.jpg";
+import axios from "axios";
 
 const notyf = new Notyf();
 const userStore = useUserStore();
@@ -15,49 +16,52 @@ const product = reactive({ data: null });
 async function handleAddToCart() {
 	console.log("PRODUCT ID:", product.data._id);
 	console.log("USER ID:", userStore.id);
-  try {
-    if (!product.data || !product.data._id) {
-      notyf.error("Product is not ready yet.");
-      return;
-    }
+	try {
+		if (!product.data || !product.data._id) {
+			notyf.error("Product is not ready yet.");
+			return;
+		}
 
-    const res = await api.post('/cart/add-to-cart', {
+		const res = await api.post("/cart/add-to-cart", {
 			userId: userStore.id,
-      productId: product.data._id,
-      quantity: 1,
-    });
-		
+			productId: product.data._id,
+			quantity: 1,
+		});
+
 		console.log("CART DATA:", res.data);
 		console.log("DATA:", res);
 
-    if (res.status === 201) {
-      notyf.success("Product added to Cart");
-      router.push({ path: "/products" });
-    } else {
-      notyf.error("Adding Failed");
-    }
-  } catch (error) {
-    console.error("Add to cart failed:", error);
-    notyf.error("Unable to add to cart. Please try again.");
-  }
+		if (res.status === 201) {
+			notyf.success("Product added to Cart");
+			router.push({ path: "/products" });
+		} else {
+			notyf.error("Adding Failed");
+		}
+	} catch (error) {
+		console.error("Add to cart failed:", error);
+		notyf.error("Unable to add to cart. Please try again.");
+	}
 }
 
 onBeforeMount(async () => {
-  try {
-    const route = useRoute();
+	try {
+		const route = useRoute();
 		const token = localStorage.getItem("token");
-		
-    const { data } = await axios.get(`https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/${route.params.id}`, {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
-    product.data = data;
-  } catch (error) {
-    console.error("Failed to load product:", error);
-    notyf.error("Product not found");
-    router.push("/products");
-  }
+
+		const { data } = await axios.get(
+			`https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/${route.params.id}`,
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+		product.data = data;
+	} catch (error) {
+		console.error("Failed to load product:", error);
+		notyf.error("Product not found");
+		router.push("/products");
+	}
 });
 </script>
 
@@ -84,13 +88,16 @@ onBeforeMount(async () => {
 			v-if="product.data"
 		>
 			<div class="col-12 col-md-6">
-				<img 
-					style="height: 500px; object-fit: contain;"
+				<img
+					style="height: 500px; object-fit: contain"
 					class="card-img-top img-fluid"
-					:src="product.data && product.data.src ? product.data.src : imgSource"
+					:src="
+						product.data && product.data.src
+							? product.data.src
+							: imgSource
+					"
 					:alt="product?.data?.name || 'CapCakes product image'"
-				>
-				
+				/>
 			</div>
 			<div class="col-12 col-md-6">
 				<div class="d-flex gap-2 text-dark">
@@ -101,31 +108,48 @@ onBeforeMount(async () => {
 				<p class="text-muted">
 					{{ product.data.description }}
 				</p>
-				<p class="my-4 d-flex align-items-center">Price: <span class="fs-3 fw-bold ms-2">{{ product.data.price }} PHP</span></p>
-				<button	class="btn btn-warning"	type="button"
-        	v-if="userStore.email && !userStore.isAdmin && product.data.isActive"
+				<p class="my-4 d-flex align-items-center">
+					Price:
+					<span class="fs-3 fw-bold ms-2"
+						>{{ product.data.price }} PHP</span
+					>
+				</p>
+				<button
+					class="btn btn-warning"
+					type="button"
+					v-if="
+						userStore.email && !userStore.isAdmin && product.data.isActive
+					"
 					@click="handleAddToCart"
 				>
 					Add to Cart
 				</button>
-				<button	class="btn btn-warning"	type="button"
-        	v-else-if="userStore.email && !userStore.isAdmin " disabled
+				<button
+					class="btn btn-warning"
+					type="button"
+					v-else-if="userStore.email && !userStore.isAdmin"
+					disabled
 				>
 					Not Available
 				</button>
-				
-				<button	class="btn btn-warning"	type="button"
-					v-else-if="userStore.email && userStore.isAdmin" disabled
+
+				<button
+					class="btn btn-warning"
+					type="button"
+					v-else-if="userStore.email && userStore.isAdmin"
+					disabled
 				>
 					Admin not allowed
 				</button>
 
-				<router-link to="/login" class="btn btn-outline-danger"	type="button"
+				<router-link
+					to="/login"
+					class="btn btn-outline-danger"
+					type="button"
 					v-if="!userStore.email"
 				>
-          Login to buy
-        </router-link
-				>
+					Login to buy
+				</router-link>
 			</div>
 		</div>
 
