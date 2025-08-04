@@ -21,12 +21,20 @@ async function handleAddToCart() {
 			notyf.error("Product is not ready yet.");
 			return;
 		}
+		
+		const token = localStorage.getItem("token");
 
 		const res = await axios.post("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/cart/add-to-cart", {
 			userId: userStore.id,
 			productId: product.data._id,
 			quantity: 1,
-		});
+		},
+		{
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		}
+	);
 
 		console.log("CART DATA:", res.data);
 		console.log("DATA:", res);
