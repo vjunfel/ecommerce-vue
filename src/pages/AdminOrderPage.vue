@@ -1,5 +1,5 @@
 <script setup>
-import api from "@/api/privateApi";
+import axios from "axios";
 import { onMounted, ref, computed, reactive } from "vue";
 
 const orders = ref([]);
@@ -10,11 +10,24 @@ const products = reactive({ data: null });
 
 onMounted(async () => {
 	try {
-		const res = await api.get("/orders/all-orders");
+		const token = localStorage.getItem("token");
+		const res = await axios.get("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/orders/all-orders", 
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
 
 		orders.value = res.data.orders;
 
-		const productsData = await api.get("/products/active");
+		const productsData = await axios.get("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/active", 
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
 		products.data = productsData.data;
 
 	} catch (error) {
