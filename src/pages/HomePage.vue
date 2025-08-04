@@ -15,8 +15,8 @@ const bannerProps = {
 <template>
   <div class="container-fluid text-white pb-5">
     <BannerComponent :bannerProps=bannerProps />
-    <!-- <ProductSearch /> -->
-    <!-- <BestSeller /> -->
+    <ProductSearch />
+    <BestSeller />
     <HighlightsComponent />
   </div>
 </template>

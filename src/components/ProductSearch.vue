@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { Notyf } from "notyf";
 import ProductSearchResult from "./ProductSearchResult.vue";
-import publicApi from "@/api/pubApi";
+import axios from "axios";
 
 const productName = ref("");
 const products = ref([]);
@@ -21,9 +21,16 @@ const searchProducts = async () => {
 	hasSearched.value = true;
 
 	try {
-		const response = await publicApi.post("/products/search-by-name", {
+		const token = localStorage.getItem("token");
+		const response = await axios.post("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/search-by-name", {
 			name: productName.value.trim()
-		});
+		},
+		{
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		}
+		);
 
 		products.value = response.data || [];
 
