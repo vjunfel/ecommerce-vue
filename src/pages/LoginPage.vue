@@ -19,7 +19,6 @@ const handleLogin = async () => {
   console.log({password: password.value});
 
   try {
-    // const response = await axios.post("http://localhost:4000/users/login", {
     const response = await axios.post("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/users/login", {
       email: email.value,
       password: password.value

@@ -24,19 +24,25 @@ const handleRegister = async () => {
   isSubmitting.value = true;
 
   try {
-    await publicApi.post('/users/register', {
+    const res = await publicApi.post('/users/register', {
       firstName: firstName.value,
 			lastName: lastName.value,
 			email: email.value,
 			mobileNo: mobileNum.value,
 			password: password.value,
     });
+		
+		console.log("REGISTRATION ======>> ", res.data);
+		
+		if (res.status !== 200) {
+			throw new Error("Registration failed")
+		}
 
 		notyf.success("Registration successful!");
 		router.push({ name: 'Login' });
 
   } catch (err) {
-    errorMsg.value = err.response?.data?.message || 'Registration failed.';
+    errorMsg.value = err.response?.data?.message || "Registration failed.";
 		notyf.error(err.response?.data?.message || "Please contact administrator.");
   } finally {
     isSubmitting.value = false;
