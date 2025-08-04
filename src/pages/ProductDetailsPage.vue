@@ -22,7 +22,7 @@ async function handleAddToCart() {
 			return;
 		}
 
-		const res = await api.post("/cart/add-to-cart", {
+		const res = await axios.post("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/cart/add-to-cart", {
 			userId: userStore.id,
 			productId: product.data._id,
 			quantity: 1,
