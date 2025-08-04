@@ -3,7 +3,6 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/userStore';
 import axios from 'axios';
-import privateApi from '@/api/privateApi';
 
 const email = ref('test@mail.com');
 const password = ref('asdf123 ');

@@ -3,7 +3,6 @@ import { onBeforeMount, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "../stores/userStore";
 import { Notyf } from "notyf";
-import api from "../api/privateApi";
 
 import imgSource from "@/assets/images/Image-placeholder.jpg";
 import axios from "axios";

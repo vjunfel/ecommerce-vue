@@ -1,4 +1,5 @@
 import api from "@/api/privateApi";
+import axios from "axios";
 import { defineStore } from "pinia";
 
 
@@ -27,9 +28,17 @@ export const useCartStore = defineStore("cart", {
 		
 		async updateQuantity( productId, newQuantity) {
 			try {
-				const res = await api.patch("/cart/update-cart-quantity", {
-					productId, newQuantity
-				});
+				const token = localStorage.getItem("token");
+				const res = await axios.patch("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/cart/update-cart-quantity", 
+					{
+						productId, newQuantity
+					},
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
+				);
 				
 				// console.log("RESPONSE ======>>>", res.data);
 				
@@ -46,7 +55,14 @@ export const useCartStore = defineStore("cart", {
 
 		async getUserCart() {
 			try {
-				const res = await api.get("/cart/get-cart");
+				const token = localStorage.getItem("token");
+				const res = await axios.get("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/cart/get-cart",
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
+				);
 				
 				// console.log("RESPONSE data", res.data);
 				// console.log("RESPONSE CART", res.data.cart);
@@ -78,7 +94,14 @@ export const useCartStore = defineStore("cart", {
 		},
 
 		async removeFromCart(selectedId) {
-			const res = await api.patch(`/cart/${selectedId}/remove-from-cart`);
+			const token = localStorage.getItem("token");
+			const res = await axios.patch(`https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/cart/${selectedId}/remove-from-cart`,
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
 			
 			if (res.status !== 200) {
 					throw new Error("No data found!");
@@ -89,9 +112,16 @@ export const useCartStore = defineStore("cart", {
 
 		async clearCart() {
 			try {
-				const res = await api.put("/cart/clear-cart");
+				const token = localStorage.getItem("token");
+				const res = await axios.put("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/cart/clear-cart",
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
+				);
 				
-				// console.log("CART CLEARED", res.data.cart);
+				console.log("CART CLEARED", res.data.cart);
 
 				if (res.status !== 200) {
 					throw new Error("No data found!");
@@ -106,7 +136,15 @@ export const useCartStore = defineStore("cart", {
 		
 		async chekoutCartItems(orderPayload) {
 			try {
-				const res = await api.post("/orders/checkout", { orderPayload });
+				const token = localStorage.getItem("token");
+				const res = await axios.post("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/orders/checkout", 
+					{ orderPayload },
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
+				);
 				
 				console.log("CHECKOUT", res);
 				console.log("CHECKOUT data", res.data);
@@ -115,7 +153,7 @@ export const useCartStore = defineStore("cart", {
 					throw new Error("No data found!");
 				}
 				
-				// this.cartItems = [];
+				this.cartItems = [];
 				
 			} catch (error) {
 				console.error("Failed to fetch cart:", error);
