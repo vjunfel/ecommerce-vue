@@ -32,9 +32,9 @@ const handleRegister = async () => {
 			password: password.value,
     });
 		
-		console.log("REGISTRATION ======>> ", res.data);
+		console.log("REGISTRATION ======>> ", res);
 		
-		if (res.status !== 200) {
+		if (res.status !== 201) {
 			throw new Error("Registration failed")
 		}
 
