@@ -40,8 +40,8 @@ const handleLogin = async () => {
     if (userStore.token && userStore.token !== "null") {
       
       // await userStore.fetchUserDetails();
-      const res = await privateApi.get("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/users/details");
-      // const res = await privateApi.get("http://localhost:4000/users/details");
+      const res = await privateApi.get("users/details");
+      // const res = await privateApi.get("users/details");
       
       console.log(res);
       console.log("Token after fetchUserDetails:", userStore.token);
