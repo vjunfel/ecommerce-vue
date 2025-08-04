@@ -24,7 +24,7 @@ const handleLogin = async () => {
     // const response = await axios.post("http://localhost:4000/users/login", {
       email: email.value,
       password: password.value
-    });
+    }); 
 
     console.log("RESPONSE:", response);
 
