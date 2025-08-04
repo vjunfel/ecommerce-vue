@@ -17,6 +17,7 @@ export const useProductStore = defineStore("product", {
 	actions: {
 		async fetchActiveProducts() {
 			try {
+				const token = localStorage.getItem("token");
 				const res = await axios.get(
 					"https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/active",
 					{
