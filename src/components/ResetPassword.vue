@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
+import axios from 'axios';
 
 const newPassword = ref('');
 const loading = ref(false);
