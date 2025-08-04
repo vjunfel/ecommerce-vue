@@ -41,6 +41,9 @@ const handleLogin = async () => {
     const token = localStorage.getItem("token");
     
     console.log("Token after setting:", token);
+    console.log("EMAIL: ", userStore.email);
+    console.log("ROLE: ", userStore.isAdmin);
+    
 
     if (response.status === 200) {
       const res = await privateApi.get("users/details");
@@ -56,6 +59,9 @@ const handleLogin = async () => {
       userStore.lastName = res.data.user.lastName;
       userStore.mobileNo = res.data.user.mobileNo;
       
+      console.log("EMAIL: ", userStore.email);
+      console.log("ROLE: ", userStore.isAdmin);
+      
       if (res.data.user.isAdmin) {
         router.push({ name: 'Dashboard' });
       } else {
@@ -64,6 +70,7 @@ const handleLogin = async () => {
     }
 
   } catch (err) {
+    console.log(err);
     errorMsg.value = 'Invalid credentials';
   } finally {
     isSubmitting.value = false;
