@@ -1,5 +1,4 @@
-import privateApi from "@/api/privateApi";
-import publicApi from "@/api/pubApi";
+import axios from "axios";
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 
@@ -18,10 +17,18 @@ export const useUserStore = defineStore("user", () => {
   async function loginUser({ email: userEmail, password }) {
     isLoading.value = true;
     try {
-      const response = await publicApi.post("/users/login", {
-        email: userEmail,
-        password
-      });
+      const token = localStorage.getItem("token");
+      const response = await axios.post("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/users/login", 
+        {
+          email: userEmail,
+          password
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       
       console.log("RESPONSE:", response);
       
@@ -49,7 +56,14 @@ export const useUserStore = defineStore("user", () => {
 
     isLoading.value = true;
     try {
-      const res = await privateApi.get("/users/details"); // use privateApi if token is needed
+      const token = localStorage.getItem("token");
+      const res = await axios.get("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/users/details",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      ); // use privateApi if token is needed
       const user = res.data.user;
       
       console.log("USER", user);
