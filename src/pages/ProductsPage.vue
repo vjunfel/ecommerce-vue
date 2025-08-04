@@ -14,10 +14,23 @@ watch(
 	async (isLoading) => {
 		if (isLoading === false) {
 			try {
+				const token = localStorage.getItem("token");
 				const { data } = userStore.isAdmin
-					? await api.get("/products/all")
+					? await api.get("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/all", 
+						{
+							headers: {
+								Authorization: `Bearer ${token}`,
+							},
+						}
+					)
 					// : await api.get("/products/active");
-					: await publicApi.get("/products/active");
+					: await publicApi.get("https://vvro2vmufk.execute-api.us-west-2.amazonaws.com/production/products/active", 
+						{
+							headers: {
+								Authorization: `Bearer ${token}`,
+							},
+						}
+					);
 
 				products.data = data;
 			} catch (err) {
