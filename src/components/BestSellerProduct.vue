@@ -9,7 +9,7 @@ defineProps({
 
 <template>
 	<section class="col-12 col-md-6 col-lg-4 my-3">
-		<div id="CourseCard" class="card cardHighlights shadow-sm" style="min-height: 100%;">
+		<div id="productCard" class="card cardHighlights shadow-sm" style="min-height: 100%;">
 			<router-link :to="{path:`/products/${productData._id}`}">
 				<img 
 					class="custom-img card-img-top img-fluid object-fit-cover"
@@ -37,7 +37,7 @@ defineProps({
 
 <style scoped>
 	.custom-img {
-		height: 180px;
+		height: 200px;
 		
 		@media (min-width: 640px) {
 			height: 280px;

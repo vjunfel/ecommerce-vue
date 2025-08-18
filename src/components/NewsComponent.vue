@@ -1,6 +1,6 @@
 <template>
     <div class="col-md-4">
-        <div id="CourseCard" class="card p-2 h-100">
+        <div id="productCard" class="card p-2 h-100">
             <div class="card-body">
                 <h4 class="card-title">
                     {{newsData.name}}

@@ -19,11 +19,10 @@ const handleAddToCart = async (productId) => {
 
 <template>
 	<section class="col-12 col-md-6 col-lg-4 my-3">
-		<div id="CourseCard" class="card cardHighlights shadow-sm" style="min-height: 100%;">
+		<div id="productCard" class="card cardHighlights shadow-sm" style="min-height: 100%;">
 			<router-link :to="{path:`/products/${productData._id}`}">
 				<img 
-					style="height: 280px; object-fit: cover;"
-					class="card-img-top img-fluid"
+					class="custom-img card-img-top img-fluid object-fit-cover"
 					:src="productData.src ? productData.src : imgSource"
 					:alt="productData.name"
 				>
@@ -48,6 +47,13 @@ const handleAddToCart = async (productId) => {
 </template>
 
 <style scoped>
+	.custom-img {
+		height: 200px;
+		
+		@media (min-width: 640px) {
+			height: 280px;
+		}
+	}
 	.btn-custom {
 		outline: 1px solid hsl(46, 100%, 48%);
 		color: #333;
