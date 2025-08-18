@@ -51,7 +51,7 @@ const handleRegister = async () => {
 </script>
 
 <template>
-  <div class="container mt-5" style="max-width: 400px;">
+  <div class="container mt-5 mb-4" style="max-width: 400px;">
     <h2 class="mb-3">Register</h2>
 
     <form @submit.prevent="handleRegister">
