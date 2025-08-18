@@ -34,10 +34,10 @@ const handleAddToCart = async (productId) => {
 					{{productData.description.slice(0, 100) + (productData.description.length > 100 ? '...' : '')}}
 				</p>
 				
-				<p class="mb-1 d-flex justify-content-between">
+				<div class="mb-1 d-flex justify-content-between">
 					<div><span class="fw-semibold">Price:</span> PHP {{productData.price}}</div>
 					<div @click="handleAddToCart(productData._id)" class="btn-cart text-dark bg-white"><i class="bi bi-cart-plus"></i></div>
-				</p>
+				</div>
 				
 			</div>
 			<div class="d-grid mt-2 m-3 position-sticky">
