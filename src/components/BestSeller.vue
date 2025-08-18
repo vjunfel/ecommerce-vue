@@ -3,12 +3,9 @@ import { ref, onMounted } from "vue";
 import "notyf/notyf.min.css";
 import BestSellerProduct from "./BestSellerProduct.vue";
 import axios from "axios";
-import { useProductStore } from "@/stores/productStore";
 
 const products = ref([]);
 const loading = ref(false);
-
-const productStore = useProductStore();
 
 const bestSellerItem = async () => {
   loading.value = true;
