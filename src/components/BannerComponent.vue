@@ -22,12 +22,20 @@ const props = defineProps({
 #banner-title {
   font-family: 'Trebuchet MS', sans-serif;
   font-weight: bolder;
-  font-size: 54px;
+  font-size: 32px;
+  
+  @media (min-width: 768px) {
+    font-size: 54px;
+  }
 }
 
 #motto {
   font-family: 'Trebuchet MS', sans-serif;
-  font-size: 1.7rem;
+  font-size: 1.3rem;
+  
+  @media (min-width: 768px) {
+    font-size: 1.7rem;
+  }
 }
 
 #banner {
