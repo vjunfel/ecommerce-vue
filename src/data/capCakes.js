@@ -1,19 +1,22 @@
 const highligthProps = [
 	{
-		title: 'Premium Quality',
-		description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat eum molestiae nisi mollitia minima quidem? Veniam consequatur enim cumque odio dolorem, ullam adipisci nobis deserunt repudiandae excepturi harum at debitis.',
-		icon: "bi bi-gem"
+		title: "Premium Quality",
+		description:
+			"We use only the finest ingredients to ensure every cake is crafted to perfection.",
+		icon: "bi bi-gem",
 	},
 	{
-		title: 'Super Delicious',
-		description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat eum molestiae nisi mollitia minima quidem? Veniam consequatur enim cumque odio dolorem, ullam adipisci nobis deserunt repudiandae excepturi harum at debitis.',
-		icon: "bi bi-cake"
+		title: "Super Delicious",
+		description:
+			"Our cakes aren’t just beautiful, they’re irresistibly tasty, baked fresh to satisfy your sweet cravings.",
+		icon: "bi bi-cake",
 	},
 	{
-		title: 'Most Affordable',
-		description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat eum molestiae nisi mollitia minima quidem? Veniam consequatur enim cumque odio dolorem, ullam adipisci nobis deserunt repudiandae excepturi harum at debitis.',
-		icon: "bi bi-cash-coin"
+		title: "Most Affordable",
+		description:
+			"Enjoy high-quality cakes at prices that won’t break the bank, giving you the best value for your celebrations.",
+		icon: "bi bi-cash-coin",
 	},
-]
+];
 
 export default highligthProps;

@@ -21,7 +21,7 @@ import highligthProps from '@/data/capCakes';
 					<div class="card-body text-center">
 						<h4 class="card-title fw-bold mb-2">{{ item.title }}</h4>
 						<p class="card-text text-muted mb-2">
-							{{ item.description.slice(0, 100) + (item.description.length > 100 ? '...' : '') }}
+							{{ item.description.slice(0, 120) + (item.description.length > 120 ? '...' : '') }}
 						</p>
 					</div>
 				</div>
