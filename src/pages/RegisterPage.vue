@@ -119,6 +119,10 @@ const handleRegister = async () => {
       <button type="submit" class="btn btn-warning btn-block w-100" :disabled="isSubmitting">
         {{ isSubmitting ? 'Registering...' : 'Register' }}
       </button>
+			
+			<p className="my-4 text-center text-secondary">Already have an account?
+        <router-link to="/login">Login</router-link>
+      </p>
     </form>
   </div>
 </template>

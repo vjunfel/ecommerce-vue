@@ -121,6 +121,10 @@ const handleLogin = async () => {
 			>
 				{{ isSubmitting ? "Logging in..." : "Login" }}
 			</button>
+      
+      <p class="my-4 text-center text-secondary">Don't have an account?
+        <router-link to="/register">Register</router-link>
+      </p>
 		</form>
 	</div>
 </template>
